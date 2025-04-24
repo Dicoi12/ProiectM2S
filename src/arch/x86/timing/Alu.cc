@@ -19,9 +19,15 @@
 
 #include "Alu.h"
 #include "Timing.h"
+#include <unordered_map> // Pentru hash map
 
 namespace x86
 {
+
+// Structură pentru a stoca rezultatele instrucțiunilor
+std::unordered_map<long long, int> result_cache; // Map: Instrucțiune -> Rezultat
+long long reuse_count = 0; // Contor pentru reutilizări
+long long total_instructions = 0; // Contor pentru instrucțiuni totale
 
 int Alu::configuration[FunctionalUnit::TypeCount][3] =
 {
@@ -179,14 +185,29 @@ int Alu::Reserve(Uop *uop)
 	if (type == FunctionalUnit::TypeNone)
 		return 1;
 
-	// Obtain functional unit of the required kind
+	// Incrementăm contorul de instrucțiuni totale
+	total_instructions++;
+
+	// Verificăm dacă rezultatul acestei instrucțiuni este deja în cache
+	long long uop_id = uop->getId(); // Obținem un identificator unic pentru instrucțiune
+	if (result_cache.find(uop_id) != result_cache.end())
+	{
+		// Rezultatul este în cache, incrementăm contorul de reutilizări
+		reuse_count++;
+		return 0; // Latență zero pentru reutilizare
+	}
+
+	// Obținem functional unit de tipul necesar
 	assert(type > FunctionalUnit::TypeNone &&
 			type < FunctionalUnit::TypeCount);
 	FunctionalUnit *functional_unit = functional_units[type].get();
 	assert(functional_unit);
 
-	// Reserve functional unit
-	return functional_unit->Reserve(uop);
+	// Executăm instrucțiunea și stocăm rezultatul în cache
+	int latency = functional_unit->Reserve(uop);
+	result_cache[uop_id] = latency; // Stocăm latența ca rezultat (exemplu simplu)
+
+	return latency;
 }
 
 
@@ -222,8 +243,13 @@ void Alu::DumpReport(std::ostream &os) const
 				(double) functional_unit->getWaitingTime()
 				/ functional_unit->getNumAccesses()
 				: 0.0);
-
 	}
+
+	// Adăugăm raportul pentru reutilizare
+	os << misc::fmt("Total Instructions = %lld\n", total_instructions);
+	os << misc::fmt("Reused Instructions = %lld\n", reuse_count);
+	os << misc::fmt("Reuse Percentage = %.2f%%\n",
+			total_instructions ? (double)reuse_count / total_instructions * 100 : 0.0);
 
 	// Done
 	os << '\n';

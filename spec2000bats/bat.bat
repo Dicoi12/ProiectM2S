@@ -1,0 +1,1 @@
+sim-outorder.exe -redir:sim ./results/global.res -max:inst 10000000 gcc.arg bzip2.arg

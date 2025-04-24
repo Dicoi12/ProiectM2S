@@ -1,0 +1,1 @@
+sim-outorder.exe -redir:sim ./results/vpr.res -fastfwd 2000000 -max:inst 5000000 vpr.arg
