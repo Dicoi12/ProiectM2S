@@ -118,7 +118,8 @@ void Mutate(GeneticIndividual& individual) {
 }
 
 // Funcție pentru actualizarea populației
-void UpdatePopulation() {
+void UpdatePopulation(const std::vector<int>& history) {
+    CalculateFitness(history);
     std::vector<GeneticIndividual> new_population;
 
     for (int i = 0; i < population_size; i++) {
@@ -261,92 +262,101 @@ void BranchPredictor::DumpConfiguration(std::ostream &os)
 }
 
 
-BranchPredictor::Prediction BranchPredictor::Lookup(Uop *uop)
-{
-	// Local variable
-	Prediction prediction;
+// BranchPredictor::Prediction BranchPredictor::LookupOld(Uop *uop)
+// {
+// 	// Local variable
+// 	Prediction prediction;
 
-	// If branch predictor is accessed, a BTB hit must have occurred before, which
-	// provides information about the branch, i.e., target address and whether it
-	// is a call, ret, jump, or conditional branch. Thus, branches other than
-	// conditional ones are always predicted taken.
-	assert(uop->getFlags() & Uinst::FlagCtrl);
-	if (uop->getFlags() & Uinst::FlagUncond)
-	{
-		uop->prediction = PredictionTaken;
-		return PredictionTaken;
-	}
+// 	// If branch predictor is accessed, a BTB hit must have occurred before, which
+// 	// provides information about the branch, i.e., target address and whether it
+// 	// is a call, ret, jump, or conditional branch. Thus, branches other than
+// 	// conditional ones are always predicted taken.
+// 	assert(uop->getFlags() & Uinst::FlagCtrl);
+// 	if (uop->getFlags() & Uinst::FlagUncond)
+// 	{
+// 		uop->prediction = PredictionTaken;
+// 		return PredictionTaken;
+// 	}
 
-	// An internal branch (string operations) is always predicted taken
-	if (uop->getUinst()->getOpcode() == Uinst::OpcodeIbranch)
-	{
-		uop->prediction = PredictionTaken;
-		return PredictionTaken;
-	}
+// 	// An internal branch (string operations) is always predicted taken
+// 	if (uop->getUinst()->getOpcode() == Uinst::OpcodeIbranch)
+// 	{
+// 		uop->prediction = PredictionTaken;
+// 		return PredictionTaken;
+// 	}
 
-	// Perfect predictor
-	if (kind == KindPerfect)
-	{
-		if (uop->neip != uop->eip + uop->mop_size)
-			prediction = PredictionTaken;
-		else
-			prediction = PredictionNotTaken;
-		uop->prediction = prediction;
-	}
+// 	// Perfect predictor
+// 	if (kind == KindPerfect)
+// 	{
+// 		if (uop->neip != uop->eip + uop->mop_size)
+// 			prediction = PredictionTaken;
+// 		else
+// 			prediction = PredictionNotTaken;
+// 		uop->prediction = prediction;
+// 	}
 
-	// Taken predictor
-	if (kind == KindTaken)
-		uop->prediction = PredictionTaken;
+// 	// Taken predictor
+// 	if (kind == KindTaken)
+// 		uop->prediction = PredictionTaken;
 
-	// Not-taken predictor
-	if (kind == KindNottaken)
-		uop->prediction = PredictionNotTaken;
+// 	// Not-taken predictor
+// 	if (kind == KindNottaken)
+// 		uop->prediction = PredictionNotTaken;
 
-	// Bimodal predictor
-	if (kind == KindBimod || kind == KindCombined)
-	{
-		int bimod_index = uop->eip & (bimod_size - 1);
-		Prediction bimod_prediction = bimod[bimod_index] > 1 ?
-				PredictionTaken :
-				PredictionNotTaken;
-		uop->bimod_index = bimod_index;
-		uop->bimod_prediction = bimod_prediction;
-		uop->prediction = bimod_prediction;
-	}
+// 	// Bimodal predictor
+// 	if (kind == KindBimod || kind == KindCombined)
+// 	{
+// 		int bimod_index = uop->eip & (bimod_size - 1);
+// 		Prediction bimod_prediction = bimod[bimod_index] > 1 ?
+// 				PredictionTaken :
+// 				PredictionNotTaken;
+// 		uop->bimod_index = bimod_index;
+// 		uop->bimod_prediction = bimod_prediction;
+// 		uop->prediction = bimod_prediction;
+// 	}
 
-	// Two-level adaptive
-	if (kind == KindTwoLevel || kind == KindCombined)
-	{
-		int two_level_bht_index = uop->eip & (two_level_l1_size - 1);
-		int two_level_pht_row = two_level_bht[two_level_bht_index];
-		assert(two_level_pht_row < two_level_l2_height);
-		int two_level_pht_col = uop->eip & (two_level_l2_size - 1);
-		Prediction two_level_prediction = two_level_pht[two_level_pht_row * two_level_l2_size + two_level_pht_col] > 1 ?
-				PredictionTaken : PredictionNotTaken;
-		uop->two_level_bht_index = two_level_bht_index;
-		uop->two_level_pht_row = two_level_pht_row;
-		uop->two_level_pht_col = two_level_pht_col;
-		uop->two_level_prediction = two_level_prediction;
-		uop->prediction = two_level_prediction;
-	}
+// 	// Two-level adaptive
+// 	if (kind == KindTwoLevel || kind == KindCombined)
+// 	{
+// 		int two_level_bht_index = uop->eip & (two_level_l1_size - 1);
+// 		int two_level_pht_row = two_level_bht[two_level_bht_index];
+// 		assert(two_level_pht_row < two_level_l2_height);
+// 		int two_level_pht_col = uop->eip & (two_level_l2_size - 1);
+// 		Prediction two_level_prediction = two_level_pht[two_level_pht_row * two_level_l2_size + two_level_pht_col] > 1 ?
+// 				PredictionTaken : PredictionNotTaken;
+// 		uop->two_level_bht_index = two_level_bht_index;
+// 		uop->two_level_pht_row = two_level_pht_row;
+// 		uop->two_level_pht_col = two_level_pht_col;
+// 		uop->two_level_prediction = two_level_prediction;
+// 		uop->prediction = two_level_prediction;
+// 	}
 
-	// Combined
-	if (kind == KindCombined)
-	{
-		int choice_index = uop->eip & (choice_size - 1);
-		Prediction choice_prediction = choice[choice_index] > 1 ?
-				uop->two_level_prediction :
-				uop->bimod_prediction;
-		uop->choice_index = choice_index;
-		uop->choice_prediction = choice_prediction;
-		uop->prediction = choice_prediction;
-	}
+// 	// Combined
+// 	if (kind == KindCombined)
+// 	{
+// 		int choice_index = uop->eip & (choice_size - 1);
+// 		Prediction choice_prediction = choice[choice_index] > 1 ?
+// 				uop->two_level_prediction :
+// 				uop->bimod_prediction;
+// 		uop->choice_index = choice_index;
+// 		uop->choice_prediction = choice_prediction;
+// 		uop->prediction = choice_prediction;
+// 	}
 
-	// Return prediction
-	assert(uop->prediction == PredictionTaken || uop->prediction == PredictionNotTaken);
-	return uop->prediction;
+// 	// Return prediction
+// 	assert(uop->prediction == PredictionTaken || uop->prediction == PredictionNotTaken);
+// 	return uop->prediction;
+// }
+BranchPredictor::Prediction BranchPredictor::Lookup(Uop *uop){
+	std::vector<int> history = {1, 0, 1, 1, 0}; // Înlocuiește cu istoricul real
+
+    // Actualizează populația și obține predicția
+    UpdatePopulation(history);
+    int prediction = PredictValue(history);
+
+    // Returnăm predicția ca PredictionTaken sau PredictionNotTaken
+    return prediction ? PredictionTaken : PredictionNotTaken;
 }
-
 
 int BranchPredictor::LookupMultiple(unsigned int eip, int count)
 {
