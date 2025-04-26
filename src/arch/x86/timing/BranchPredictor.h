@@ -142,6 +142,10 @@ private:
 	long long accesses = 0;
 	long long hits = 0;
 
+    std::vector<int> execution_history; // Buffer circular pentru istoricul execuției
+    int history_index = 0;              // Indexul curent în buffer
+    const int history_size = 10;        // Dimensiunea buffer-ului
+
 public:
 
 	//

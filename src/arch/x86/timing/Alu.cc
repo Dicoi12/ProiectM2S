@@ -28,6 +28,7 @@ namespace x86
 std::unordered_map<long long, int> result_cache; // Map: Instrucțiune -> Rezultat
 long long reuse_count = 0; // Contor pentru reutilizări
 long long total_instructions = 0; // Contor pentru instrucțiuni totale
+long long trivial_instructions = 0; // Adăugăm un contor pentru instrucțiunile triviale
 
 int Alu::configuration[FunctionalUnit::TypeCount][3] =
 {
@@ -188,6 +189,12 @@ int Alu::Reserve(Uop *uop)
 	// Incrementăm contorul de instrucțiuni totale
 	total_instructions++;
 
+	// Verificăm dacă instrucțiunea este trivială
+	if (type == FunctionalUnit::TypeIntAdd)
+	{
+		trivial_instructions++;
+	}
+
 	// Verificăm dacă rezultatul acestei instrucțiuni este deja în cache
 	long long uop_id = uop->getId(); // Obținem un identificator unic pentru instrucțiune
 	if (result_cache.find(uop_id) != result_cache.end())
@@ -250,6 +257,11 @@ void Alu::DumpReport(std::ostream &os) const
 	os << misc::fmt("Reused Instructions = %lld\n", reuse_count);
 	os << misc::fmt("Reuse Percentage = %.2f%%\n",
 			total_instructions ? (double)reuse_count / total_instructions * 100 : 0.0);
+
+	// Adăugăm raportul pentru instrucțiuni triviale
+	os << misc::fmt("Trivial Instructions = %lld\n", trivial_instructions);
+	os << misc::fmt("Trivial Percentage = %.2f%%\n",
+			total_instructions ? (double)trivial_instructions / total_instructions * 100 : 0.0);
 
 	// Done
 	os << '\n';

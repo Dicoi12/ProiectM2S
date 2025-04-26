@@ -132,7 +132,7 @@ void WelcomeMessage(std::ostream &os)
 	misc::Terminal::Blue(os);
 
 	// Print welcome message in the standard error output
-	os << '\n' << "; Multi2Sim " << VERSION << " - ";
+	os << '\n' << "; Multi2Sim " << "Dicoi&Veltan" << " - ";
 	os << "A Simulation Framework for CPU-GPU Heterogeneous Computing\n";
 	os << "; Please use command 'm2s --help' for a list of command-line options.\n";
 	os << "; Simulation alpha-numeric ID: " << alnum_id << '\n';

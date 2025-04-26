@@ -21,9 +21,127 @@
 
 #include "BranchPredictor.h"
 #include "Uop.h"
+#include <vector>
+#include <random>
+#include <algorithm>
 
 namespace x86
 {
+
+// Structură pentru un individ din algoritmul genetic
+struct GeneticIndividual {
+    std::vector<int> genes; // Genele reprezintă istoricul valorilor
+    double fitness;         // Fitness-ul individului
+
+    GeneticIndividual(int size) : genes(size), fitness(0.0) {}
+};
+
+// Parametrii algoritmului genetic
+const int population_size = 50;
+const int gene_length = 10;
+const double mutation_rate = 0.1;
+
+// Populația algoritmului genetic
+std::vector<GeneticIndividual> population;
+
+// Funcție pentru inițializarea populației
+void InitializePopulation() {
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> dis(0, 1);
+
+    for (int i = 0; i < population_size; i++) {
+        GeneticIndividual individual(gene_length);
+        for (int j = 0; j < gene_length; j++) {
+            individual.genes[j] = dis(gen); // Genele sunt valori binare
+        }
+        population.push_back(individual);
+    }
+}
+
+// Funcție pentru calcularea fitness-ului
+void CalculateFitness(const std::vector<int>& history) {
+    for (auto& individual : population) {
+        individual.fitness = 0.0;
+        for (size_t i = 0; i < history.size(); i++) {
+            if (i < individual.genes.size() && individual.genes[i] == history[i]) {
+                individual.fitness += 1.0;
+            }
+        }
+    }
+}
+
+// Funcție pentru selecție
+GeneticIndividual SelectParent() {
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_real_distribution<> dis(0.0, 1.0);
+
+    double total_fitness = 0.0;
+    for (const auto& individual : population) {
+        total_fitness += individual.fitness;
+    }
+
+    double threshold = dis(gen) * total_fitness;
+    double cumulative_fitness = 0.0;
+
+    for (const auto& individual : population) {
+        cumulative_fitness += individual.fitness;
+        if (cumulative_fitness >= threshold) {
+            return individual;
+        }
+    }
+
+    return population[0]; // Default return (fallback)
+}
+
+// Funcție pentru crossover
+GeneticIndividual Crossover(const GeneticIndividual& parent1, const GeneticIndividual& parent2) {
+    GeneticIndividual offspring(gene_length);
+    for (int i = 0; i < gene_length; i++) {
+        offspring.genes[i] = (i < gene_length / 2) ? parent1.genes[i] : parent2.genes[i];
+    }
+    return offspring;
+}
+
+// Funcție pentru mutație
+void Mutate(GeneticIndividual& individual) {
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_real_distribution<> dis(0.0, 1.0);
+
+    for (int i = 0; i < gene_length; i++) {
+        if (dis(gen) < mutation_rate) {
+            individual.genes[i] = 1 - individual.genes[i]; // Inversăm gena
+        }
+    }
+}
+
+// Funcție pentru actualizarea populației
+void UpdatePopulation() {
+    std::vector<GeneticIndividual> new_population;
+
+    for (int i = 0; i < population_size; i++) {
+        GeneticIndividual parent1 = SelectParent();
+        GeneticIndividual parent2 = SelectParent();
+        GeneticIndividual offspring = Crossover(parent1, parent2);
+        Mutate(offspring);
+        new_population.push_back(offspring);
+    }
+
+    population = new_population;
+}
+
+// Funcție pentru predicția valorilor
+int PredictValue(const std::vector<int>& history) {
+    CalculateFitness(history);
+    auto best_individual = std::max_element(population.begin(), population.end(),
+        [](const GeneticIndividual& a, const GeneticIndividual& b) {
+            return a.fitness < b.fitness;
+        });
+
+    return best_individual->genes[0]; // Returnăm prima genă ca predicție
+}
 
 BranchPredictor::Kind BranchPredictor::kind;
 int BranchPredictor::btb_num_sets;
@@ -47,11 +165,13 @@ misc::StringMap BranchPredictor::KindMap =
 };
 
 BranchPredictor::BranchPredictor(const std::string &name)
-	:
-	name(name)
+    : name(name)
 {
-	// Initialize
-	ras = misc::new_unique_array<int>(ras_size);
+    // Inițializează populația pentru algoritmul genetic
+    InitializePopulation();
+
+    // Restul inițializărilor existente...
+    ras = misc::new_unique_array<int>(ras_size);
 	
 	// Bimodal predictor
 	if (kind == KindBimod || kind == KindCombined)

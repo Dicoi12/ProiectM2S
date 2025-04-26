@@ -131,8 +131,8 @@ TwoLevel.HistorySize = 8
 ; Global statistics
 [ Global ]
 Cycles = 1000532
-Time = 0.52
-CyclesPerSecond = 1919401
+Time = 0.47
+CyclesPerSecond = 2111402
 
 ; Dispatch stage
 Dispatch.Uop.nop = 1
@@ -434,6 +434,8 @@ fu.XmmFloatComplex.WaitingTime = 0
 Total Instructions = 3000572
 Reused Instructions = 3000506
 Reuse Percentage = 100.00%
+Trivial Instructions = 23
+Trivial Percentage = 0.00%
 
 ; Dispatch slots usage (sum = cycles * dispatch width)
 ;    used - dispatch slot was used by a non-spec uop
