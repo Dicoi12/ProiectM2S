@@ -53,7 +53,6 @@ os << misc::fmt("Trivial Percentage = %.2f%%\n", total_instructions ? (double)tr
 ### Modificarea 4
 #### Algoritm genetic
 **0. Configuratie**
-<br>
 | Nume |Nume variabila | Valoare|
 |----|-----|------|
 | Marime Populatie| population_size | 50|
@@ -61,8 +60,7 @@ os << misc::fmt("Trivial Percentage = %.2f%%\n", total_instructions ? (double)tr
 | Rata de mutatie| mutation_rate|0.1
 
 **1. Structura individ**
-  <br>
-Fiecare individ are 2 componente:
+* Fiecare individ are 2 componente:
 1. Vector de gene cu valori (0 sau 1)
 1. Fitness individual
 ```cpp
@@ -74,8 +72,7 @@ struct GeneticIndividual {
 };
 ```
 **2. Initializare populatie**
-<br>
-Aceasta genereaza o pupulatie de 50 de indivizi cu cate 10 gene formate random cu valori de 1 si 0.
+* Aceasta genereaza o pupulatie de 50 de indivizi cu cate 10 gene formate random cu valori de 1 si 0.
 ```cpp
 void InitializePopulation() {
     for (int i = 0; i < population_size; i++) {
@@ -88,8 +85,7 @@ void InitializePopulation() {
 }
 ```
 **3. Calcul fitness** 
-<br>
-  Se compara similaritatea cu istoricul. Daca in istoric si in individ se regaseste aceiasi valoare atunci fitness-ul individului creste.
+  * Se compara similaritatea cu istoricul. Daca in istoric si in individ se regaseste aceiasi valoare atunci fitness-ul individului creste.
 ```cpp
 void CalculateFitness(const std::vector<int>& history) {
     for (auto& individual : population) {
@@ -103,8 +99,7 @@ void CalculateFitness(const std::vector<int>& history) {
 }
 ```
 **4. Selectie Parinti**
-<br>
-Pentru selectia parintilor am ales metoda selectiei prin ruleta
+* Pentru selectia parintilor am ales metoda selectiei prin ruleta
 1. Calcul fitness total pentru toata populatia 
 ```cpp
 double total_fitness = 0.0;
@@ -119,8 +114,7 @@ double threshold = dis(gen) * total_fitness;
 ```
 
 3. Iteram prin populatie si acumulam fitness-ul
-<br>
-Primul individ care are fitness-ul cumulativ > prag este ales drept parinte
+* Primul individ care are fitness-ul cumulativ > prag este ales drept parinte
 ```cpp
 for (const auto& individual : population) {
     cumulative_fitness += individual.fitness;
@@ -133,8 +127,7 @@ for (const auto& individual : population) {
 Aceasta metoda favorizeaza indivizii cu fitness-ul mai mare
 
 4. Crossover
-<br>
-Genereaza un copil din doi parinti. Prima jumatate din primul parinte, iar a doua din al doilea parinte
+* Genereaza un copil din doi parinti. Prima jumatate din primul parinte, iar a doua din al doilea parinte
 ```cpp
 GeneticIndividual Crossover(const GeneticIndividual& parent1, const GeneticIndividual& parent2) {
     GeneticIndividual offspring(gene_length);
@@ -146,8 +139,7 @@ GeneticIndividual Crossover(const GeneticIndividual& parent1, const GeneticIndiv
 ```
 
 5. Mutatie
-<br>
-Pentru fiecare gena a copilului, exita o sansa egala cu *mutation_rate* (10%) ca aceasta sa fie inversata 
+* Pentru fiecare gena a copilului, exita o sansa egala cu *mutation_rate* (10%) ca aceasta sa fie inversata 
 ```cpp
 void Mutate(GeneticIndividual& individual) {
     std::random_device rd;
@@ -162,7 +154,7 @@ void Mutate(GeneticIndividual& individual) {
 }
 ```
 
-Aceasta aduce variatie in cadrul populatiei
+* Aceasta aduce variatie in cadrul populatiei
 
 **6. Update population**
 
