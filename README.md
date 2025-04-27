@@ -39,7 +39,7 @@ if (type == FunctionalUnit::TypeIntAdd)
  * Formula
  </br>
  </br>
-  $Trivial_{}= \frac {trivial-{instructions}}{total-{instructions}}*100$
+  $`Trivial_{}= \frac {trivial-{instructions}}{total-{instructions}}*100`$
 
   **4. Afisarea contorului si a procentului de intructiuni triviale**
 * Contor
