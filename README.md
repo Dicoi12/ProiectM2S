@@ -112,10 +112,12 @@ for (const auto& individual : population) {
     total_fitness += individual.fitness;
 }
 ```
+
 2. Generam un prag random intre 0 si total_fitness
 ```cpp
 double threshold = dis(gen) * total_fitness;
 ```
+
 3. Iteram prin populatie si acumulam fitness-ul
 <br>
 Primul individ care are fitness-ul cumulativ > prag este ales drept parinte
@@ -127,6 +129,7 @@ for (const auto& individual : population) {
     }
 }
 ```
+
 Aceasta metoda favorizeaza indivizii cu fitness-ul mai mare
 
 4. Crossover
@@ -141,6 +144,7 @@ GeneticIndividual Crossover(const GeneticIndividual& parent1, const GeneticIndiv
     return offspring;
 }
 ```
+
 5. Mutatie
 <br>
 Pentru fiecare gena a copilului, exita o sansa egala cu *mutation_rate* (10%) ca aceasta sa fie inversata 
@@ -157,6 +161,7 @@ void Mutate(GeneticIndividual& individual) {
     }
 }
 ```
+
 Aceasta aduce variatie in cadrul populatiei
 
 **6. Update population**
@@ -184,6 +189,7 @@ void UpdatePopulation(const std::vector<int>& history) {
     population = new_population;
 }
 ```
+
 **7. Predictie Valoare**
 1. Alege individul cu fitness-ul cel mai mare
 2. Returneaza prima sa gena
@@ -197,5 +203,5 @@ int PredictValue(const std::vector<int>& history) {
 
     return best_individual->genes[0];
 }
-
 ```
+
