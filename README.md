@@ -160,6 +160,7 @@ void Mutate(GeneticIndividual& individual) {
 Aceasta aduce variatie in cadrul populatiei
 
 **6. Update population**
+
 * Caluleaza fitness-ul pe toata populatia
 * Creaza o populatie noua:
   * Selecteaza 2 parinti
