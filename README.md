@@ -56,7 +56,7 @@ os << misc::fmt("Trivial Percentage = %.2f%%\n", total_instructions ? (double)tr
 | Nume |Nume variabila | Valoare|
 |----|-----|------|
 | Marime Populatie| population_size | 50|
-| Numar Gene| gene length|10
+| Numar Gene| gene_length|10
 | Rata de mutatie| mutation_rate|0.1
 
 **1. Structura individ**
