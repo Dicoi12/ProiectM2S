@@ -29,6 +29,10 @@ std::unordered_map<long long, int> result_cache; // Map: Instrucțiune -> Rezult
 long long reuse_count = 0; // Contor pentru reutilizări
 long long total_instructions = 0; // Contor pentru instrucțiuni totale
 long long trivial_instructions = 0; // Adăugăm un contor pentru instrucțiunile triviale
+long long total_alu_instructions = 0;
+long long reused_alu_instructions = 0;
+long long total_load_instructions = 0;
+long long reused_load_instructions = 0;
 
 int Alu::configuration[FunctionalUnit::TypeCount][3] =
 {
@@ -190,19 +194,32 @@ int Alu::Reserve(Uop *uop)
 	total_instructions++;
 
 	// Verificăm dacă instrucțiunea este trivială
-	if (type == FunctionalUnit::TypeIntAdd)
-	{
-		trivial_instructions++;
-	}
+	if (type == FunctionalUnit::TypeIntAdd || type == FunctionalUnit::TypeLogic)
+{
+    trivial_instructions++;
+}
 
 	// Verificăm dacă rezultatul acestei instrucțiuni este deja în cache
 	long long uop_id = uop->getId(); // Obținem un identificator unic pentru instrucțiune
-	if (result_cache.find(uop_id) != result_cache.end())
+	if (type == FunctionalUnit::TypeIntAdd || 
+		type == FunctionalUnit::TypeIntMult ||
+		type == FunctionalUnit::TypeIntDiv ||
+		type == FunctionalUnit::TypeLogic)
 	{
-		// Rezultatul este în cache, incrementăm contorul de reutilizări
-		reuse_count++;
-		return 0; // Latență zero pentru reutilizare
+		total_alu_instructions++;
+	
+		if (result_cache.find(uop_id) != result_cache.end())
+			reused_alu_instructions++;
 	}
+	auto opcode = uop->getUinst()->getOpcode();
+	if (type == FunctionalUnit::TypeEffAddr)
+	{
+    total_load_instructions++;
+
+    if (result_cache.find(uop_id) != result_cache.end())
+        reused_load_instructions++;
+}
+
 
 	// Obținem functional unit de tipul necesar
 	assert(type > FunctionalUnit::TypeNone &&
@@ -254,10 +271,15 @@ void Alu::DumpReport(std::ostream &os) const
 
 	// Adăugăm raportul pentru reutilizare
 	os << misc::fmt("Total Instructions = %lld\n", total_instructions);
-	os << misc::fmt("Reused Instructions = %lld\n", reuse_count);
-	os << misc::fmt("Reuse Percentage = %.2f%%\n",
-			total_instructions ? (double)reuse_count / total_instructions * 100 : 0.0);
+	os << misc::fmt("Total ALU Instructions = %lld\n", total_alu_instructions);
+os << misc::fmt("Reused ALU Instructions = %lld\n", reused_alu_instructions);
+os << misc::fmt("ALU Reuse Percentage = %.2f%%\n",
+    total_alu_instructions ? (double)reused_alu_instructions / total_alu_instructions * 100 : 0.0);
 
+os << misc::fmt("Total Load Instructions = %lld\n", total_load_instructions);
+os << misc::fmt("Reused Load Instructions = %lld\n", reused_load_instructions);
+os << misc::fmt("Load Reuse Percentage = %.2f%%\n",
+    total_load_instructions ? (double)reused_load_instructions / total_load_instructions * 100 : 0.0);
 	// Adăugăm raportul pentru instrucțiuni triviale
 	os << misc::fmt("Trivial Instructions = %lld\n", trivial_instructions);
 	os << misc::fmt("Trivial Percentage = %.2f%%\n",
