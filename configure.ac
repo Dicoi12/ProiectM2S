@@ -1,7 +1,7 @@
 AC_INIT([multi2sim], [5.0])
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_SRCDIR([src/m2s.cc])
-AM_INIT_AUTOMAKE([nostdinc subdir-objects])
+AM_INIT_AUTOMAKE([1.16 nostdinc subdir-objects])
 AM_PROG_AS
 AC_PROG_CC([gcc])
 AC_PROG_INSTALL
@@ -618,5 +618,3 @@ AC_CONFIG_FILES([
 		tests/Makefile
 		])
 AC_OUTPUT
-
-AC_CONFIG_MACRO_DIR([m4])

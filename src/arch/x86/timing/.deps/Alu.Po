@@ -266,7 +266,7 @@ Alu.o: Alu.cc /usr/include/stdc-predef.h Alu.h \
  ../../../../src/arch/x86/disassembler/Instruction.def \
  ../../../../src/arch/x86/emulator/ContextSyscall.def Core.h Thread.h \
  ../../../../src/arch/x86/emulator/Context.h Uop.h RegisterFile.h \
- TraceCache.h
+ TraceCache.h ValuePredictor.h
 /usr/include/stdc-predef.h:
 Alu.h:
 ../../../../src/arch/x86/emulator/Uinst.h:
@@ -623,3 +623,4 @@ Thread.h:
 Uop.h:
 RegisterFile.h:
 TraceCache.h:
+ValuePredictor.h:

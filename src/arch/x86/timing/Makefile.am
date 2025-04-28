@@ -38,7 +38,10 @@ libtiming_a_SOURCES = \
 	TraceCache.cc \
 	\
 	Uop.h \
-	Uop.cc
+	Uop.cc \
+	\
+	ValuePredictor.h \
+	ValuePredictor.cc
 
 AM_CPPFLAGS = @M2S_INCLUDES@
 

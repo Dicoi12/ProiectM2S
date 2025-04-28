@@ -20,7 +20,7 @@
 #include "Alu.h"
 #include "Timing.h"
 #include <unordered_map> // Pentru hash map
-
+#include "ValuePredictor.h"
 namespace x86
 {
 
@@ -33,6 +33,8 @@ long long total_alu_instructions = 0;
 long long reused_alu_instructions = 0;
 long long total_load_instructions = 0;
 long long reused_load_instructions = 0;
+
+ValuePredictor predictor;
 
 int Alu::configuration[FunctionalUnit::TypeCount][3] =
 {
@@ -227,9 +229,22 @@ int Alu::Reserve(Uop *uop)
 	FunctionalUnit *functional_unit = functional_units[type].get();
 	assert(functional_unit);
 
+	// Încercăm să prezicem valoarea
+	long long predicted_value;
+	if (predictor.predict(uop, predicted_value)) {
+		// Putem folosi predicted_value pentru execuție speculativă
+		if (predictor.isConfidentPrediction(uop)) {
+			// Executăm speculativ instrucțiunile dependente
+		}
+	}
+
 	// Executăm instrucțiunea și stocăm rezultatul în cache
 	int latency = functional_unit->Reserve(uop);
 	result_cache[uop_id] = latency; // Stocăm latența ca rezultat (exemplu simplu)
+
+	// După execuție, actualizăm predictorul cu valoarea reală
+	long long actual_value = latency;  // Valoarea reală calculată
+	predictor.update(uop, actual_value);
 
 	return latency;
 }
@@ -272,18 +287,22 @@ void Alu::DumpReport(std::ostream &os) const
 	// Adăugăm raportul pentru reutilizare
 	os << misc::fmt("Total Instructions = %lld\n", total_instructions);
 	os << misc::fmt("Total ALU Instructions = %lld\n", total_alu_instructions);
-os << misc::fmt("Reused ALU Instructions = %lld\n", reused_alu_instructions);
-os << misc::fmt("ALU Reuse Percentage = %.2f%%\n",
-    total_alu_instructions ? (double)reused_alu_instructions / total_alu_instructions * 100 : 0.0);
+	os << misc::fmt("Reused ALU Instructions = %lld\n", reused_alu_instructions);
+	os << misc::fmt("ALU Reuse Percentage = %.2f%%\n",
+			total_alu_instructions ? (double)reused_alu_instructions / total_alu_instructions * 100 : 0.0);
 
-os << misc::fmt("Total Load Instructions = %lld\n", total_load_instructions);
-os << misc::fmt("Reused Load Instructions = %lld\n", reused_load_instructions);
-os << misc::fmt("Load Reuse Percentage = %.2f%%\n",
-    total_load_instructions ? (double)reused_load_instructions / total_load_instructions * 100 : 0.0);
+	os << misc::fmt("Total Load Instructions = %lld\n", total_load_instructions);
+	os << misc::fmt("Reused Load Instructions = %lld\n", reused_load_instructions);
+	os << misc::fmt("Load Reuse Percentage = %.2f%%\n",
+			total_load_instructions ? (double)reused_load_instructions / total_load_instructions * 100 : 0.0);
+
 	// Adăugăm raportul pentru instrucțiuni triviale
 	os << misc::fmt("Trivial Instructions = %lld\n", trivial_instructions);
 	os << misc::fmt("Trivial Percentage = %.2f%%\n",
 			total_instructions ? (double)trivial_instructions / total_instructions * 100 : 0.0);
+
+	// Adăugăm statisticile predictorului de valori
+	predictor.dumpStats(os);
 
 	// Done
 	os << '\n';
