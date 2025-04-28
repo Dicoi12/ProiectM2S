@@ -13,7 +13,11 @@
   * contorizarea intructiunilor ALU si Load (atat numarul total, cat si cel al instructiunilor reutilizate)
   * calcularea gradului de reutilizabilitate
   * afisarea contorului si a procentului de instructiuni reutilizate 
-* **Faza 3** Algoritm genetic
+* **Faza 3**: Value Predictor
+  * crearea unui Prediction Table
+  * predictie
+  * update
+* **Faza 4** Algoritm genetic
     * Stabilirea unei configuratii initiale
     * Structura individului
     * Initializare populatie
@@ -28,11 +32,10 @@
   **1. Identificarea instructiunilor triviale**
   * Acest lucru se face in cadrul modulului Alu.cc, prin verificarea tipului instructiunii 
   ```cpp
-if (type == FunctionalUnit::TypeIntAdd || type == FunctionalUnit::TypeLogic)
+if (type == FunctionalUnit::TypeIntAdd || type == FunctionalUnit::TypeLogic))
  	{
  	// incrementam un contor	
- 	}
-```
+ 	} ```
   **2. Contorizarea instructiunilor triviale**
   * Initializam o variabila pentru contorizarea instructiunilor triviale, in cadrul componentei Alu.cc
 ```cpp
@@ -135,18 +138,140 @@ os << misc::fmt("Total ALU Instructions = %lld\n", total_alu_instructions);
      total_load_instructions ? (double)reused_load_instructions / total_load_instructions * 100 : 0.0);
 ```
 ### Modificarea 3
+#### Value Prediction
+**1. Prediction Table**
+* Este un unordered_map, cu chei ce reprezinta id-ul instructiunilor, iar valoarea este ValueHistory
+* ValueHistory:
+  * values: lista ultimelor valori rezultate
+  * stride: diferenta dintre valori
+  * last_prediction: ultima predictie facuta
+  * confidence: increderea in predictie
+  * has_prediction: flag daca exista o predictie recenta
+
+**2. Predictie**
+* Cautam in istoric pentru id-ul instructiunii
+* Daca nu avem cel putin 2 valori nu putem prezice
+* Verificam daca stride-ul este constant:
+  * da: urmatoarea valoare = ultima valoare + stride
+  * nu: folosim ultima valoare 
+* Incrementam contoarele:
+  * total_predictions
+  * confident_predictions
+```cpp
+bool ValuePredictor::predict(Uop* uop, long long& predicted_value)
+{
+    long long uop_id = uop->getId();
+    auto it = prediction_table.find(uop_id);
+    
+    if (it == prediction_table.end())
+        return false;  // Nu avem istoric pentru această instrucțiune
+        
+    ValueHistory& history = it->second;
+    
+    if (history.values.size() < 2)
+        return false;  // Nu avem suficiente date pentru predicție
+        
+    // Verificăm dacă există un stride constant
+    bool has_constant_stride = true;
+    int stride = history.values[1] - history.values[0];
+    
+    for (size_t i = 2; i < history.values.size(); i++)
+    {
+        if (history.values[i] - history.values[i-1] != stride)
+        {
+            has_constant_stride = false;
+            break;
+        }
+    }
+    
+    if (has_constant_stride)
+    {
+        // Prezicem următoarea valoare bazată pe stride
+        predicted_value = history.values.back() + stride;
+        history.stride = stride;
+    }
+    else
+    {
+        // Dacă nu avem stride constant, folosim ultima valoare
+        predicted_value = history.values.back();
+    }
+
+    // Incrementăm contorul de predicții doar dacă am făcut o predicție
+    total_predictions++;
+    if (isConfidentPrediction(uop)) {
+        confident_predictions++;
+    }
+    
+    // Salvăm predicția pentru verificare ulterioară
+    history.last_prediction = predicted_value;
+    history.has_prediction = true;
+    
+    return true;
+}
+```
+**3. Update**
+* Verificam daca a fost o predictie anterioara:
+  * da: comparam cu valoarea reala:
+    * da: correct_predictions++
+* Salvam noua valoare in istoric
+* Daca stride-ul dintre ultimele doua valori este constant marim confidence-ul
+```cpp
+void ValuePredictor::update(Uop* uop, long long actual_value)
+{
+    long long uop_id = uop->getId();
+    ValueHistory& history = prediction_table[uop_id];
+    
+    // Verificăm dacă am făcut o predicție și dacă aceasta a fost corectă
+    if (history.has_prediction) {
+        if (history.last_prediction == actual_value) {
+            correct_predictions++;
+            if (isConfidentPrediction(uop)) {
+                correct_confident_predictions++;
+            }
+        }
+        // Resetăm flag-ul pentru următoarea predicție
+        history.has_prediction = false;
+    }
+    
+    // Adăugăm noua valoare la istoric
+    history.values.push_back(actual_value);
+    
+    // Păstrăm doar ultimele HISTORY_SIZE valori
+    if (history.values.size() > HISTORY_SIZE)
+        history.values.erase(history.values.begin());
+    
+    // Actualizăm încrederea
+    if (history.values.size() >= 2)
+    {
+        int current_stride = history.values.back() - history.values[history.values.size()-2];
+        if (current_stride == history.stride)
+            history.confidence++;
+        else
+            history.confidence = 0;
+    }
+}
+```
+
+### Modificarea 4
 #### Algoritm genetic
 **0. Configuratie**
 | Nume |Nume variabila | Valoare|
 |----|-----|------|
-| Marime Populatie| population_size | 50|
-| Numar Gene| gene_length|10
-| Rata de mutatie| mutation_rate|0.1
+|marime populatie|population_size|100
+|generatii|generations|50
+|rata de mutatie |mutation_rate|0.1
+|rata de crossover|crossover_rate|0.7
+|marime selectie (tournament)|tournament_size|5
 
 **1. Structura individ**
 * Fiecare individ are 2 componente:
-1. Vector de gene cu valori (0 sau 1)
-1. Fitness individual
+1. Vector de gene:
+  * history_size: pozitia 0
+  * confidence_threshold: pozitia 1
+  * stride_window: pozitia 2
+  * reuse_treshold: pozitia 3
+
+2. Fitness individual
 ```cpp
 struct GeneticIndividual {
     std::vector<int> genes; 
@@ -156,128 +281,249 @@ struct GeneticIndividual {
 };
 ```
 **2. Initializare populatie**
-* Aceasta genereaza o pupulatie de 50 de indivizi cu cate 10 gene formate random cu valori de 1 si 0.
+* Aceasta genereaza o populatie de 100 de indivizi cu gene random.
+* Genele au urmatoarele intervale
+  * history_size: 1 - 10 (cate valori memoram pentru fiecare instructiune)
+  * confidence_threshold: 1 - 5 (cate potriviri de stride pentru a fii confident)
+  * stride_window: 1 - 5 (cate diferente consecutive verificam)
+  * reuse_treshold: 0% - 99% (pragul pentru cat de reutilizabile sunt valorile)
+* Initializeaza fintess-ul tuturor indivizilor la 0
 ```cpp
-void InitializePopulation() {
-    for (int i = 0; i < population_size; i++) {
-        GeneticIndividual individual(gene_length);
-        for (int j = 0; j < gene_length; j++) {
-            individual.genes[j] = dis(gen); 
-        }
-        population.push_back(individual);
+void GeneticValuePredictor::initializePopulation() {
+    population.resize(params.population_size);
+    std::uniform_int_distribution<int> history_dist(1, 10);
+    std::uniform_int_distribution<int> confidence_dist(1, 5);
+    std::uniform_int_distribution<int> stride_dist(1, 5);
+    std::uniform_int_distribution<int> reuse_dist(0, 99);
+
+    for (auto& chromosome : population) {
+        chromosome.genes.resize(4);
+        chromosome.genes[0] = history_dist(rng);    
+        chromosome.genes[1] = confidence_dist(rng); 
+        chromosome.genes[2] = stride_dist(rng);    
+        chromosome.genes[3] = reuse_dist(rng);    
+        chromosome.fitness = 0.0;
     }
 }
 ```
 **3. Calcul fitness** 
-  * Se compara similaritatea cu istoricul. Daca in istoric si in individ se regaseste aceiasi valoare atunci fitness-ul individului creste.
+  * Evalueaza cat de bune sunt predictiile din prediction_table pe baza valorilor existente
+  * Daca utima valoare prezisa (last_prediction) este egala cu ultima valoare reala, atunci predictia este corecta.
+  Returneaza procentul de predictii corecte
 ```cpp
-void CalculateFitness(const std::vector<int>& history) {
-    for (auto& individual : population) {
-        individual.fitness = 0.0;
-        for (size_t i = 0; i < history.size(); i++) {
-            if (i < individual.genes.size() && individual.genes[i] == history[i]) {
-                individual.fitness += 1.0;
+double GeneticValuePredictor::evaluateFitness(const Chromosome& chromosome) {
+    PredictorParams params = decodeChromosome(chromosome);
+    double correct = 0;
+    double total = 0;
+    for (const auto& entry : prediction_table) {
+        if (entry.second.has_prediction) {
+            total++;
+            if (entry.second.last_prediction == entry.second.values.back()) {
+                correct++;
+            }
+        }
+    }
+    return total > 0 ? correct / total : 0;
+}
+```
+**4. Selectie Parinti**
+* Pentru selectie, am ales metoda turnamenului. Adica se face o selectie de 5 indivizi (tournament_size) dintre care se aleg parintii cei cu fitness-ul cel mai mare.
+* Pentru a favoriza elitismul, luam si individul cu fitness-ul cel mai mare
+```cpp
+void GeneticValuePredictor::selection() {
+    std::vector<Chromosome> new_population;
+    new_population.reserve(params.population_size);
+
+    auto best = std::max_element(population.begin(), population.end(),
+        [](const Chromosome& a, const Chromosome& b) {
+            return a.fitness < b.fitness;
+        });
+    new_population.push_back(*best);
+
+    while (new_population.size() < params.population_size) {
+        new_population.push_back(tournamentSelection());
+    }
+
+    population = std::move(new_population);
+}
+```
+**5. Crossover**
+* Genereaza un copil din doi parinti.
+* Pentru fiecare 2 indivizi consecutivi:
+  * se alege un punct aleator in gene
+  * inainte de acel punct se iau genele primului parinte, iar dupa se iau genele celui de-al doilea
+```cpp
+void GeneticValuePredictor::crossover() {
+    std::uniform_real_distribution<double> dist(0.0, 1.0);
+    std::uniform_int_distribution<int> point_dist(0, 3);
+
+    for (size_t i = 1; i < population.size(); i += 2) {
+        if (dist(rng) < params.crossover_rate) {
+            int crossover_point = point_dist(rng);
+            for (int j = crossover_point; j < 4; j++) {
+                std::swap(population[i].genes[j], population[i+1].genes[j]);
             }
         }
     }
 }
 ```
-**4. Selectie Parinti**
-* Pentru selectia parintilor am ales metoda selectiei prin ruleta
-1. Calcul fitness total pentru toata populatia 
+
+**6. Mutatie**
+* Pentru fiecare gena a copilului, exita o sansa egala cu *mutation_rate* (10%) ca aceasta sa fie modificata cu o valoare random (conforma cu intervalul initial)
 ```cpp
-double total_fitness = 0.0;
-for (const auto& individual : population) {
-    total_fitness += individual.fitness;
-}
-```
+void GeneticValuePredictor::mutation() {
+    std::uniform_real_distribution<double> dist(0.0, 1.0);
+    std::uniform_int_distribution<int> history_dist(1, 10);
+    std::uniform_int_distribution<int> confidence_dist(1, 5);
+    std::uniform_int_distribution<int> stride_dist(1, 5);
+    std::uniform_int_distribution<int> reuse_dist(0, 99);
 
-2. Generam un prag random intre 0 si total_fitness
-```cpp
-double threshold = dis(gen) * total_fitness;
-```
-
-3. Iteram prin populatie si acumulam fitness-ul
-* Primul individ care are fitness-ul cumulativ > prag este ales drept parinte
-```cpp
-for (const auto& individual : population) {
-    cumulative_fitness += individual.fitness;
-    if (cumulative_fitness >= threshold) {
-        return individual;
-    }
-}
-```
-
-Aceasta metoda favorizeaza indivizii cu fitness-ul mai mare
-
-4. Crossover
-* Genereaza un copil din doi parinti. Prima jumatate din primul parinte, iar a doua din al doilea parinte
-```cpp
-GeneticIndividual Crossover(const GeneticIndividual& parent1, const GeneticIndividual& parent2) {
-    GeneticIndividual offspring(gene_length);
-    for (int i = 0; i < gene_length; i++) {
-        offspring.genes[i] = (i < gene_length / 2) ? parent1.genes[i] : parent2.genes[i];
-    }
-    return offspring;
-}
-```
-
-5. Mutatie
-* Pentru fiecare gena a copilului, exita o sansa egala cu *mutation_rate* (10%) ca aceasta sa fie inversata 
-```cpp
-void Mutate(GeneticIndividual& individual) {
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_real_distribution<> dis(0.0, 1.0);
-
-    for (int i = 0; i < gene_length; i++) {
-        if (dis(gen) < mutation_rate) {
-            individual.genes[i] = 1 - individual.genes[i];
+    for (auto& chromosome : population) {
+        if (dist(rng) < params.mutation_rate) {
+            int gene = rand() % 4;
+            switch (gene) {
+                case 0: chromosome.genes[0] = history_dist(rng); break;
+                case 1: chromosome.genes[1] = confidence_dist(rng); break;
+                case 2: chromosome.genes[2] = stride_dist(rng); break;
+                case 3: chromosome.genes[3] = reuse_dist(rng); break;
+            }
         }
     }
 }
 ```
-
 * Aceasta aduce variatie in cadrul populatiei
-
-**6. Update population**
-
-* Caluleaza fitness-ul pe toata populatia
-* Creaza o populatie noua:
-  * Selecteaza 2 parinti
-  * Crossover pentru a obtine copil
-  * Mutatie pentru diversificare
-  * Adauga copilul in populatia noua
-* Inlocuieste populatia veche cu cea noua
+**7. Tournament Selection**
+* Acesta selecteaza aleator 5 indivizi (tournament_size)
+* Returneaza individul cu cel mai bun fitness
 ```cpp
-void UpdatePopulation(const std::vector<int>& history) {
-    CalculateFitness(history);
-    std::vector<GeneticIndividual> new_population;
+Chromosome GeneticValuePredictor::tournamentSelection() {
+    std::uniform_int_distribution<int> dist(0, population.size() - 1);
+    Chromosome best;
+    best.fitness = -1;
 
-    for (int i = 0; i < population_size; i++) {
-        GeneticIndividual parent1 = SelectParent();
-        GeneticIndividual parent2 = SelectParent();
-        GeneticIndividual offspring = Crossover(parent1, parent2);
-        Mutate(offspring);
-        new_population.push_back(offspring);
+    for (int i = 0; i < params.tournament_size; i++) {
+        int idx = dist(rng);
+        if (population[idx].fitness > best.fitness) {
+            best = population[idx];
+        }
     }
 
-    population = new_population;
+    return best;
 }
 ```
 
-**7. Predictie Valoare**
-1. Alege individul cu fitness-ul cel mai mare
-2. Returneaza prima sa gena
-> Se presupune ca prima gena ar fii prima valoare de dupa ce se termina istoricul
+**8. Decode chromosome**
+* Extrage cele 4 gene din individ
+
+**9. Predictie**
+* Cauta istoricul valorilor pentru uop
+* Daca sunt destule valori:
+  * verifica daca exitsta un stride constant intre ultimele valori
+  * da -> prezice prin extrapolare cu stride
+  * nu -> copiaza ultima valoare
+* Returneaza true daca a reusit sa faca o predictie si false daca nu
 ```cpp
-int PredictValue(const std::vector<int>& history) {
-    CalculateFitness(history);
-    auto best_individual = std::max_element(population.begin(), population.end(),[](const GeneticIndividual& a, const GeneticIndividual& b) {
+bool GeneticValuePredictor::predictWithParams(const PredictorParams& params, Uop* uop, long long& predicted_value) {
+    long long uop_id = uop->getId();
+    auto it = prediction_table.find(uop_id);
+    
+    if (it == prediction_table.end())
+        return false;
+        
+    ValueHistory& history = it->second;
+    
+    if (history.values.size() < params.history_size)
+        return false;
+        
+    bool has_constant_stride = true;
+    int stride = history.values[1] - history.values[0];
+    
+    for (size_t i = 2; i < std::min(history.values.size(), static_cast<size_t>(params.stride_window)); i++) {
+        if (history.values[i] - history.values[i-1] != stride) {
+            has_constant_stride = false;
+            break;
+        }
+    }
+    
+    if (has_constant_stride) {
+        predicted_value = history.values.back() + stride;
+        history.stride = stride;
+    } else {
+        predicted_value = history.values.back();
+    }
+
+    history.last_prediction = predicted_value;
+    history.has_prediction = true;
+    
+    return true;
+}
+```
+
+**10. Update**
+* Actualizeaza istoricul valorilor pentru un uop dupa ce s-a aflat valoarea reala
+* Daca exista o predictie anterioara:
+  * numarul total de predictii creste
+  * daca : predictie corecta : correct_predictions ++
+  * daca : predictie corecta si confidenta : correct_confident_predictions ++
+* Adauga valoarea reala la istoricul uop
+* Mentine istoricul la max history_size valori
+```cpp
+void GeneticValuePredictor::update(Uop* uop, long long actual_value) {
+    long long uop_id = uop->getId();
+    ValueHistory& history = prediction_table[uop_id];
+    if (history.has_prediction) {
+        total_predictions++;  
+        if (history.last_prediction == actual_value) {
+            correct_predictions++;
+            if (isConfidentPrediction(uop)) {
+                correct_confident_predictions++;
+            }
+        }
+        history.has_prediction = false;
+    }
+    history.values.push_back(actual_value);
+    if (history.values.size() > current_params.history_size)
+        history.values.erase(history.values.begin());
+    if (history.values.size() >= 2) {
+        int current_stride = history.values.back() - history.values[history.values.size()-2];
+        if (current_stride == history.stride)
+            history.confidence++;
+        else
+            history.confidence = 0;
+    }
+}
+```
+**11.Train**
+* Antreneaza predictorul folosind algoritmul genetic
+* Pentru fiecare generatie:
+  * Calculeaza fitness-ul pentru fiecare individ
+  * Selecteaza indivizii parinti
+  * Crossover
+  * Mutatie
+* Selecteaza cel mai bun individ si ii aplica genele in current_params
+```cpp
+void GeneticValuePredictor::train() {
+    initializePopulation();
+    
+    for (int gen = 0; gen < params.generations; gen++) {
+        for (auto& chromosome : population) {
+            chromosome.fitness = evaluateFitness(chromosome);
+        }
+        
+        selection();
+        
+        crossover();
+        
+        mutation();
+    }
+    
+    auto best = std::max_element(population.begin(), population.end(),
+        [](const Chromosome& a, const Chromosome& b) {
             return a.fitness < b.fitness;
         });
-
-    return best_individual->genes[0];
+    
+    current_params = decodeChromosome(*best);
 }
 ```
+
 
