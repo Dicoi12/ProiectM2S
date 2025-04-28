@@ -28,7 +28,7 @@
   **1. Identificarea instructiunilor triviale**
   * Acest lucru se face in cadrul modulului Alu.cc, prin verificarea tipului instructiunii 
   ```cpp
-if (type == FunctionalUnit::TypeIntAdd || type == FunctionalUnit::TypeLogic))
+if (type == FunctionalUnit::TypeIntAdd || type == FunctionalUnit::TypeLogic)
  	{
  	// incrementam un contor	
  	}
