@@ -143,7 +143,8 @@ am_libtiming_a_OBJECTS = Alu.$(OBJEXT) BranchPredictor.$(OBJEXT) \
 	ThreadDispatch.$(OBJEXT) ThreadIssue.$(OBJEXT) \
 	ThreadRecover.$(OBJEXT) ThreadCommit.$(OBJEXT) \
 	ThreadScheduler.$(OBJEXT) Timing.$(OBJEXT) \
-	TraceCache.$(OBJEXT) Uop.$(OBJEXT) ValuePredictor.$(OBJEXT)
+	TraceCache.$(OBJEXT) Uop.$(OBJEXT) ValuePredictor.$(OBJEXT) \
+	GeneticValuePredictor.$(OBJEXT)
 libtiming_a_OBJECTS = $(am_libtiming_a_OBJECTS)
 AM_V_P = $(am__v_P_$(V))
 am__v_P_ = $(am__v_P_$(AM_DEFAULT_VERBOSITY))
@@ -163,13 +164,15 @@ am__maybe_remake_depfiles = depfiles
 am__depfiles_remade = ./$(DEPDIR)/Alu.Po \
 	./$(DEPDIR)/BranchPredictor.Po ./$(DEPDIR)/Core.Po \
 	./$(DEPDIR)/Cpu.Po ./$(DEPDIR)/CpuScheduler.Po \
-	./$(DEPDIR)/FunctionalUnit.Po ./$(DEPDIR)/RegisterFile.Po \
-	./$(DEPDIR)/Thread.Po ./$(DEPDIR)/ThreadCommit.Po \
-	./$(DEPDIR)/ThreadDecode.Po ./$(DEPDIR)/ThreadDispatch.Po \
-	./$(DEPDIR)/ThreadFetch.Po ./$(DEPDIR)/ThreadIssue.Po \
-	./$(DEPDIR)/ThreadRecover.Po ./$(DEPDIR)/ThreadScheduler.Po \
-	./$(DEPDIR)/Timing.Po ./$(DEPDIR)/TraceCache.Po \
-	./$(DEPDIR)/Uop.Po ./$(DEPDIR)/ValuePredictor.Po
+	./$(DEPDIR)/FunctionalUnit.Po \
+	./$(DEPDIR)/GeneticValuePredictor.Po \
+	./$(DEPDIR)/RegisterFile.Po ./$(DEPDIR)/Thread.Po \
+	./$(DEPDIR)/ThreadCommit.Po ./$(DEPDIR)/ThreadDecode.Po \
+	./$(DEPDIR)/ThreadDispatch.Po ./$(DEPDIR)/ThreadFetch.Po \
+	./$(DEPDIR)/ThreadIssue.Po ./$(DEPDIR)/ThreadRecover.Po \
+	./$(DEPDIR)/ThreadScheduler.Po ./$(DEPDIR)/Timing.Po \
+	./$(DEPDIR)/TraceCache.Po ./$(DEPDIR)/Uop.Po \
+	./$(DEPDIR)/ValuePredictor.Po
 am__mv = mv -f
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
@@ -416,7 +419,10 @@ libtiming_a_SOURCES = \
 	Uop.cc \
 	\
 	ValuePredictor.h \
-	ValuePredictor.cc
+	ValuePredictor.cc \
+	\
+	GeneticValuePredictor.h \
+	GeneticValuePredictor.cc
 
 AM_CPPFLAGS =  -I$(top_srcdir) -I$(top_srcdir)/src 
 all: all-am
@@ -501,6 +507,7 @@ include ./$(DEPDIR)/Core.Po # am--include-marker
 include ./$(DEPDIR)/Cpu.Po # am--include-marker
 include ./$(DEPDIR)/CpuScheduler.Po # am--include-marker
 include ./$(DEPDIR)/FunctionalUnit.Po # am--include-marker
+include ./$(DEPDIR)/GeneticValuePredictor.Po # am--include-marker
 include ./$(DEPDIR)/RegisterFile.Po # am--include-marker
 include ./$(DEPDIR)/Thread.Po # am--include-marker
 include ./$(DEPDIR)/ThreadCommit.Po # am--include-marker
@@ -684,6 +691,7 @@ distclean: distclean-am
 	-rm -f ./$(DEPDIR)/Cpu.Po
 	-rm -f ./$(DEPDIR)/CpuScheduler.Po
 	-rm -f ./$(DEPDIR)/FunctionalUnit.Po
+	-rm -f ./$(DEPDIR)/GeneticValuePredictor.Po
 	-rm -f ./$(DEPDIR)/RegisterFile.Po
 	-rm -f ./$(DEPDIR)/Thread.Po
 	-rm -f ./$(DEPDIR)/ThreadCommit.Po
@@ -748,6 +756,7 @@ maintainer-clean: maintainer-clean-am
 	-rm -f ./$(DEPDIR)/Cpu.Po
 	-rm -f ./$(DEPDIR)/CpuScheduler.Po
 	-rm -f ./$(DEPDIR)/FunctionalUnit.Po
+	-rm -f ./$(DEPDIR)/GeneticValuePredictor.Po
 	-rm -f ./$(DEPDIR)/RegisterFile.Po
 	-rm -f ./$(DEPDIR)/Thread.Po
 	-rm -f ./$(DEPDIR)/ThreadCommit.Po

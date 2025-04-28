@@ -20,6 +20,7 @@
 #include "Alu.h"
 #include "Timing.h"
 #include <unordered_map> // Pentru hash map
+#include "GeneticValuePredictor.h"
 #include "ValuePredictor.h"
 namespace x86
 {
@@ -34,7 +35,8 @@ long long reused_alu_instructions = 0;
 long long total_load_instructions = 0;
 long long reused_load_instructions = 0;
 
-ValuePredictor predictor;
+GeneticValuePredictor predictor;
+ValuePredictor value_predictor;
 
 int Alu::configuration[FunctionalUnit::TypeCount][3] =
 {
@@ -186,8 +188,7 @@ int Alu::Reserve(Uop *uop)
 	if (!uop->first_alu_cycle)
 		uop->first_alu_cycle = cycle;
 
-	// Get the functional unit type required by the uop. If the uop does not
-	// require a functional unit, return 1 cycle latency.
+	// Get the functional unit type required by the uop
 	FunctionalUnit::Type type = type_table[uop->getUinst()->getOpcode()];
 	if (type == FunctionalUnit::TypeNone)
 		return 1;
@@ -197,54 +198,64 @@ int Alu::Reserve(Uop *uop)
 
 	// Verificăm dacă instrucțiunea este trivială
 	if (type == FunctionalUnit::TypeIntAdd || type == FunctionalUnit::TypeLogic)
-{
-    trivial_instructions++;
-}
+	{
+		trivial_instructions++;
+	}
 
 	// Verificăm dacă rezultatul acestei instrucțiuni este deja în cache
-	long long uop_id = uop->getId(); // Obținem un identificator unic pentru instrucțiune
+	long long uop_id = uop->getId();
 	if (type == FunctionalUnit::TypeIntAdd || 
 		type == FunctionalUnit::TypeIntMult ||
 		type == FunctionalUnit::TypeIntDiv ||
 		type == FunctionalUnit::TypeLogic)
 	{
 		total_alu_instructions++;
-	
 		if (result_cache.find(uop_id) != result_cache.end())
 			reused_alu_instructions++;
 	}
-	auto opcode = uop->getUinst()->getOpcode();
+
 	if (type == FunctionalUnit::TypeEffAddr)
 	{
-    total_load_instructions++;
-
-    if (result_cache.find(uop_id) != result_cache.end())
-        reused_load_instructions++;
-}
-
+		total_load_instructions++;
+		if (result_cache.find(uop_id) != result_cache.end())
+			reused_load_instructions++;
+	}
 
 	// Obținem functional unit de tipul necesar
-	assert(type > FunctionalUnit::TypeNone &&
-			type < FunctionalUnit::TypeCount);
+	assert(type > FunctionalUnit::TypeNone && type < FunctionalUnit::TypeCount);
 	FunctionalUnit *functional_unit = functional_units[type].get();
 	assert(functional_unit);
 
-	// Încercăm să prezicem valoarea
-	long long predicted_value;
-	if (predictor.predict(uop, predicted_value)) {
-		// Putem folosi predicted_value pentru execuție speculativă
-		if (predictor.isConfidentPrediction(uop)) {
-			// Executăm speculativ instrucțiunile dependente
+	// Folosim ambele predictori
+	long long genetic_predicted_value;
+	long long value_predicted_value;
+	bool genetic_prediction = predictor.predict(uop, genetic_predicted_value);
+	bool value_prediction = value_predictor.predict(uop, value_predicted_value);
+
+	// Dacă ambele predictori au făcut o predicție, alegem cea mai confidentă
+	if (genetic_prediction && value_prediction) {
+		if (predictor.isConfidentPrediction(uop) && !value_predictor.isConfidentPrediction(uop)) {
+			// Folosim predicția genetică dacă este mai confidentă
+			// Putem folosi genetic_predicted_value pentru optimizări
+		} else if (!predictor.isConfidentPrediction(uop) && value_predictor.isConfidentPrediction(uop)) {
+			// Folosim predicția value predictor dacă este mai confidentă
+			// Putem folosi value_predicted_value pentru optimizări
 		}
+	} else if (genetic_prediction) {
+		// Folosim doar predicția genetică
+		// Putem folosi genetic_predicted_value pentru optimizări
+	} else if (value_prediction) {
+		// Folosim doar predicția value predictor
+		// Putem folosi value_predicted_value pentru optimizări
 	}
 
-	// Executăm instrucțiunea și stocăm rezultatul în cache
+	// Executăm instrucțiunea și stocăm rezultatul
 	int latency = functional_unit->Reserve(uop);
-	result_cache[uop_id] = latency; // Stocăm latența ca rezultat (exemplu simplu)
+	result_cache[uop_id] = latency;
 
-	// După execuție, actualizăm predictorul cu valoarea reală
-	long long actual_value = latency;  // Valoarea reală calculată
-	predictor.update(uop, actual_value);
+	// Actualizăm ambele predictori
+	predictor.update(uop, latency);
+	value_predictor.update(uop, latency);
 
 	return latency;
 }
@@ -301,8 +312,12 @@ void Alu::DumpReport(std::ostream &os) const
 	os << misc::fmt("Trivial Percentage = %.2f%%\n",
 			total_instructions ? (double)trivial_instructions / total_instructions * 100 : 0.0);
 
-	// Adăugăm statisticile predictorului de valori
+	// Adăugăm statisticile ambilor predictori
+	os << "\nGenetic Value Predictor Statistics:\n";
 	predictor.dumpStats(os);
+	
+	os << "\nValue Predictor Statistics:\n";
+	value_predictor.dumpStats(os);
 
 	// Done
 	os << '\n';

@@ -41,7 +41,10 @@ libtiming_a_SOURCES = \
 	Uop.cc \
 	\
 	ValuePredictor.h \
-	ValuePredictor.cc
+	ValuePredictor.cc \
+	\
+	GeneticValuePredictor.h \
+	GeneticValuePredictor.cc
 
 AM_CPPFLAGS = @M2S_INCLUDES@
 
