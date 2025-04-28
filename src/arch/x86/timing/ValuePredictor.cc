@@ -47,10 +47,15 @@ bool ValuePredictor::predict(Uop* uop, long long& predicted_value)
         predicted_value = history.values.back();
     }
 
+    // Incrementăm contorul de predicții doar dacă am făcut o predicție
     total_predictions++;
     if (isConfidentPrediction(uop)) {
         confident_predictions++;
     }
+    
+    // Salvăm predicția pentru verificare ulterioară
+    history.last_prediction = predicted_value;
+    history.has_prediction = true;
     
     return true;
 }
@@ -60,15 +65,16 @@ void ValuePredictor::update(Uop* uop, long long actual_value)
     long long uop_id = uop->getId();
     ValueHistory& history = prediction_table[uop_id];
     
-    // Verificăm dacă predicția anterioară a fost corectă
-    if (!history.values.empty()) {
-        long long last_prediction = history.values.back();
-        if (last_prediction == actual_value) {
+    // Verificăm dacă am făcut o predicție și dacă aceasta a fost corectă
+    if (history.has_prediction) {
+        if (history.last_prediction == actual_value) {
             correct_predictions++;
             if (isConfidentPrediction(uop)) {
                 correct_confident_predictions++;
             }
         }
+        // Resetăm flag-ul pentru următoarea predicție
+        history.has_prediction = false;
     }
     
     // Adăugăm noua valoare la istoric

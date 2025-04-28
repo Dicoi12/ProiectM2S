@@ -14,9 +14,11 @@ private:
     // Structura pentru stocarea istoricului valorilor
     struct ValueHistory
     {
-        std::vector<long long> values;  // Ultimele valori văzute
-        int stride;                     // Diferența între valori consecutive
+        std::vector<long long> values;  // Istoricul valorilor
+        int stride;                     // Diferența constantă între valori (dacă există)
         int confidence;                 // Nivelul de încredere în predicție
+        long long last_prediction;      // Ultima predicție făcută
+        bool has_prediction;            // Flag care indică dacă am făcut o predicție
     };
 
     // Tabela de predicție
