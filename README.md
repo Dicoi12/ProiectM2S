@@ -5,13 +5,21 @@
 ## Plan
 * **Faza 1**: Instructiuni Triviale
   * identificarea instructiunilor triviale
-  * contorizarea intructiunilor triviale
-  * calcularea procentului de instructuini triviale
+  * contorizare
+  * calcularea procentului de instructiuni triviale
   * afisarea contorului si a procentului 
 * **Faza 2**: Gradul de reutilizabilitate al instructiunilor ALU si Load
   * identificarea instructiunilor ALU si Load
   * contorizarea intructiunilor ALU si Load (atat numarul total, cat si cel al instructiunilor reutilizate)
+  * calcularea gradului de reutilizabilitate
   * afisarea contorului si a procentului de instructiuni reutilizate 
+* **Faza 3** Algoritm genetic
+    * Stabilirea unei configuratii initiale
+    * Structura individului
+    * Initializare populatie
+    * Calcul fitness
+    * Functiile de crossover si mutatie
+    * Actualizare populatie 
 
 ## Modificari aduse simulatorului Multi2Sim
 
@@ -50,7 +58,7 @@ os << misc::fmt("Trivial Instructions = %lld\n", trivial_instructions);
 ```cpp
 os << misc::fmt("Trivial Percentage = %.2f%%\n", total_instructions ? (double)trivial_instructions / total_instructions * 100 : 0.0);
 ```
-### Modificarea 3
+### Modificarea 2
 #### Gradul de reutilizabilitate a intructiunilor ALU si Load
 Toate modificarile au fost realizate in cadrul componentei ALU.cc
 **1. Identificarea instructiunilor ALU si Load**
@@ -105,24 +113,28 @@ if (type == FunctionalUnit::TypeIntAdd ||
          reused_load_instructions++;
  }
 ```
-**3. Afisare rezultate**
+**3. Calcularea gradului de reutilizabilitate**
 Gradul de reutilizabilitate a fost calculat cu formulele:
 $\text{ALU reused(\%)} = \frac{\text{reused ALU instructions}}{\text{total ALU instructions}} \times 100$
 
 $\text{Load reused(\%)} = \frac{\text{reused Load instructions}}{\text{total Load instructions}} \times 100$
 
+**4. Afisarea relzultatelor**
+1. Instructiuni ALU
 ```cpp
 os << misc::fmt("Total ALU Instructions = %lld\n", total_alu_instructions);
  os << misc::fmt("Reused ALU Instructions = %lld\n", reused_alu_instructions);
  os << misc::fmt("ALU Reuse Percentage = %.2f%%\n",
      total_alu_instructions ? (double)reused_alu_instructions / total_alu_instructions * 100 : 0.0);
- 
+``` 
+2. Instructiuni Load
+```cpp
  os << misc::fmt("Total Load Instructions = %lld\n", total_load_instructions);
  os << misc::fmt("Reused Load Instructions = %lld\n", reused_load_instructions);
  os << misc::fmt("Load Reuse Percentage = %.2f%%\n",
      total_load_instructions ? (double)reused_load_instructions / total_load_instructions * 100 : 0.0);
 ```
-### Modificarea 4
+### Modificarea 3
 #### Algoritm genetic
 **0. Configuratie**
 | Nume |Nume variabila | Valoare|
