@@ -3,13 +3,15 @@
  Implementarea unor structuri care să determine gradul de reutilizabilitate al instrucţiunilor (ALU, Load), procentajul de instrucţiuni triviale din benchmark-urile SPEC 2000 (INT / FP). Dezvoltarea unei arhitecturi superscalare şi cu multithreading simultan îmbogăţită cu un mecanism de anticipare selectivă a valorilor instrucţiunilor cu latenţă ridicată de execuţie. Arhitectura propusă include o schemă de reutilizare a rezultatelor instrucţiunilor de înmulţire / împărţire. Cuantificaţi câştigul de performanţă de procesare astfel obţinut. Utilizati algorimti genetici
 
 ## Plan
-* Faza 1: Instructiuni Triviale
+* **Faza 1**: Instructiuni Triviale
   * identificarea instructiunilor triviale
   * contorizarea intructiunilor triviale
   * calcularea procentului de instructuini triviale
   * afisarea contorului si a procentului 
-* Faza 2: 
-  *  
+* **Faza 2**: Gradul de reutilizabilitate al instructiunilor ALU si Load
+  * identificarea instructiunilor ALU si Load
+  * contorizarea intructiunilor ALU si Load (atat numarul total, cat si cel al instructiunilor reutilizate)
+  * afisarea contorului si a procentului de instructiuni reutilizate 
 
 ## Modificari aduse simulatorului Multi2Sim
 
@@ -18,7 +20,7 @@
   **1. Identificarea instructiunilor triviale**
   * Acest lucru se face in cadrul modulului Alu.cc, prin verificarea tipului instructiunii 
   ```cpp
-if (type == FunctionalUnit::TypeIntAdd)
+if (type == FunctionalUnit::TypeIntAdd || type == FunctionalUnit::TypeLogic))
  	{
  	// incrementam un contor	
  	}
@@ -37,8 +39,6 @@ if (type == FunctionalUnit::TypeIntAdd)
 ```
  **3. Calcularea procentrului de instructiuni triviale** 
  * Formula
- </br>
- </br>
 $\text{Trivial instructions(\%)} = \frac{\text{trivial instructions}}{\text{total instructions}} \times 100$
 
   **4. Afisarea contorului si a procentului de intructiuni triviale**
@@ -49,6 +49,78 @@ os << misc::fmt("Trivial Instructions = %lld\n", trivial_instructions);
 * Procentul este calculat cu formula de la punctul 3
 ```cpp
 os << misc::fmt("Trivial Percentage = %.2f%%\n", total_instructions ? (double)trivial_instructions / total_instructions * 100 : 0.0);
+```
+### Modificarea 3
+#### Gradul de reutilizabilitate a intructiunilor ALU si Load
+Toate modificarile au fost realizate in cadrul componentei ALU.cc
+**1. Identificarea instructiunilor ALU si Load**
+```cpp
+//Instructiuni ALU
+if (type == FunctionalUnit::TypeIntAdd || type == FunctionalUnit::TypeIntMult || type == FunctionalUnit::TypeIntDiv || type == FunctionalUnit::TypeLogic)
+ 	{
+        //incrementam contorul pentru intstructiunile ALU
+        if (result_cache.find(uop_id) != result_cache.end())
+ 			//incrementam contorul pentru instructiunile ALU reutilizate
+ 	}
+```
+```cpp
+if (type == FunctionalUnit::TypeEffAddr)
+ 	{
+     // incrementam contorul pentru instructiunile Load
+     if (result_cache.find(uop_id) != result_cache.end())
+        //incrementam contorul pentru instructiunile Load reutilizate
+ }
+ ```
+**2. Contorizare**
+
+Initializam 4 contoare astfel:
+1. Contor pentru toate instructiunile ALU
+2. Contor pentru instructiunile ALU reutilizate
+3. Contor pentru toate instructiunile Load
+4. Contor pentru instructiunile Load reutilizate
+```cpp
+ long long total_alu_instructions = 0;
+ long long reused_alu_instructions = 0;
+ long long total_load_instructions = 0;
+ long long reused_load_instructions = 0;
+```
+Incrementam contoarele:
+```cpp
+if (type == FunctionalUnit::TypeIntAdd || 
+ 		type == FunctionalUnit::TypeIntMult ||
+ 		type == FunctionalUnit::TypeIntDiv ||
+ 		type == FunctionalUnit::TypeLogic)
+ 	{
+ 		total_alu_instructions++;
+ 	
+ 		if (result_cache.find(uop_id) != result_cache.end())
+ 			reused_alu_instructions++;
+ 	}
+
+ 	auto opcode = uop->getUinst()->getOpcode();
+ 	if (type == FunctionalUnit::TypeEffAddr)
+ 	{
+     total_load_instructions++;
+     if (result_cache.find(uop_id) != result_cache.end())
+         reused_load_instructions++;
+ }
+```
+**3. Afisare rezultate**
+Gradul de reutilizabilitate a fost calculat cu formulele:
+$\text{ALU reused(\%)} = \frac{\text{reused ALU instructions}}{\text{total ALU instructions}} \times 100$
+
+$\text{Load reused(\%)} = \frac{\text{reused Load instructions}}{\text{total Load instructions}} \times 100$
+
+```cpp
+os << misc::fmt("Total ALU Instructions = %lld\n", total_alu_instructions);
+ os << misc::fmt("Reused ALU Instructions = %lld\n", reused_alu_instructions);
+ os << misc::fmt("ALU Reuse Percentage = %.2f%%\n",
+     total_alu_instructions ? (double)reused_alu_instructions / total_alu_instructions * 100 : 0.0);
+ 
+ os << misc::fmt("Total Load Instructions = %lld\n", total_load_instructions);
+ os << misc::fmt("Reused Load Instructions = %lld\n", reused_load_instructions);
+ os << misc::fmt("Load Reuse Percentage = %.2f%%\n",
+     total_load_instructions ? (double)reused_load_instructions / total_load_instructions * 100 : 0.0);
 ```
 ### Modificarea 4
 #### Algoritm genetic
