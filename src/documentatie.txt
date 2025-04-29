@@ -1,7 +1,15 @@
-1. De adaugat toti pasii pentru instalarea m2s si benchmark-urile PARSEC.
-2. Pe ce ruleaza/am facut proiectul. Sistem de operare Linux.
+1. De adaugat toti pasii pentru instalarea m2s si benchmark-urile PARSEC. -> Darius
+2. Pe ce ruleaza/am facut proiectul. Sistem de operare Linux. 
 3. Schimba tema la VSCode pe white. 
 4. De la ce structura ai pornit BranchPredictor.cc
 5. Imagini .  fisiere de output, diagrame de clase.
 7. Ce extensii de VSCode am folosit. 
 8. UseCase-uri
+
+
+
+0. Modificam mostenire GeneticValuePrediction in ValuePrediction 
+1. Tema si ce presupune
+2. Tehnologii folosite
+3. Implementare + env configuration
+4. Rezultate si concluzii
