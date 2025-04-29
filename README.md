@@ -35,7 +35,8 @@
 if (type == FunctionalUnit::TypeIntAdd || type == FunctionalUnit::TypeLogic))
  	{
  	// incrementam un contor	
- 	} ```
+ 	}
+```
   **2. Contorizarea instructiunilor triviale**
   * Initializam o variabila pentru contorizarea instructiunilor triviale, in cadrul componentei Alu.cc
 ```cpp
@@ -164,14 +165,13 @@ bool ValuePredictor::predict(Uop* uop, long long& predicted_value)
     auto it = prediction_table.find(uop_id);
     
     if (it == prediction_table.end())
-        return false;  // Nu avem istoric pentru această instrucțiune
+        return false;  
         
     ValueHistory& history = it->second;
     
     if (history.values.size() < 2)
-        return false;  // Nu avem suficiente date pentru predicție
+        return false;  
         
-    // Verificăm dacă există un stride constant
     bool has_constant_stride = true;
     int stride = history.values[1] - history.values[0];
     
@@ -186,23 +186,19 @@ bool ValuePredictor::predict(Uop* uop, long long& predicted_value)
     
     if (has_constant_stride)
     {
-        // Prezicem următoarea valoare bazată pe stride
         predicted_value = history.values.back() + stride;
         history.stride = stride;
     }
     else
     {
-        // Dacă nu avem stride constant, folosim ultima valoare
         predicted_value = history.values.back();
     }
 
-    // Incrementăm contorul de predicții doar dacă am făcut o predicție
     total_predictions++;
     if (isConfidentPrediction(uop)) {
         confident_predictions++;
     }
     
-    // Salvăm predicția pentru verificare ulterioară
     history.last_prediction = predicted_value;
     history.has_prediction = true;
     
@@ -221,7 +217,6 @@ void ValuePredictor::update(Uop* uop, long long actual_value)
     long long uop_id = uop->getId();
     ValueHistory& history = prediction_table[uop_id];
     
-    // Verificăm dacă am făcut o predicție și dacă aceasta a fost corectă
     if (history.has_prediction) {
         if (history.last_prediction == actual_value) {
             correct_predictions++;
@@ -229,18 +224,14 @@ void ValuePredictor::update(Uop* uop, long long actual_value)
                 correct_confident_predictions++;
             }
         }
-        // Resetăm flag-ul pentru următoarea predicție
         history.has_prediction = false;
     }
     
-    // Adăugăm noua valoare la istoric
     history.values.push_back(actual_value);
     
-    // Păstrăm doar ultimele HISTORY_SIZE valori
     if (history.values.size() > HISTORY_SIZE)
         history.values.erase(history.values.begin());
     
-    // Actualizăm încrederea
     if (history.values.size() >= 2)
     {
         int current_stride = history.values.back() - history.values[history.values.size()-2];
