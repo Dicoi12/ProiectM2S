@@ -526,11 +526,11 @@ void GeneticValuePredictor::train() {
 ### 1. Procentajul de instructiuni triviale din suita de benchmark-uri Parsec
 ![Trivial](graph_images/Trivial.png "Trivial")
 ### 2. Procentajul de instructiuni ALU reutilizate din suita de benchmark-uri Parsec
-![Trivial](graph_images/alu.png "Trivial")
+![Trivial](graph_images/Alu.png "Trivial")
 ### 3. Procentajul de instructiuni Load reutilizate din suita de benchmark-uri Parsec
-![Trivial](graph_images/load.png "Trivial")
+![Trivial](graph_images/Load.png "Trivial")
 ### 4. Overall accuracy of Value Predictor vs Genetic Value Predictor
-![Trivial](graph_images/pvp.png "")
+![Trivial](graph_images/Pvp.png "")
 ### Bibliografie 
 1. Multi2Sim Github Repository:https://github.com/Multi2Sim/multi2sim 
 2. Parsec Github Repository:https://github.com/Multi2Sim/m2s-bench-parsec-3.0-src 
