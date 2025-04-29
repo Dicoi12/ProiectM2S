@@ -1,1 +1,0 @@
-4000000000 # ../spec2000binaries/parser/parser00.peak.ev6 ../spec2000binaries/parser/2.1.dict -batch < ../spec2000binaries/parser/ref.in > ./results/ref.out

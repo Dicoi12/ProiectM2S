@@ -1,1 +1,0 @@
-sim-outorder.exe -redir:sim ./results/perlbmk.res -fastfwd 2000000 -max:inst 5000000 perlbmk.arg

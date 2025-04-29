@@ -1,1 +1,0 @@
-4000000000 # ../spec2000binaries/gap/gap00.peak.ev6 -l ./ -q -m 192M < ../spec2000binaries/gap/ref.in > ./results/ref1.out

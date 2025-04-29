@@ -1,1 +1,0 @@
-sim-outorder.exe -redir:sim ./results/mcf.res -fastfwd 2000000 -max:inst 5000000 mcf.arg

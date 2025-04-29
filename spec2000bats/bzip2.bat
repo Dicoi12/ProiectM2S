@@ -1,1 +1,0 @@
-sim-outorder.exe -redir:sim ./results/bzip2.res -fastfwd 2000000 -max:inst 5000000 bzip2.arg

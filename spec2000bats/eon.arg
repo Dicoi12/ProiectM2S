@@ -1,1 +1,0 @@
-4000000000 # ../spec2000binaries/eon/eon00.peak.ev6 ../spec2000binaries/eon/chair.control.rushmeier ../spec2000binaries/eon/chair.camera ../spec2000binaries/eon/chair.surfaces ../spec2000binaries/eon/chair.rushmeier.ppm ../spec2000binaries/eon/ppm ../spec2000binaries/eon/pixels_out.rushmeier ./results/rushmeier_log.out 2> ./results/rushmeier_log.err

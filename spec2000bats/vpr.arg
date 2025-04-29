@@ -1,1 +1,0 @@
-4000000000 # ../spec2000binaries/vpr/vpr00.peak.ev6 ../spec2000binaries/vpr/net.in ../spec2000binaries/vpr/arch.in ./results/place.out ./results/dum.out -nodisp -place_only -init_t 5 -exit_t 0.005 -alpha_t 0.9 -inner_num 2 > ./results/place_log.out
