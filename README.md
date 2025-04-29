@@ -25,8 +25,7 @@
 
 ## Scop si obiective
 **Scop** 
-
-Extinderea unui simulator pentru a facilita datele de care avem nevoie pentru rezolvarea temei, realizarea simularilor si interpretarea rezultatelor
+Extinderea simulatorului pentru a furniza datele necesare rezolvarii temei, desfasurarii simularilor si interpretarea rezultatelor.
 
 **Obiective**
 
