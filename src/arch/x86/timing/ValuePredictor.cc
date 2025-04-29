@@ -4,7 +4,7 @@
 namespace x86
 {
 
-ValuePredictor::ValuePredictor()
+ValuePredictor::ValuePredictor() : Predictor()
 {
 }
 

@@ -1,9 +1,11 @@
-#ifndef X86_TIMING_GENETIC_VALUE_PREDICTOR_H
-#define X86_TIMING_GENETIC_VALUE_PREDICTOR_H
+#ifndef ARCH_X86_TIMING_GENETIC_VALUE_PREDICTOR_H
+#define ARCH_X86_TIMING_GENETIC_VALUE_PREDICTOR_H
 
+#include "ValuePredictor.h"
 #include <vector>
 #include <unordered_map>
 #include <random>
+#include <chrono>
 #include "Uop.h"
 
 namespace x86
@@ -20,31 +22,22 @@ struct PredictorParams {
     int history_size;        
     int confidence_threshold; 
     int stride_window;       
-    double reuse_threshold;  
 };
 
-class GeneticValuePredictor
+struct GeneticParams {
+    int population_size = 50;
+    int generations = 100;
+    double crossover_rate = 0.8;
+    double mutation_rate = 0.1;
+    int tournament_size = 3;
+};
+
+class GeneticValuePredictor : public ValuePredictor
 {
 private:
-    struct GeneticParams {
-        int population_size = 100;
-        int generations = 50;
-        double mutation_rate = 0.1;
-        double crossover_rate = 0.7;
-        int tournament_size = 5;
-    };
-
-    struct ValueHistory {
-        std::vector<long long> values;
-        int stride;
-        int confidence;
-        long long last_prediction;
-        bool has_prediction;
-    };
-
     std::vector<Chromosome> population;
-    GeneticParams params;
     PredictorParams current_params;
+    GeneticParams params;
     std::unordered_map<long long, ValueHistory> prediction_table;
     
     std::mt19937 rng;
@@ -66,13 +59,13 @@ private:
 public:
     GeneticValuePredictor();
     
-    bool predict(Uop* uop, long long& predicted_value);
-    void update(Uop* uop, long long actual_value);
+    bool predict(Uop* uop, long long& predicted_value) override;
+    void update(Uop* uop, long long actual_value) override;
+    bool isConfidentPrediction(Uop* uop) override;
+    void dumpStats(std::ostream& os) const override;
     void train();
-    bool isConfidentPrediction(Uop* uop);
-    void dumpStats(std::ostream& os) const;
 };
 
 }  // namespace x86
 
-#endif  // X86_TIMING_GENETIC_VALUE_PREDICTOR_H 
+#endif  // ARCH_X86_TIMING_GENETIC_VALUE_PREDICTOR_H 

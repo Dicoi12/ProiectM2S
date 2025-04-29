@@ -1,50 +1,41 @@
 lib_LIBRARIES = libtiming.a
 
 libtiming_a_SOURCES = \
-	\
-	Alu.h \
 	Alu.cc \
-	\
-	BranchPredictor.h \
 	BranchPredictor.cc \
-	\
-	Core.h \
 	Core.cc \
-	\
-	Cpu.h \
 	Cpu.cc \
 	CpuScheduler.cc \
-	\
-	FunctionalUnit.h \
 	FunctionalUnit.cc \
-	\
-	RegisterFile.h \
+	Predictor.cc \
 	RegisterFile.cc \
-	\
-	Thread.h \
 	Thread.cc \
-	ThreadFetch.cc \
+	ThreadCommit.cc \
 	ThreadDecode.cc \
 	ThreadDispatch.cc \
+	ThreadFetch.cc \
 	ThreadIssue.cc \
 	ThreadRecover.cc \
-	ThreadCommit.cc \
 	ThreadScheduler.cc \
-	\
-	Timing.h \
 	Timing.cc \
-	\
-	TraceCache.h \
 	TraceCache.cc \
-	\
-	Uop.h \
 	Uop.cc \
-	\
-	ValuePredictor.h \
 	ValuePredictor.cc \
+	GeneticValuePredictor.cc \
 	\
-	GeneticValuePredictor.h \
-	GeneticValuePredictor.cc
+	Alu.h \
+	BranchPredictor.h \
+	Core.h \
+	Cpu.h \
+	FunctionalUnit.h \
+	Predictor.h \
+	RegisterFile.h \
+	Thread.h \
+	Timing.h \
+	TraceCache.h \
+	Uop.h \
+	ValuePredictor.h \
+	GeneticValuePredictor.h
 
 AM_CPPFLAGS = @M2S_INCLUDES@
 

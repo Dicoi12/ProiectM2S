@@ -138,13 +138,13 @@ libtiming_a_AR = $(AR) $(ARFLAGS)
 libtiming_a_LIBADD =
 am_libtiming_a_OBJECTS = Alu.$(OBJEXT) BranchPredictor.$(OBJEXT) \
 	Core.$(OBJEXT) Cpu.$(OBJEXT) CpuScheduler.$(OBJEXT) \
-	FunctionalUnit.$(OBJEXT) RegisterFile.$(OBJEXT) \
-	Thread.$(OBJEXT) ThreadFetch.$(OBJEXT) ThreadDecode.$(OBJEXT) \
-	ThreadDispatch.$(OBJEXT) ThreadIssue.$(OBJEXT) \
-	ThreadRecover.$(OBJEXT) ThreadCommit.$(OBJEXT) \
-	ThreadScheduler.$(OBJEXT) Timing.$(OBJEXT) \
-	TraceCache.$(OBJEXT) Uop.$(OBJEXT) ValuePredictor.$(OBJEXT) \
-	GeneticValuePredictor.$(OBJEXT)
+	FunctionalUnit.$(OBJEXT) Predictor.$(OBJEXT) \
+	RegisterFile.$(OBJEXT) Thread.$(OBJEXT) ThreadCommit.$(OBJEXT) \
+	ThreadDecode.$(OBJEXT) ThreadDispatch.$(OBJEXT) \
+	ThreadFetch.$(OBJEXT) ThreadIssue.$(OBJEXT) \
+	ThreadRecover.$(OBJEXT) ThreadScheduler.$(OBJEXT) \
+	Timing.$(OBJEXT) TraceCache.$(OBJEXT) Uop.$(OBJEXT) \
+	ValuePredictor.$(OBJEXT) GeneticValuePredictor.$(OBJEXT)
 libtiming_a_OBJECTS = $(am_libtiming_a_OBJECTS)
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
@@ -165,7 +165,7 @@ am__depfiles_remade = ./$(DEPDIR)/Alu.Po \
 	./$(DEPDIR)/BranchPredictor.Po ./$(DEPDIR)/Core.Po \
 	./$(DEPDIR)/Cpu.Po ./$(DEPDIR)/CpuScheduler.Po \
 	./$(DEPDIR)/FunctionalUnit.Po \
-	./$(DEPDIR)/GeneticValuePredictor.Po \
+	./$(DEPDIR)/GeneticValuePredictor.Po ./$(DEPDIR)/Predictor.Po \
 	./$(DEPDIR)/RegisterFile.Po ./$(DEPDIR)/Thread.Po \
 	./$(DEPDIR)/ThreadCommit.Po ./$(DEPDIR)/ThreadDecode.Po \
 	./$(DEPDIR)/ThreadDispatch.Po ./$(DEPDIR)/ThreadFetch.Po \
@@ -379,50 +379,41 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 lib_LIBRARIES = libtiming.a
 libtiming_a_SOURCES = \
-	\
-	Alu.h \
 	Alu.cc \
-	\
-	BranchPredictor.h \
 	BranchPredictor.cc \
-	\
-	Core.h \
 	Core.cc \
-	\
-	Cpu.h \
 	Cpu.cc \
 	CpuScheduler.cc \
-	\
-	FunctionalUnit.h \
 	FunctionalUnit.cc \
-	\
-	RegisterFile.h \
+	Predictor.cc \
 	RegisterFile.cc \
-	\
-	Thread.h \
 	Thread.cc \
-	ThreadFetch.cc \
+	ThreadCommit.cc \
 	ThreadDecode.cc \
 	ThreadDispatch.cc \
+	ThreadFetch.cc \
 	ThreadIssue.cc \
 	ThreadRecover.cc \
-	ThreadCommit.cc \
 	ThreadScheduler.cc \
-	\
-	Timing.h \
 	Timing.cc \
-	\
-	TraceCache.h \
 	TraceCache.cc \
-	\
-	Uop.h \
 	Uop.cc \
-	\
-	ValuePredictor.h \
 	ValuePredictor.cc \
+	GeneticValuePredictor.cc \
 	\
-	GeneticValuePredictor.h \
-	GeneticValuePredictor.cc
+	Alu.h \
+	BranchPredictor.h \
+	Core.h \
+	Cpu.h \
+	FunctionalUnit.h \
+	Predictor.h \
+	RegisterFile.h \
+	Thread.h \
+	Timing.h \
+	TraceCache.h \
+	Uop.h \
+	ValuePredictor.h \
+	GeneticValuePredictor.h
 
 AM_CPPFLAGS = @M2S_INCLUDES@
 all: all-am
@@ -508,6 +499,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/CpuScheduler.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/FunctionalUnit.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/GeneticValuePredictor.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Predictor.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/RegisterFile.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Thread.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ThreadCommit.Po@am__quote@ # am--include-marker
@@ -692,6 +684,7 @@ distclean: distclean-am
 	-rm -f ./$(DEPDIR)/CpuScheduler.Po
 	-rm -f ./$(DEPDIR)/FunctionalUnit.Po
 	-rm -f ./$(DEPDIR)/GeneticValuePredictor.Po
+	-rm -f ./$(DEPDIR)/Predictor.Po
 	-rm -f ./$(DEPDIR)/RegisterFile.Po
 	-rm -f ./$(DEPDIR)/Thread.Po
 	-rm -f ./$(DEPDIR)/ThreadCommit.Po
@@ -757,6 +750,7 @@ maintainer-clean: maintainer-clean-am
 	-rm -f ./$(DEPDIR)/CpuScheduler.Po
 	-rm -f ./$(DEPDIR)/FunctionalUnit.Po
 	-rm -f ./$(DEPDIR)/GeneticValuePredictor.Po
+	-rm -f ./$(DEPDIR)/Predictor.Po
 	-rm -f ./$(DEPDIR)/RegisterFile.Po
 	-rm -f ./$(DEPDIR)/Thread.Po
 	-rm -f ./$(DEPDIR)/ThreadCommit.Po

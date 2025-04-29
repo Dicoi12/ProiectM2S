@@ -6,11 +6,10 @@
 namespace x86
 {
 
-GeneticValuePredictor::GeneticValuePredictor() : rng(std::chrono::system_clock::now().time_since_epoch().count()) {
+GeneticValuePredictor::GeneticValuePredictor() : ValuePredictor(), rng(std::chrono::system_clock::now().time_since_epoch().count()) {
     current_params.history_size = 4;
     current_params.confidence_threshold = 2;
     current_params.stride_window = 3;
-    current_params.reuse_threshold = 0.7;
 }
 
 void GeneticValuePredictor::initializePopulation() {
@@ -18,14 +17,12 @@ void GeneticValuePredictor::initializePopulation() {
     std::uniform_int_distribution<int> history_dist(1, 10);
     std::uniform_int_distribution<int> confidence_dist(1, 5);
     std::uniform_int_distribution<int> stride_dist(1, 5);
-    std::uniform_int_distribution<int> reuse_dist(0, 99);
 
     for (auto& chromosome : population) {
-        chromosome.genes.resize(4);
+        chromosome.genes.resize(3);
         chromosome.genes[0] = history_dist(rng);    
         chromosome.genes[1] = confidence_dist(rng); 
         chromosome.genes[2] = stride_dist(rng);     
-        chromosome.genes[3] = reuse_dist(rng);      
         chromosome.fitness = 0.0;
     }
 }
@@ -66,12 +63,12 @@ void GeneticValuePredictor::selection() {
 
 void GeneticValuePredictor::crossover() {
     std::uniform_real_distribution<double> dist(0.0, 1.0);
-    std::uniform_int_distribution<int> point_dist(0, 3);
+    std::uniform_int_distribution<int> point_dist(0, 2);
 
     for (size_t i = 1; i < population.size(); i += 2) {
         if (dist(rng) < params.crossover_rate) {
             int crossover_point = point_dist(rng);
-            for (int j = crossover_point; j < 4; j++) {
+            for (int j = crossover_point; j < 3; j++) {
                 std::swap(population[i].genes[j], population[i+1].genes[j]);
             }
         }
@@ -83,16 +80,14 @@ void GeneticValuePredictor::mutation() {
     std::uniform_int_distribution<int> history_dist(1, 10);
     std::uniform_int_distribution<int> confidence_dist(1, 5);
     std::uniform_int_distribution<int> stride_dist(1, 5);
-    std::uniform_int_distribution<int> reuse_dist(0, 99);
 
     for (auto& chromosome : population) {
         if (dist(rng) < params.mutation_rate) {
-            int gene = rand() % 4;
+            int gene = rand() % 3;
             switch (gene) {
                 case 0: chromosome.genes[0] = history_dist(rng); break;
                 case 1: chromosome.genes[1] = confidence_dist(rng); break;
                 case 2: chromosome.genes[2] = stride_dist(rng); break;
-                case 3: chromosome.genes[3] = reuse_dist(rng); break;
             }
         }
     }
@@ -118,7 +113,6 @@ PredictorParams GeneticValuePredictor::decodeChromosome(const Chromosome& chromo
     params.history_size = chromosome.genes[0];
     params.confidence_threshold = chromosome.genes[1];
     params.stride_window = chromosome.genes[2];
-    params.reuse_threshold = chromosome.genes[3] / 100.0;
     return params;
 }
 
@@ -245,7 +239,6 @@ void GeneticValuePredictor::dumpStats(std::ostream& os) const {
     os << "History Size: " << current_params.history_size << "\n";
     os << "Confidence Threshold: " << current_params.confidence_threshold << "\n";
     os << "Stride Window: " << current_params.stride_window << "\n";
-    os << "Reuse Threshold: " << current_params.reuse_threshold << "\n";
     os << "\n";
 }
 

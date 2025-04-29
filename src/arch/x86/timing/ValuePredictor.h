@@ -1,47 +1,25 @@
-#ifndef X86_TIMING_VALUE_PREDICTOR_H
-#define X86_TIMING_VALUE_PREDICTOR_H
+#ifndef ARCH_X86_TIMING_VALUE_PREDICTOR_H
+#define ARCH_X86_TIMING_VALUE_PREDICTOR_H
 
-#include <unordered_map>
-#include <vector>
-#include "Uop.h"
+#include "Predictor.h"
 
 namespace x86
 {
 
-class ValuePredictor
+class ValuePredictor : public Predictor
 {
 private:
-    struct ValueHistory
-    {
-        std::vector<long long> values;  
-        int stride;                     
-        int confidence;                 
-        long long last_prediction;      
-        bool has_prediction;            
-    };
-
-    std::unordered_map<long long, ValueHistory> prediction_table;
-    
-    static const int HISTORY_SIZE = 4;  
-    static const int CONFIDENCE_THRESHOLD = 2;  
-
-    long long total_predictions = 0;
-    long long correct_predictions = 0;
-    long long confident_predictions = 0;
-    long long correct_confident_predictions = 0;
+    static const int HISTORY_SIZE = 4;
+    static const int CONFIDENCE_THRESHOLD = 2;
 
 public:
     ValuePredictor();
-    
-    bool predict(Uop* uop, long long& predicted_value);
-    
-    void update(Uop* uop, long long actual_value);
-    
-    bool isConfidentPrediction(Uop* uop);
-
-    void dumpStats(std::ostream& os) const;
+    bool predict(Uop* uop, long long& predicted_value) override;
+    void update(Uop* uop, long long actual_value) override;
+    bool isConfidentPrediction(Uop* uop) override;
+    void dumpStats(std::ostream& os) const override;
 };
 
 }  // namespace x86
 
-#endif  // X86_TIMING_VALUE_PREDICTOR_H 
+#endif  // ARCH_X86_TIMING_VALUE_PREDICTOR_H 
