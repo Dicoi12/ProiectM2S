@@ -35,7 +35,7 @@
 if (type == FunctionalUnit::TypeIntAdd || type == FunctionalUnit::TypeLogic))
  	{
  	// incrementam un contor	
- 	}
+ 	} 
 ```
   **2. Contorizarea instructiunilor triviale**
   * Initializam o variabila pentru contorizarea instructiunilor triviale, in cadrul componentei Alu.cc
@@ -216,7 +216,6 @@ void ValuePredictor::update(Uop* uop, long long actual_value)
 {
     long long uop_id = uop->getId();
     ValueHistory& history = prediction_table[uop_id];
-    
     if (history.has_prediction) {
         if (history.last_prediction == actual_value) {
             correct_predictions++;
@@ -226,12 +225,9 @@ void ValuePredictor::update(Uop* uop, long long actual_value)
         }
         history.has_prediction = false;
     }
-    
     history.values.push_back(actual_value);
-    
     if (history.values.size() > HISTORY_SIZE)
         history.values.erase(history.values.begin());
-    
     if (history.values.size() >= 2)
     {
         int current_stride = history.values.back() - history.values[history.values.size()-2];
@@ -383,6 +379,7 @@ void GeneticValuePredictor::mutation() {
 }
 ```
 * Aceasta aduce variatie in cadrul populatiei
+
 **7. Tournament Selection**
 * Acesta selecteaza aleator 5 indivizi (tournament_size)
 * Returneaza individul cu cel mai bun fitness
@@ -405,7 +402,16 @@ Chromosome GeneticValuePredictor::tournamentSelection() {
 
 **8. Decode chromosome**
 * Extrage cele 4 gene din individ
-
+```cpp
+PredictorParams GeneticValuePredictor::decodeChromosome(const Chromosome& chromosome) {
+    PredictorParams params;
+    params.history_size = chromosome.genes[0];
+    params.confidence_threshold = chromosome.genes[1];
+    params.stride_window = chromosome.genes[2];
+    params.reuse_threshold = chromosome.genes[3] / 100.0;
+    return params;
+}
+```
 **9. Predictie**
 * Cauta istoricul valorilor pentru uop
 * Daca sunt destule valori:
@@ -516,5 +522,16 @@ void GeneticValuePredictor::train() {
     current_params = decodeChromosome(*best);
 }
 ```
-
-
+## Rezultate
+### 1. Procentajul de instructiuni triviale din suita de benchmark-uri Parsec
+![Trivial](graph_images/Trivial.png "Trivial")
+### 2. Procentajul de instructiuni ALU reutilizate din suita de benchmark-uri Parsec
+![Trivial](graph_images/alu.png "Trivial")
+### 3. Procentajul de instructiuni Load reutilizate din suita de benchmark-uri Parsec
+![Trivial](graph_images/load.png "Trivial")
+### 4. Overall accuracy of Value Predictor vs Genetic Value Predictor
+![Trivial](graph_images/pvp.png "")
+### Bibliografie 
+1. Multi2Sim Github Repository:https://github.com/Multi2Sim/multi2sim 
+2. Parsec Github Repository:https://github.com/Multi2Sim/m2s-bench-parsec-3.0-src 
+3. Multi2Sim Official Documentation:http://www.multi2sim.org/downloads/m2s-guide-4.2.pdf 
