@@ -1,5 +1,7 @@
 # Proiect 
 ## Cuprins
+### 1. Introducere
+
 ## 1. Itroducere
 
 ## Tema 
@@ -29,6 +31,10 @@
     * Actualizare populatie 
 
 ## 2. Tehnologii
+>Introducere
+>Multi2Sim
+>Parsec
+> ce sunt, cum functioneaza, etc balast
 ## 3. Rezolvarea temei
 ## Modificari aduse simulatorului Multi2Sim
 
@@ -527,7 +533,7 @@ void GeneticValuePredictor::train() {
     current_params = decodeChromosome(*best);
 }
 ```
-## Rezultate
+## 4. Rezultate si concluzii
 ### 1. Procentajul de instructiuni triviale din suita de benchmark-uri Parsec
 ![Trivial](graph_images/Trivial.png "Trivial")
 ### 2. Procentajul de instructiuni ALU reutilizate din suita de benchmark-uri Parsec
