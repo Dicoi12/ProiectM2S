@@ -4,3 +4,4 @@
 4. De la ce structura ai pornit BranchPredictor.cc
 5. Imagini .  fisiere de output, diagrame de clase.
 7. Ce extensii de VSCode am folosit. 
+8. UseCase-uri
