@@ -31,9 +31,11 @@
     * Actualizare populatie 
 
 ## 2. Tehnologii
->Introducere
+
 ## Multi2Sim
+
 ![Trivial](graph_images/M2s.png "Trivial")
+
 Multi2Sim este un simulator open-source utilizat pentru cercetare in arhitectura calculatoarelor. Permite simularea detaliata a procesoarelor superscalare si a mai multor sisteme. Este folosit special in mediul academic pentru evaluarea performantei diverselor arhitecturi si tehnici de optimizare.
 
 Acesta este un simulator cycle-by-cycle capabil sa simuleze in detaliu:
@@ -62,7 +64,8 @@ Acesta este un simulator cycle-by-cycle capabil sa simuleze in detaliu:
 ## PARSEC (Princeton Application Repository for Shared-Memory Computers)
 
 ![Trivial](graph_images/Parsec.png "Trivial")
-Parsec este un **benchmark suite** dezvoltat de Universitatea Princeton pentru a ecalua performanta sistemelor multi-core si multi-threaded. Este extrem de folosit in cercetarea academica si industriala pentru testarea simulatoarelor de procesoare. (M2S)
+
+Parsec este un **benchmark suite** dezvoltat de Universitatea Princeton pentru a evalua performanta sistemelor multi-core si multi-threaded. Este extrem de folosit in cercetarea academica si industriala pentru testarea simulatoarelor de procesoare. (M2S)
 
 Acesta este distribuit ca o suita de aplicatii/benchmark-uri impartite in domenii diferite. (ex:media, AI, etc.) 
 
@@ -90,7 +93,7 @@ Pentru realizarea temei am folosit un sistem cu dual boot Windows 11 si Linux, c
 - Tranzitie usoara intre sisteme pentru diferite faze ale proiectului
 
 ### Procesul de Instalare Multi2Sim
-Multi2Sim a fost descarcat din documentatia oficiala [Multi2Sim](http://www.multi2sim.org/). Procesul de instalare a urmat urmatorii pasi:
+Multi2Sim a fost descarcat din documentatia oficiala [Multi2Sim](http://www.multi2sim.org/). Procesul de instalare a constat in:
 
 1. **Dezarhivare**
    - Extragerea arhivei Multi2Sim in directorul dorit
@@ -125,7 +128,6 @@ Multi2Sim a fost descarcat din documentatia oficiala [Multi2Sim](http://www.mult
    - Se poate verifica instalarea ruland `m2s --version`
 
 ### Procesul de Instalare PARSEC
-Pentru a obtine suita de benchmark-uri PARSEC, am urmat urmatorii pasi:
 
 1. **Clonare Repository**
    ```bash
