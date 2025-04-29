@@ -7,7 +7,6 @@ namespace x86
 {
 
 GeneticValuePredictor::GeneticValuePredictor() : rng(std::chrono::system_clock::now().time_since_epoch().count()) {
-    // Inițializăm parametrii default
     current_params.history_size = 4;
     current_params.confidence_threshold = 2;
     current_params.stride_window = 3;
@@ -23,10 +22,10 @@ void GeneticValuePredictor::initializePopulation() {
 
     for (auto& chromosome : population) {
         chromosome.genes.resize(4);
-        chromosome.genes[0] = history_dist(rng);    // history_size
-        chromosome.genes[1] = confidence_dist(rng); // confidence_threshold
-        chromosome.genes[2] = stride_dist(rng);     // stride_window
-        chromosome.genes[3] = reuse_dist(rng);      // reuse_threshold
+        chromosome.genes[0] = history_dist(rng);    
+        chromosome.genes[1] = confidence_dist(rng); 
+        chromosome.genes[2] = stride_dist(rng);     
+        chromosome.genes[3] = reuse_dist(rng);      
         chromosome.fitness = 0.0;
     }
 }
@@ -36,7 +35,6 @@ double GeneticValuePredictor::evaluateFitness(const Chromosome& chromosome) {
     double correct = 0;
     double total = 0;
 
-    // Evaluăm pe un subset din predicțiile existente
     for (const auto& entry : prediction_table) {
         if (entry.second.has_prediction) {
             total++;
@@ -53,14 +51,12 @@ void GeneticValuePredictor::selection() {
     std::vector<Chromosome> new_population;
     new_population.reserve(params.population_size);
 
-    // Păstrăm cel mai bun cromozom
     auto best = std::max_element(population.begin(), population.end(),
         [](const Chromosome& a, const Chromosome& b) {
             return a.fitness < b.fitness;
         });
     new_population.push_back(*best);
 
-    // Selectăm restul prin tournament selection
     while (new_population.size() < params.population_size) {
         new_population.push_back(tournamentSelection());
     }
@@ -138,7 +134,6 @@ bool GeneticValuePredictor::predictWithParams(const PredictorParams& params, Uop
     if (history.values.size() < params.history_size)
         return false;
         
-    // Verificăm dacă există un stride constant
     bool has_constant_stride = true;
     int stride = history.values[1] - history.values[0];
     
@@ -171,7 +166,7 @@ void GeneticValuePredictor::update(Uop* uop, long long actual_value) {
     ValueHistory& history = prediction_table[uop_id];
     
     if (history.has_prediction) {
-        total_predictions++;  // Incrementăm totalul predicțiilor
+        total_predictions++;  
         if (history.last_prediction == actual_value) {
             correct_predictions++;
             if (isConfidentPrediction(uop)) {
@@ -199,22 +194,17 @@ void GeneticValuePredictor::train() {
     initializePopulation();
     
     for (int gen = 0; gen < params.generations; gen++) {
-        // Evaluăm fitness-ul pentru fiecare cromozom
         for (auto& chromosome : population) {
             chromosome.fitness = evaluateFitness(chromosome);
         }
         
-        // Selecție
         selection();
         
-        // Crossover
         crossover();
         
-        // Mutație
         mutation();
     }
     
-    // Selectăm cel mai bun cromozom
     auto best = std::max_element(population.begin(), population.end(),
         [](const Chromosome& a, const Chromosome& b) {
             return a.fitness < b.fitness;

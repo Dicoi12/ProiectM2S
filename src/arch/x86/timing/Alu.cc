@@ -25,11 +25,10 @@
 namespace x86
 {
 
-// Structură pentru a stoca rezultatele instrucțiunilor
-std::unordered_map<long long, int> result_cache; // Map: Instrucțiune -> Rezultat
-long long reuse_count = 0; // Contor pentru reutilizări
-long long total_instructions = 0; // Contor pentru instrucțiuni totale
-long long trivial_instructions = 0; // Adăugăm un contor pentru instrucțiunile triviale
+std::unordered_map<long long, int> result_cache; 
+long long reuse_count = 0;
+long long total_instructions = 0;
+long long trivial_instructions = 0;
 long long total_alu_instructions = 0;
 long long reused_alu_instructions = 0;
 long long total_load_instructions = 0;
@@ -193,16 +192,13 @@ int Alu::Reserve(Uop *uop)
 	if (type == FunctionalUnit::TypeNone)
 		return 1;
 
-	// Incrementăm contorul de instrucțiuni totale
 	total_instructions++;
 
-	// Verificăm dacă instrucțiunea este trivială
 	if (type == FunctionalUnit::TypeIntAdd || type == FunctionalUnit::TypeLogic)
 	{
 		trivial_instructions++;
 	}
 
-	// Verificăm dacă rezultatul acestei instrucțiuni este deja în cache
 	long long uop_id = uop->getId();
 	if (type == FunctionalUnit::TypeIntAdd || 
 		type == FunctionalUnit::TypeIntMult ||
@@ -221,39 +217,27 @@ int Alu::Reserve(Uop *uop)
 			reused_load_instructions++;
 	}
 
-	// Obținem functional unit de tipul necesar
 	assert(type > FunctionalUnit::TypeNone && type < FunctionalUnit::TypeCount);
 	FunctionalUnit *functional_unit = functional_units[type].get();
 	assert(functional_unit);
 
-	// Folosim ambele predictori
 	long long genetic_predicted_value;
 	long long value_predicted_value;
 	bool genetic_prediction = predictor.predict(uop, genetic_predicted_value);
 	bool value_prediction = value_predictor.predict(uop, value_predicted_value);
 
-	// Dacă ambele predictori au făcut o predicție, alegem cea mai confidentă
 	if (genetic_prediction && value_prediction) {
 		if (predictor.isConfidentPrediction(uop) && !value_predictor.isConfidentPrediction(uop)) {
-			// Folosim predicția genetică dacă este mai confidentă
-			// Putem folosi genetic_predicted_value pentru optimizări
 		} else if (!predictor.isConfidentPrediction(uop) && value_predictor.isConfidentPrediction(uop)) {
-			// Folosim predicția value predictor dacă este mai confidentă
-			// Putem folosi value_predicted_value pentru optimizări
+
 		}
 	} else if (genetic_prediction) {
-		// Folosim doar predicția genetică
-		// Putem folosi genetic_predicted_value pentru optimizări
 	} else if (value_prediction) {
-		// Folosim doar predicția value predictor
-		// Putem folosi value_predicted_value pentru optimizări
 	}
 
-	// Executăm instrucțiunea și stocăm rezultatul
 	int latency = functional_unit->Reserve(uop);
 	result_cache[uop_id] = latency;
 
-	// Actualizăm ambele predictori
 	predictor.update(uop, latency);
 	value_predictor.update(uop, latency);
 
@@ -295,7 +279,6 @@ void Alu::DumpReport(std::ostream &os) const
 				: 0.0);
 	}
 
-	// Adăugăm raportul pentru reutilizare
 	os << misc::fmt("Total Instructions = %lld\n", total_instructions);
 	os << misc::fmt("Total ALU Instructions = %lld\n", total_alu_instructions);
 	os << misc::fmt("Reused ALU Instructions = %lld\n", reused_alu_instructions);
@@ -307,12 +290,10 @@ void Alu::DumpReport(std::ostream &os) const
 	os << misc::fmt("Load Reuse Percentage = %.2f%%\n",
 			total_load_instructions ? (double)reused_load_instructions / total_load_instructions * 100 : 0.0);
 
-	// Adăugăm raportul pentru instrucțiuni triviale
 	os << misc::fmt("Trivial Instructions = %lld\n", trivial_instructions);
 	os << misc::fmt("Trivial Percentage = %.2f%%\n",
 			total_instructions ? (double)trivial_instructions / total_instructions * 100 : 0.0);
 
-	// Adăugăm statisticile ambilor predictori
 	os << "\nGenetic Value Predictor Statistics:\n";
 	predictor.dumpStats(os);
 	

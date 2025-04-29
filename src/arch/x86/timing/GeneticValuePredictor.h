@@ -9,26 +9,23 @@
 namespace x86
 {
 
-// Structura pentru cromozom
 struct Chromosome {
-    std::vector<int> genes;  // Parametrii predictorului
-    double fitness;          // Acuratețea predicțiilor
+    std::vector<int> genes;  
+    double fitness;          
     
     Chromosome() : fitness(0.0) {}
 };
 
-// Parametrii predictorului
 struct PredictorParams {
-    int history_size;        // Mărimea istoricului
-    int confidence_threshold; // Pragul de încredere
-    int stride_window;       // Fereastra pentru stride
-    double reuse_threshold;  // Pragul pentru reutilizare
+    int history_size;        
+    int confidence_threshold; 
+    int stride_window;       
+    double reuse_threshold;  
 };
 
 class GeneticValuePredictor
 {
 private:
-    // Parametrii genetici
     struct GeneticParams {
         int population_size = 100;
         int generations = 50;
@@ -37,7 +34,6 @@ private:
         int tournament_size = 5;
     };
 
-    // Structura pentru istoricul valorilor
     struct ValueHistory {
         std::vector<long long> values;
         int stride;
@@ -46,22 +42,18 @@ private:
         bool has_prediction;
     };
 
-    // Variabile membre
     std::vector<Chromosome> population;
     GeneticParams params;
     PredictorParams current_params;
     std::unordered_map<long long, ValueHistory> prediction_table;
     
-    // Generator de numere aleatoare
     std::mt19937 rng;
     
-    // Statistici
     long long total_predictions = 0;
     long long correct_predictions = 0;
     long long confident_predictions = 0;
     long long correct_confident_predictions = 0;
 
-    // Funcții private
     void initializePopulation();
     double evaluateFitness(const Chromosome& chromosome);
     void selection();
@@ -74,7 +66,6 @@ private:
 public:
     GeneticValuePredictor();
     
-    // Funcții publice
     bool predict(Uop* uop, long long& predicted_value);
     void update(Uop* uop, long long actual_value);
     void train();
