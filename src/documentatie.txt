@@ -1,7 +1,6 @@
 1. De adaugat toti pasii pentru instalarea m2s si benchmark-urile PARSEC.
 2. Pe ce ruleaza/am facut proiectul. Sistem de operare Linux.
-3. Schimba tema la VSCode pe white. Programezi doar ziua sau noaptea dupa 2 cafele.
+3. Schimba tema la VSCode pe white. 
 4. De la ce structura ai pornit BranchPredictor.cc
-5. Imagini cu orice. Catel, pisica, fisiere de output, diagrame de clase.
-6. De dezvoltat un keylogger ca sa stii pe ce taste ai apasat.(Conteaza!!)
-7. Ce extensii de VSCode am folosit. (C#,Vue)
+5. Imagini .  fisiere de output, diagrame de clase.
+7. Ce extensii de VSCode am folosit. 
