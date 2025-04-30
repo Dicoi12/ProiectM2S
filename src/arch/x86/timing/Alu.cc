@@ -62,7 +62,7 @@ int Alu::configuration[FunctionalUnit::TypeCount][3] =
 	{ 1, 1, 1 },  // XmmLogic
 
 	{ 1, 3, 1 },  // XmmFloatAdd
-	{ 1, 3, 1 },  // XmmFloatCompare
+	{ 1, 3, 1 },  // XmmFloatComeare
 	{ 1, 5, 1 },  // XmmFloatMult
 	{ 1, 12, 6 },  // XmmFloatDiv
 	{ 1, 3, 1 },  // XmmFloatConv
