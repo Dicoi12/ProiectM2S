@@ -33,7 +33,6 @@ public:
     Predictor();
     virtual ~Predictor() = default;
 
-    // Pure virtual methods that must be implemented by derived classes
     virtual bool predict(Uop* uop, long long& predicted_value) = 0;
     virtual void update(Uop* uop, long long actual_value) = 0;
     virtual bool isConfidentPrediction(Uop* uop) = 0;
