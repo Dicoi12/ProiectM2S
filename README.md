@@ -448,7 +448,6 @@ Clasa GeneticValuePredictor este o extensie a clasei ValuePredictor. In cadrul a
   * history_size: pozitia 0
   * confidence_threshold: pozitia 1
   * stride_window: pozitia 2
-  * reuse_treshold: pozitia 3
 
 2. Fitness individual
 ```cpp
@@ -465,7 +464,7 @@ struct GeneticIndividual {
   * history_size: 1 - 10 (cate valori memoram pentru fiecare instructiune)
   * confidence_threshold: 1 - 5 (cate potriviri de stride pentru a fii confident)
   * stride_window: 1 - 5 (cate diferente consecutive verificam)
-  * reuse_treshold: 0% - 99% (pragul pentru cat de reutilizabile sunt valorile)
+  
 * Initializeaza fintess-ul tuturor indivizilor la 0
 ```cpp
 void GeneticValuePredictor::initializePopulation() {
