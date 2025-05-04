@@ -736,3 +736,4 @@ In cazul benchmark-urilor dedup si ferret, avand in vedere ca cele doua sunt cel
 1. Multi2Sim Github Repository:https://github.com/Multi2Sim/multi2sim 
 2. Parsec Github Repository:https://github.com/Multi2Sim/m2s-bench-parsec-3.0-src 
 3. Multi2Sim Official Documentation:http://www.multi2sim.org/downloads/m2s-guide-4.2.pdf 
+4. Rezolvare eroare compilare M2s: https://askubuntu.com/questions/768093/problem-during-installing-multi2sim-simulator
