@@ -94,7 +94,10 @@ public:
 
 	/// Dump report for functional units.
 	void DumpReport(std::ostream &os = std::cout) const;
-	
+
+	/// Dump trivial instructions table
+	void DumpTrivialInstructions(std::ostream &os) const;
+
 
 
 

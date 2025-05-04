@@ -130,25 +130,25 @@ TwoLevel.HistorySize = 8
 
 ; Global statistics
 [ Global ]
-Cycles = 2466581
-Time = 264.69
-CyclesPerSecond = 9319
+Cycles = 1335711
+Time = 96.21
+CyclesPerSecond = 13884
 
 ; Dispatch stage
-Dispatch.Uop.nop = 1579
-Dispatch.Uop.move = 75972
-Dispatch.Uop.add = 151990
-Dispatch.Uop.sub = 160223
-Dispatch.Uop.mult = 4330
-Dispatch.Uop.div = 1298
-Dispatch.Uop.effaddr = 365155
-Dispatch.Uop.and = 79914
-Dispatch.Uop.or = 5509
-Dispatch.Uop.xor = 18418
-Dispatch.Uop.not = 1287
-Dispatch.Uop.shift = 19631
-Dispatch.Uop.sign = 6136
-Dispatch.Uop.fmove = 6
+Dispatch.Uop.nop = 693
+Dispatch.Uop.move = 37663
+Dispatch.Uop.add = 81062
+Dispatch.Uop.sub = 83420
+Dispatch.Uop.mult = 427
+Dispatch.Uop.div = 719
+Dispatch.Uop.effaddr = 172726
+Dispatch.Uop.and = 44822
+Dispatch.Uop.or = 3530
+Dispatch.Uop.xor = 10889
+Dispatch.Uop.not = 81
+Dispatch.Uop.shift = 10141
+Dispatch.Uop.sign = 4279
+Dispatch.Uop.fmove = 0
 Dispatch.Uop.fsign = 0
 Dispatch.Uop.fround = 0
 Dispatch.Uop.fadd = 0
@@ -187,40 +187,40 @@ Dispatch.Uop.x-fsqrt = 0
 Dispatch.Uop.x-move = 0
 Dispatch.Uop.x-shuf = 0
 Dispatch.Uop.x-conv = 0
-Dispatch.Uop.load = 231492
-Dispatch.Uop.store = 145302
+Dispatch.Uop.load = 110790
+Dispatch.Uop.store = 69986
 Dispatch.Uop.prefetch = 0
-Dispatch.Uop.call = 15362
-Dispatch.Uop.ret = 17972
-Dispatch.Uop.jump = 13319
-Dispatch.Uop.branch = 130082
-Dispatch.Uop.ibranch = 22457
-Dispatch.Uop.syscall = 70
-Dispatch.Integer = 758968
-Dispatch.Logic = 130895
-Dispatch.FloatingPoint = 6
-Dispatch.Memory = 376794
-Dispatch.Ctrl = 199192
-Dispatch.WndSwitch = 33334
-Dispatch.Total = 1467504
-Dispatch.IPC = 0.595
-Dispatch.DutyCycle = 0.1487
+Dispatch.Uop.call = 7037
+Dispatch.Uop.ret = 8132
+Dispatch.Uop.jump = 6650
+Dispatch.Uop.branch = 69089
+Dispatch.Uop.ibranch = 11252
+Dispatch.Uop.syscall = 35
+Dispatch.Integer = 376017
+Dispatch.Logic = 73742
+Dispatch.FloatingPoint = 0
+Dispatch.Memory = 180776
+Dispatch.Ctrl = 102160
+Dispatch.WndSwitch = 15169
+Dispatch.Total = 733423
+Dispatch.IPC = 0.5491
+Dispatch.DutyCycle = 0.1373
 
 ; Issue stage
-Issue.Uop.nop = 1364
-Issue.Uop.move = 66130
-Issue.Uop.add = 134945
-Issue.Uop.sub = 138704
-Issue.Uop.mult = 3446
-Issue.Uop.div = 1056
-Issue.Uop.effaddr = 331314
-Issue.Uop.and = 67691
-Issue.Uop.or = 4728
-Issue.Uop.xor = 15058
-Issue.Uop.not = 1211
-Issue.Uop.shift = 15871
-Issue.Uop.sign = 5584
-Issue.Uop.fmove = 6
+Issue.Uop.nop = 590
+Issue.Uop.move = 32783
+Issue.Uop.add = 73040
+Issue.Uop.sub = 72584
+Issue.Uop.mult = 383
+Issue.Uop.div = 645
+Issue.Uop.effaddr = 156666
+Issue.Uop.and = 38248
+Issue.Uop.or = 3104
+Issue.Uop.xor = 9161
+Issue.Uop.not = 38
+Issue.Uop.shift = 8364
+Issue.Uop.sign = 3841
+Issue.Uop.fmove = 0
 Issue.Uop.fsign = 0
 Issue.Uop.fround = 0
 Issue.Uop.fadd = 0
@@ -259,39 +259,39 @@ Issue.Uop.x-fsqrt = 0
 Issue.Uop.x-move = 0
 Issue.Uop.x-shuf = 0
 Issue.Uop.x-conv = 0
-Issue.Uop.load = 195266
-Issue.Uop.store = 114925
+Issue.Uop.load = 93446
+Issue.Uop.store = 54850
 Issue.Uop.prefetch = 0
-Issue.Uop.call = 14201
-Issue.Uop.ret = 13620
-Issue.Uop.jump = 12465
-Issue.Uop.branch = 109081
-Issue.Uop.ibranch = 19042
-Issue.Uop.syscall = 68
-Issue.Integer = 675595
-Issue.Logic = 110143
-Issue.FloatingPoint = 6
-Issue.Memory = 310191
-Issue.Ctrl = 168409
-Issue.WndSwitch = 27821
-Issue.Total = 1265776
-Issue.IPC = 0.5132
-Issue.DutyCycle = 0.1283
+Issue.Uop.call = 6488
+Issue.Uop.ret = 6138
+Issue.Uop.jump = 6312
+Issue.Uop.branch = 58515
+Issue.Uop.ibranch = 9855
+Issue.Uop.syscall = 34
+Issue.Integer = 336101
+Issue.Logic = 62756
+Issue.FloatingPoint = 0
+Issue.Memory = 148296
+Issue.Ctrl = 87308
+Issue.WndSwitch = 12626
+Issue.Total = 635085
+Issue.IPC = 0.4755
+Issue.DutyCycle = 0.1189
 
 ; Commit stage
-Commit.Uop.nop = 690
-Commit.Uop.move = 58223
-Commit.Uop.add = 105929
-Commit.Uop.sub = 123606
-Commit.Uop.mult = 3431
-Commit.Uop.div = 1039
-Commit.Uop.effaddr = 287630
-Commit.Uop.and = 62636
-Commit.Uop.or = 4662
-Commit.Uop.xor = 13460
-Commit.Uop.not = 1136
-Commit.Uop.shift = 15337
-Commit.Uop.sign = 4392
+Commit.Uop.nop = 332
+Commit.Uop.move = 30472
+Commit.Uop.add = 57392
+Commit.Uop.sub = 64484
+Commit.Uop.mult = 383
+Commit.Uop.div = 645
+Commit.Uop.effaddr = 136181
+Commit.Uop.and = 35976
+Commit.Uop.or = 3077
+Commit.Uop.xor = 8431
+Commit.Uop.not = 32
+Commit.Uop.shift = 8052
+Commit.Uop.sign = 3019
 Commit.Uop.fmove = 0
 Commit.Uop.fsign = 0
 Commit.Uop.fround = 0
@@ -331,34 +331,34 @@ Commit.Uop.x-fsqrt = 0
 Commit.Uop.x-move = 0
 Commit.Uop.x-shuf = 0
 Commit.Uop.x-conv = 0
-Commit.Uop.load = 175811
-Commit.Uop.store = 114925
+Commit.Uop.load = 84253
+Commit.Uop.store = 54850
 Commit.Uop.prefetch = 0
-Commit.Uop.call = 12570
-Commit.Uop.ret = 12560
-Commit.Uop.jump = 10501
-Commit.Uop.branch = 105048
-Commit.Uop.ibranch = 13112
-Commit.Uop.syscall = 65
-Commit.Integer = 579858
-Commit.Logic = 101623
+Commit.Uop.call = 5693
+Commit.Uop.ret = 5684
+Commit.Uop.jump = 5457
+Commit.Uop.branch = 57020
+Commit.Uop.ibranch = 6226
+Commit.Uop.syscall = 31
+Commit.Integer = 289557
+Commit.Logic = 58587
 Commit.FloatingPoint = 0
-Commit.Memory = 290736
-Commit.Ctrl = 153791
-Commit.WndSwitch = 25130
-Commit.Total = 1126763
-Commit.IPC = 0.4568
-Commit.DutyCycle = 0.1142
+Commit.Memory = 139103
+Commit.Ctrl = 80080
+Commit.WndSwitch = 11377
+Commit.Total = 567690
+Commit.IPC = 0.425
+Commit.DutyCycle = 0.1063
 
 ; Committed branches
 ;    Branches - Number of committed control uops
 ;    Squashed - Number of mispredicted uops squashed from the ROB
 ;    Mispred - Number of mispredicted branches in the correct path
 ;    PredAcc - Prediction accuracy
-Commit.Branches = 153791
-Commit.Squashed = 340714
-Commit.Mispred = 22057
-Commit.PredAcc = 0.8566
+Commit.Branches = 80080
+Commit.Squashed = 165673
+Commit.Mispred = 10637
+Commit.PredAcc = 0.8672
 
 
 ; Statistics for core 0
@@ -368,21 +368,21 @@ Commit.PredAcc = 0.8566
 ;    Accesses - Number of uops issued to a f.u.
 ;    Denied - Number of requests denied due to busy f.u.
 ;    WaitingTime - Average number of waiting cycles to reserve f.u.
-fu.IntAdd.Accesses = 273649
-fu.IntAdd.Denied = 848
-fu.IntAdd.WaitingTime = 0.005942
-fu.IntMult.Accesses = 3446
-fu.IntMult.Denied = 114
-fu.IntMult.WaitingTime = 0.03308
-fu.IntDiv.Accesses = 1056
-fu.IntDiv.Denied = 266
-fu.IntDiv.WaitingTime = 0.2519
-fu.EffAddr.Accesses = 331314
-fu.EffAddr.Denied = 61700
-fu.EffAddr.WaitingTime = 0.1785
-fu.Logic.Accesses = 110143
-fu.Logic.Denied = 1492
-fu.Logic.WaitingTime = 0.0359
+fu.IntAdd.Accesses = 145624
+fu.IntAdd.Denied = 258
+fu.IntAdd.WaitingTime = 0.002651
+fu.IntMult.Accesses = 383
+fu.IntMult.Denied = 1
+fu.IntMult.WaitingTime = 0.002611
+fu.IntDiv.Accesses = 645
+fu.IntDiv.Denied = 169
+fu.IntDiv.WaitingTime = 0.262
+fu.EffAddr.Accesses = 156666
+fu.EffAddr.Denied = 20259
+fu.EffAddr.WaitingTime = 0.1237
+fu.Logic.Accesses = 62756
+fu.Logic.Denied = 1010
+fu.Logic.WaitingTime = 0.04215
 fu.FloatSimple.Accesses = 0
 fu.FloatSimple.Denied = 0
 fu.FloatSimple.WaitingTime = 0
@@ -431,43 +431,327 @@ fu.XmmFloatConv.WaitingTime = 0
 fu.XmmFloatComplex.Accesses = 0
 fu.XmmFloatComplex.Denied = 0
 fu.XmmFloatComplex.WaitingTime = 0
-Total Instructions = 784028
-Total ALU Instructions = 391014
-Reused ALU Instructions = 2644
-ALU Reuse Percentage = 0.68%
-Total Load Instructions = 393014
-Reused Load Instructions = 58907
-Load Reuse Percentage = 14.99%
-Trivial Instructions = 386132
-Trivial Percentage = 49.25%
+Total Instructions = 387771
+Total ALU Instructions = 0
+Total Load Instructions = 0
+Reused Instructions = 370628
+Reuse Percentage = 95.58%
+Trivial Instructions = 281
+Trivial Percentage = 0.07%
+
+Trivial Instructions Table:
+--------------------------------------------------------------------------------
+        ID |          Opcode |     Input1 |     Input2 |          Description
+--------------------------------------------------------------------------------
+    177062 |             sub |         45 |          0 |                x - 0
+    177748 |             sub |         17 |          0 |                x - 0
+    182030 |             sub |         50 |          0 |                x - 0
+    190302 |             sub |         23 |          0 |                x - 0
+    191359 |             sub |         43 |          0 |                x - 0
+    191854 |             sub |         33 |          0 |                x - 0
+    191926 |             sub |         33 |          0 |                x - 0
+    192133 |             sub |         33 |          0 |                x - 0
+    192349 |             sub |         33 |          0 |                x - 0
+    193818 |             sub |         22 |          0 |                x - 0
+    196004 |             sub |         10 |          0 |                x - 0
+    227375 |             sub |         25 |          0 |                x - 0
+    229748 |             sub |         31 |          0 |                x - 0
+    230389 |             sub |         58 |          0 |                x - 0
+    232610 |             sub |         74 |          0 |                x - 0
+    241211 |             sub |         52 |          0 |                x - 0
+    245166 |             sub |          9 |          0 |                x - 0
+    245289 |             sub |         78 |          0 |                x - 0
+    249668 |             sub |         14 |          0 |                x - 0
+    262351 |             add |         48 |          0 |                x + 0
+    266257 |             sub |         48 |          0 |                x - 0
+    266356 |             sub |          2 |          0 |                x - 0
+    270017 |             sub |         40 |          0 |                x - 0
+    271809 |             sub |         59 |          0 |                x - 0
+    273321 |             sub |         32 |          0 |                x - 0
+    277661 |             sub |         24 |          0 |                x - 0
+    278440 |             sub |         21 |          0 |                x - 0
+    278550 |             sub |         72 |          0 |                x - 0
+    280406 |             sub |         45 |          0 |                x - 0
+    285326 |             sub |         54 |          0 |                x - 0
+    287198 |             sub |         54 |          0 |                x - 0
+    287229 |             sub |         34 |          0 |                x - 0
+    287535 |             sub |         39 |          0 |                x - 0
+    298230 |             sub |         62 |          0 |                x - 0
+    298939 |             add |         23 |          0 |                x + 0
+    303336 |             sub |         50 |          0 |                x - 0
+    305718 |             sub |          5 |          0 |                x - 0
+    306913 |             sub |         59 |          0 |                x - 0
+    307216 |             sub |         35 |          0 |                x - 0
+    309792 |             sub |         63 |          0 |                x - 0
+    312337 |             sub |         54 |          0 |                x - 0
+    313219 |             add |         49 |          0 |                x + 0
+    315103 |             sub |          6 |          0 |                x - 0
+    316969 |             add |         55 |          0 |                x + 0
+    324010 |             sub |          9 |          0 |                x - 0
+    326637 |             sub |         30 |          0 |                x - 0
+    330822 |             sub |         53 |          0 |                x - 0
+    332936 |             sub |          3 |          0 |                x - 0
+    334172 |             sub |         25 |          0 |                x - 0
+    334347 |             add |         16 |          0 |                x + 0
+    339544 |             add |         31 |          0 |                x + 0
+    340547 |             sub |         27 |          0 |                x - 0
+    340577 |             sub |         66 |          0 |                x - 0
+    347350 |             sub |         48 |          0 |                x - 0
+    350205 |             sub |         29 |          0 |                x - 0
+    366791 |             sub |         55 |          0 |                x - 0
+    373023 |             sub |         30 |          0 |                x - 0
+    380197 |             add |         77 |          0 |                x + 0
+    381683 |             sub |         28 |          0 |                x - 0
+    394957 |             sub |         48 |          0 |                x - 0
+    420444 |             sub |         40 |          0 |                x - 0
+    428015 |             sub |         50 |          0 |                x - 0
+    428942 |             sub |         24 |          0 |                x - 0
+    439383 |             add |         17 |          0 |                x + 0
+    451576 |             add |         36 |          0 |                x + 0
+    452073 |             sub |         44 |          0 |                x - 0
+    453640 |             sub |         25 |          0 |                x - 0
+    453729 |             sub |         63 |          0 |                x - 0
+    458557 |             sub |         19 |          0 |                x - 0
+    459666 |             sub |         26 |          0 |                x - 0
+    459812 |             sub |         35 |          0 |                x - 0
+    459870 |             sub |         50 |          0 |                x - 0
+    471156 |             add |         16 |          0 |                x + 0
+    473569 |             sub |         28 |          0 |                x - 0
+    483562 |             sub |         26 |          0 |                x - 0
+    491861 |             sub |         22 |          0 |                x - 0
+    505637 |             add |         20 |          0 |                x + 0
+    505975 |             sub |         44 |          0 |                x - 0
+    507736 |             sub |         21 |          0 |                x - 0
+    511991 |             add |         32 |          0 |                x + 0
+    512083 |             add |         65 |          0 |                x + 0
+    517520 |             sub |         46 |          0 |                x - 0
+    517962 |             add |         46 |          0 |                x + 0
+    526729 |             sub |         17 |          0 |                x - 0
+    526791 |             sub |          2 |          0 |                x - 0
+    534320 |             add |         41 |          0 |                x + 0
+    537218 |             add |         20 |          0 |                x + 0
+    537965 |             sub |         57 |          0 |                x - 0
+    549575 |             sub |         42 |          0 |                x - 0
+    551072 |             sub |         61 |          0 |                x - 0
+    555423 |             sub |         58 |          0 |                x - 0
+    565453 |             sub |          7 |          0 |                x - 0
+    572385 |             add |         39 |          0 |                x + 0
+    574219 |             sub |         59 |          0 |                x - 0
+    574323 |             sub |         54 |          0 |                x - 0
+    576654 |             sub |         43 |          0 |                x - 0
+    582776 |             sub |         19 |          0 |                x - 0
+    583904 |             sub |         49 |          0 |                x - 0
+    584445 |             add |         11 |          0 |                x + 0
+    591480 |             sub |         62 |          0 |                x - 0
+    607013 |             sub |         16 |          0 |                x - 0
+    607156 |             sub |         43 |          0 |                x - 0
+    613004 |             sub |         48 |          0 |                x - 0
+    613125 |             sub |          8 |          0 |                x - 0
+    613145 |             sub |         43 |          0 |                x - 0
+    645451 |             sub |         41 |          0 |                x - 0
+    652658 |             sub |         22 |          0 |                x - 0
+    657208 |             sub |         17 |          0 |                x - 0
+    667004 |             add |          0 |          0 |                x + 0
+    667053 |             sub |         19 |          0 |                x - 0
+    667094 |             add |         57 |          0 |                x + 0
+    668528 |             sub |         14 |          0 |                x - 0
+    674348 |             sub |         24 |          0 |                x - 0
+    674935 |             sub |          1 |          0 |                x - 0
+    696790 |             sub |         12 |          0 |                x - 0
+    701615 |             sub |          9 |          0 |                x - 0
+    711095 |             sub |         46 |          0 |                x - 0
+    716744 |             add |         13 |          0 |                x + 0
+    722041 |             add |         42 |          0 |                x + 0
+    725058 |             sub |         65 |          0 |                x - 0
+    726747 |             add |         56 |          0 |                x + 0
+    728997 |             sub |         27 |          0 |                x - 0
+    732940 |             add |          0 |          0 |                x + 0
+    732954 |             sub |         36 |          0 |                x - 0
+    733146 |             add |         32 |          0 |                x + 0
+    733147 |             add |         74 |          0 |                x + 0
+    733152 |             add |         35 |          0 |                x + 0
+    733153 |             add |         61 |          0 |                x + 0
+    733158 |             add |          5 |          0 |                x + 0
+    733159 |             add |         11 |          0 |                x + 0
+    733164 |             add |         23 |          0 |                x + 0
+    733165 |             add |         19 |          0 |                x + 0
+    733170 |             add |         29 |          0 |                x + 0
+    733171 |             add |         66 |          0 |                x + 0
+    733176 |             add |         45 |          0 |                x + 0
+    733177 |             add |         56 |          0 |                x + 0
+    733182 |             add |         50 |          0 |                x + 0
+    733183 |             add |         38 |          0 |                x + 0
+    737352 |             add |         24 |          0 |                x + 0
+    739187 |             sub |         50 |          0 |                x - 0
+    743884 |            mult |         40 |          1 |                x * 1
+    750809 |             sub |         43 |          0 |                x - 0
+    757314 |             sub |         21 |          0 |                x - 0
+    762978 |             add |          8 |          0 |                x + 0
+    763293 |            mult |         23 |          0 |                x * 0
+    763549 |             sub |         16 |          0 |                x - 0
+    766934 |             sub |         21 |          0 |                x - 0
+    769448 |             sub |          2 |          0 |                x - 0
+    784217 |             add |         16 |          0 |                x + 0
+    785272 |             sub |         59 |          0 |                x - 0
+    791503 |             sub |         24 |          0 |                x - 0
+    799172 |             div |          0 |         56 |                0 / x
+    800552 |             sub |          8 |          0 |                x - 0
+    801730 |             sub |          6 |          0 |                x - 0
+    801735 |             sub |         55 |          0 |                x - 0
+    802310 |             sub |         66 |          0 |                x - 0
+    803098 |             sub |         31 |          0 |                x - 0
+    804362 |             sub |         72 |          0 |                x - 0
+    804456 |             sub |         38 |          0 |                x - 0
+    813534 |             add |         53 |          0 |                x + 0
+    824175 |             sub |         14 |          0 |                x - 0
+    826614 |             sub |         27 |          0 |                x - 0
+    827058 |             sub |         74 |          0 |                x - 0
+    829087 |             sub |         33 |          0 |                x - 0
+    832428 |             sub |         79 |          0 |                x - 0
+    833125 |             sub |          5 |          0 |                x - 0
+    833193 |             sub |          5 |          0 |                x - 0
+    834910 |             sub |         61 |          0 |                x - 0
+    839896 |             sub |         56 |          0 |                x - 0
+    841684 |             sub |         66 |          0 |                x - 0
+    843786 |             sub |         77 |          0 |                x - 0
+    843854 |             sub |         77 |          0 |                x - 0
+    845368 |             add |         41 |          0 |                x + 0
+    847778 |             sub |         66 |          0 |                x - 0
+    849708 |             add |         62 |          0 |                x + 0
+    853619 |             sub |         33 |          0 |                x - 0
+    855398 |             sub |         57 |          0 |                x - 0
+    855707 |             add |         40 |          0 |                x + 0
+    870792 |             add |         26 |          0 |                x + 0
+    875927 |             sub |         36 |          0 |                x - 0
+    877187 |             add |         76 |          0 |                x + 0
+    883570 |             add |         27 |          0 |                x + 0
+    885612 |             sub |         45 |          0 |                x - 0
+    889171 |             sub |         48 |          0 |                x - 0
+    894777 |             sub |         57 |          0 |                x - 0
+    895724 |             sub |         12 |          0 |                x - 0
+    897883 |             sub |         11 |          0 |                x - 0
+    907656 |             sub |         39 |          0 |                x - 0
+    910424 |            mult |          6 |          1 |                x * 1
+    912604 |             sub |         54 |          0 |                x - 0
+    913784 |             add |         50 |          0 |                x + 0
+    924476 |             add |         75 |          0 |                x + 0
+    932249 |             sub |          2 |          0 |                x - 0
+    935014 |             sub |         65 |          0 |                x - 0
+    945548 |             add |         34 |          0 |                x + 0
+    946061 |             sub |         13 |          0 |                x - 0
+    946141 |             sub |          6 |          0 |                x - 0
+    962336 |             add |          5 |          0 |                x + 0
+    962593 |             sub |         63 |          0 |                x - 0
+    966145 |             sub |          2 |          0 |                x - 0
+    980389 |             sub |         55 |          0 |                x - 0
+    980699 |             add |         55 |          0 |                x + 0
+    981380 |             sub |         21 |          0 |                x - 0
+    985927 |             add |         77 |          0 |                x + 0
+    997828 |             sub |         56 |          0 |                x - 0
+    998512 |             sub |         62 |          0 |                x - 0
+   1000998 |             sub |         57 |          0 |                x - 0
+   1016089 |             sub |         46 |          0 |                x - 0
+   1025121 |             add |         74 |          0 |                x + 0
+   1025835 |             div |          0 |         65 |                0 / x
+   1027808 |             add |         10 |          0 |                x + 0
+   1031444 |             sub |         63 |          0 |                x - 0
+   1038294 |             sub |          8 |          0 |                x - 0
+   1038489 |             sub |         44 |          0 |                x - 0
+   1038887 |             sub |         14 |          0 |                x - 0
+   1041164 |             sub |         29 |          0 |                x - 0
+   1044362 |             sub |         20 |          0 |                x - 0
+   1046639 |             div |          0 |         54 |                0 / x
+   1048870 |             sub |         36 |          0 |                x - 0
+   1052874 |             sub |         78 |          0 |                x - 0
+   1053258 |            mult |         78 |          1 |                x * 1
+   1058650 |             sub |         44 |          0 |                x - 0
+   1059392 |             sub |         51 |          0 |                x - 0
+   1067969 |             sub |         74 |          0 |                x - 0
+   1082412 |             sub |         10 |          0 |                x - 0
+   1085591 |             sub |         46 |          0 |                x - 0
+   1094941 |             sub |         74 |          0 |                x - 0
+   1097189 |             sub |         22 |          0 |                x - 0
+   1097769 |             sub |         12 |          0 |                x - 0
+   1107096 |            mult |         53 |          1 |                x * 1
+   1108949 |             add |         54 |          0 |                x + 0
+   1115041 |             sub |         38 |          0 |                x - 0
+   1115827 |             sub |          1 |          0 |                x - 0
+   1121823 |             sub |          6 |          0 |                x - 0
+   1122872 |             sub |         10 |          0 |                x - 0
+   1127022 |             sub |         49 |          0 |                x - 0
+   1127612 |             sub |         50 |          0 |                x - 0
+   1130676 |             div |          0 |         58 |                0 / x
+   1144482 |             sub |         54 |          0 |                x - 0
+   1147785 |             add |         39 |          0 |                x + 0
+   1158310 |             sub |         51 |          0 |                x - 0
+   1160047 |             sub |         12 |          0 |                x - 0
+   1160958 |             sub |         27 |          0 |                x - 0
+   1169384 |             sub |         65 |          0 |                x - 0
+   1170142 |            mult |         45 |          1 |                x * 1
+   1173147 |             sub |         33 |          0 |                x - 0
+   1174649 |             sub |         11 |          0 |                x - 0
+   1184254 |             sub |         17 |          0 |                x - 0
+   1186083 |             sub |         75 |          0 |                x - 0
+   1188197 |             add |          5 |          0 |                x + 0
+   1188415 |             sub |         28 |          0 |                x - 0
+   1189122 |             sub |         78 |          0 |                x - 0
+   1193388 |             add |         20 |          0 |                x + 0
+   1194264 |             sub |          2 |          0 |                x - 0
+   1206667 |             sub |         19 |          0 |                x - 0
+   1208507 |             sub |         25 |          0 |                x - 0
+   1208782 |             add |         25 |          0 |                x + 0
+   1216207 |             sub |         24 |          0 |                x - 0
+   1219256 |             sub |         58 |          0 |                x - 0
+   1221966 |             sub |         60 |          0 |                x - 0
+   1222024 |             add |         60 |          0 |                x + 0
+   1222106 |             add |         38 |          0 |                x + 0
+   1225325 |             sub |         39 |          0 |                x - 0
+   1225389 |             add |         39 |          0 |                x + 0
+   1228076 |             sub |         42 |          0 |                x - 0
+   1228943 |             sub |         60 |          0 |                x - 0
+   1230408 |             sub |          7 |          0 |                x - 0
+   1233805 |             sub |          6 |          0 |                x - 0
+   1237462 |             add |         66 |          0 |                x + 0
+   1238582 |             add |          2 |          0 |                x + 0
+   1240315 |             sub |         17 |          0 |                x - 0
+   1240754 |             add |         55 |          0 |                x + 0
+   1241267 |             sub |         30 |          0 |                x - 0
+   1247165 |             sub |         62 |          0 |                x - 0
+   1247977 |             sub |          3 |          0 |                x - 0
+   1251294 |             sub |          5 |          0 |                x - 0
+   1255667 |             add |         39 |          0 |                x + 0
+   1264938 |             sub |         38 |          0 |                x - 0
+   1268167 |             sub |         30 |          0 |                x - 0
+   1270819 |             add |          0 |          0 |                x + 0
+   1270900 |             add |          0 |          0 |                x + 0
+--------------------------------------------------------------------------------
 
 Genetic Value Predictor Statistics:
 
 Genetic Value Predictor Statistics:
 --------------------------------
-Total Predictions: 2870
-Correct Predictions: 1701
+Total Predictions: 366
+Correct Predictions: 120
 Confident Predictions: 0
-Correct Confident Predictions: 1701
-Overall Accuracy: 59.2683%
+Correct Confident Predictions: 120
+Overall Accuracy: 32.7869%
 
 Current Parameters:
 History Size: 4
 Confidence Threshold: 2
 Stride Window: 3
-Reuse Threshold: 0.7
 
 
 Value Predictor Statistics:
 
 Value Predictor Statistics:
 -------------------------
-Total Predictions: 17876
-Correct Predictions: 6342
-Confident Predictions: 6226
-Correct Confident Predictions: 2898
-Overall Accuracy: 35.4777%
-Confident Predictions Accuracy: 46.5467%
+Total Predictions: 5463
+Correct Predictions: 1318
+Confident Predictions: 1298
+Correct Confident Predictions: 374
+Overall Accuracy: 24.1259%
+Confident Predictions Accuracy: 28.8136%
 
 
 ; Dispatch slots usage (sum = cycles * dispatch width)
@@ -475,30 +759,30 @@ Confident Predictions Accuracy: 46.5467%
 ;    spec - used by a mispeculated uop
 ;    ctx - no context allocated to thread
 ;    uopq,rob,iq,lsq,rename - no space in structure
-Dispatch.Stall.used = 1126790
-Dispatch.Stall.spec = 340714
-Dispatch.Stall.uop_queue = 6806892
-Dispatch.Stall.rob = 1509539
-Dispatch.Stall.iq = 61485
-Dispatch.Stall.lsq = 20030
-Dispatch.Stall.rename = 18
+Dispatch.Stall.used = 567750
+Dispatch.Stall.spec = 165673
+Dispatch.Stall.uop_queue = 3745498
+Dispatch.Stall.rob = 807670
+Dispatch.Stall.iq = 46718
+Dispatch.Stall.lsq = 8807
+Dispatch.Stall.rename = 0
 Dispatch.Stall.ctx = 0
 
 ; Dispatch stage
-Dispatch.Uop.nop = 1579
-Dispatch.Uop.move = 75972
-Dispatch.Uop.add = 151990
-Dispatch.Uop.sub = 160223
-Dispatch.Uop.mult = 4330
-Dispatch.Uop.div = 1298
-Dispatch.Uop.effaddr = 365155
-Dispatch.Uop.and = 79914
-Dispatch.Uop.or = 5509
-Dispatch.Uop.xor = 18418
-Dispatch.Uop.not = 1287
-Dispatch.Uop.shift = 19631
-Dispatch.Uop.sign = 6136
-Dispatch.Uop.fmove = 6
+Dispatch.Uop.nop = 693
+Dispatch.Uop.move = 37663
+Dispatch.Uop.add = 81062
+Dispatch.Uop.sub = 83420
+Dispatch.Uop.mult = 427
+Dispatch.Uop.div = 719
+Dispatch.Uop.effaddr = 172726
+Dispatch.Uop.and = 44822
+Dispatch.Uop.or = 3530
+Dispatch.Uop.xor = 10889
+Dispatch.Uop.not = 81
+Dispatch.Uop.shift = 10141
+Dispatch.Uop.sign = 4279
+Dispatch.Uop.fmove = 0
 Dispatch.Uop.fsign = 0
 Dispatch.Uop.fround = 0
 Dispatch.Uop.fadd = 0
@@ -537,40 +821,40 @@ Dispatch.Uop.x-fsqrt = 0
 Dispatch.Uop.x-move = 0
 Dispatch.Uop.x-shuf = 0
 Dispatch.Uop.x-conv = 0
-Dispatch.Uop.load = 231492
-Dispatch.Uop.store = 145302
+Dispatch.Uop.load = 110790
+Dispatch.Uop.store = 69986
 Dispatch.Uop.prefetch = 0
-Dispatch.Uop.call = 15362
-Dispatch.Uop.ret = 17972
-Dispatch.Uop.jump = 13319
-Dispatch.Uop.branch = 130082
-Dispatch.Uop.ibranch = 22457
-Dispatch.Uop.syscall = 70
-Dispatch.Integer = 758968
-Dispatch.Logic = 130895
-Dispatch.FloatingPoint = 6
-Dispatch.Memory = 376794
-Dispatch.Ctrl = 199192
-Dispatch.WndSwitch = 33334
-Dispatch.Total = 1467504
-Dispatch.IPC = 0.595
-Dispatch.DutyCycle = 0.1487
+Dispatch.Uop.call = 7037
+Dispatch.Uop.ret = 8132
+Dispatch.Uop.jump = 6650
+Dispatch.Uop.branch = 69089
+Dispatch.Uop.ibranch = 11252
+Dispatch.Uop.syscall = 35
+Dispatch.Integer = 376017
+Dispatch.Logic = 73742
+Dispatch.FloatingPoint = 0
+Dispatch.Memory = 180776
+Dispatch.Ctrl = 102160
+Dispatch.WndSwitch = 15169
+Dispatch.Total = 733423
+Dispatch.IPC = 0.5491
+Dispatch.DutyCycle = 0.1373
 
 ; Issue stage
-Issue.Uop.nop = 1364
-Issue.Uop.move = 66130
-Issue.Uop.add = 134945
-Issue.Uop.sub = 138704
-Issue.Uop.mult = 3446
-Issue.Uop.div = 1056
-Issue.Uop.effaddr = 331314
-Issue.Uop.and = 67691
-Issue.Uop.or = 4728
-Issue.Uop.xor = 15058
-Issue.Uop.not = 1211
-Issue.Uop.shift = 15871
-Issue.Uop.sign = 5584
-Issue.Uop.fmove = 6
+Issue.Uop.nop = 590
+Issue.Uop.move = 32783
+Issue.Uop.add = 73040
+Issue.Uop.sub = 72584
+Issue.Uop.mult = 383
+Issue.Uop.div = 645
+Issue.Uop.effaddr = 156666
+Issue.Uop.and = 38248
+Issue.Uop.or = 3104
+Issue.Uop.xor = 9161
+Issue.Uop.not = 38
+Issue.Uop.shift = 8364
+Issue.Uop.sign = 3841
+Issue.Uop.fmove = 0
 Issue.Uop.fsign = 0
 Issue.Uop.fround = 0
 Issue.Uop.fadd = 0
@@ -609,39 +893,39 @@ Issue.Uop.x-fsqrt = 0
 Issue.Uop.x-move = 0
 Issue.Uop.x-shuf = 0
 Issue.Uop.x-conv = 0
-Issue.Uop.load = 195266
-Issue.Uop.store = 114925
+Issue.Uop.load = 93446
+Issue.Uop.store = 54850
 Issue.Uop.prefetch = 0
-Issue.Uop.call = 14201
-Issue.Uop.ret = 13620
-Issue.Uop.jump = 12465
-Issue.Uop.branch = 109081
-Issue.Uop.ibranch = 19042
-Issue.Uop.syscall = 68
-Issue.Integer = 675595
-Issue.Logic = 110143
-Issue.FloatingPoint = 6
-Issue.Memory = 310191
-Issue.Ctrl = 168409
-Issue.WndSwitch = 27821
-Issue.Total = 1265776
-Issue.IPC = 0.5132
-Issue.DutyCycle = 0.1283
+Issue.Uop.call = 6488
+Issue.Uop.ret = 6138
+Issue.Uop.jump = 6312
+Issue.Uop.branch = 58515
+Issue.Uop.ibranch = 9855
+Issue.Uop.syscall = 34
+Issue.Integer = 336101
+Issue.Logic = 62756
+Issue.FloatingPoint = 0
+Issue.Memory = 148296
+Issue.Ctrl = 87308
+Issue.WndSwitch = 12626
+Issue.Total = 635085
+Issue.IPC = 0.4755
+Issue.DutyCycle = 0.1189
 
 ; Commit stage
-Commit.Uop.nop = 690
-Commit.Uop.move = 58223
-Commit.Uop.add = 105929
-Commit.Uop.sub = 123606
-Commit.Uop.mult = 3431
-Commit.Uop.div = 1039
-Commit.Uop.effaddr = 287630
-Commit.Uop.and = 62636
-Commit.Uop.or = 4662
-Commit.Uop.xor = 13460
-Commit.Uop.not = 1136
-Commit.Uop.shift = 15337
-Commit.Uop.sign = 4392
+Commit.Uop.nop = 332
+Commit.Uop.move = 30472
+Commit.Uop.add = 57392
+Commit.Uop.sub = 64484
+Commit.Uop.mult = 383
+Commit.Uop.div = 645
+Commit.Uop.effaddr = 136181
+Commit.Uop.and = 35976
+Commit.Uop.or = 3077
+Commit.Uop.xor = 8431
+Commit.Uop.not = 32
+Commit.Uop.shift = 8052
+Commit.Uop.sign = 3019
 Commit.Uop.fmove = 0
 Commit.Uop.fsign = 0
 Commit.Uop.fround = 0
@@ -681,30 +965,30 @@ Commit.Uop.x-fsqrt = 0
 Commit.Uop.x-move = 0
 Commit.Uop.x-shuf = 0
 Commit.Uop.x-conv = 0
-Commit.Uop.load = 175811
-Commit.Uop.store = 114925
+Commit.Uop.load = 84253
+Commit.Uop.store = 54850
 Commit.Uop.prefetch = 0
-Commit.Uop.call = 12570
-Commit.Uop.ret = 12560
-Commit.Uop.jump = 10501
-Commit.Uop.branch = 105048
-Commit.Uop.ibranch = 13112
-Commit.Uop.syscall = 65
-Commit.Integer = 579858
-Commit.Logic = 101623
+Commit.Uop.call = 5693
+Commit.Uop.ret = 5684
+Commit.Uop.jump = 5457
+Commit.Uop.branch = 57020
+Commit.Uop.ibranch = 6226
+Commit.Uop.syscall = 31
+Commit.Integer = 289557
+Commit.Logic = 58587
 Commit.FloatingPoint = 0
-Commit.Memory = 290736
-Commit.Ctrl = 153791
-Commit.WndSwitch = 25130
-Commit.Total = 1126763
-Commit.IPC = 0.4568
-Commit.DutyCycle = 0.1142
+Commit.Memory = 139103
+Commit.Ctrl = 80080
+Commit.WndSwitch = 11377
+Commit.Total = 567690
+Commit.IPC = 0.425
+Commit.DutyCycle = 0.1063
 
 ; Committed branches
-Commit.Branches = 153791
-Commit.Squashed = 340714
-Commit.Mispred = 22057
-Commit.PredAcc = 0.8566
+Commit.Branches = 80080
+Commit.Squashed = 165673
+Commit.Mispred = 10637
+Commit.PredAcc = 0.8672
 
 ; Structure statistics (reorder buffer, instruction queue,
 ; load-store queue, and integer/floating-point/XMM register file)
@@ -716,20 +1000,20 @@ Commit.PredAcc = 0.8566
 [ Core 0 Thread 0 ]
 
 ; Dispatch stage
-Dispatch.Uop.nop = 1579
-Dispatch.Uop.move = 75972
-Dispatch.Uop.add = 151990
-Dispatch.Uop.sub = 160223
-Dispatch.Uop.mult = 4330
-Dispatch.Uop.div = 1298
-Dispatch.Uop.effaddr = 365155
-Dispatch.Uop.and = 79914
-Dispatch.Uop.or = 5509
-Dispatch.Uop.xor = 18418
-Dispatch.Uop.not = 1287
-Dispatch.Uop.shift = 19631
-Dispatch.Uop.sign = 6136
-Dispatch.Uop.fmove = 6
+Dispatch.Uop.nop = 693
+Dispatch.Uop.move = 37663
+Dispatch.Uop.add = 81062
+Dispatch.Uop.sub = 83420
+Dispatch.Uop.mult = 427
+Dispatch.Uop.div = 719
+Dispatch.Uop.effaddr = 172726
+Dispatch.Uop.and = 44822
+Dispatch.Uop.or = 3530
+Dispatch.Uop.xor = 10889
+Dispatch.Uop.not = 81
+Dispatch.Uop.shift = 10141
+Dispatch.Uop.sign = 4279
+Dispatch.Uop.fmove = 0
 Dispatch.Uop.fsign = 0
 Dispatch.Uop.fround = 0
 Dispatch.Uop.fadd = 0
@@ -768,40 +1052,40 @@ Dispatch.Uop.x-fsqrt = 0
 Dispatch.Uop.x-move = 0
 Dispatch.Uop.x-shuf = 0
 Dispatch.Uop.x-conv = 0
-Dispatch.Uop.load = 231492
-Dispatch.Uop.store = 145302
+Dispatch.Uop.load = 110790
+Dispatch.Uop.store = 69986
 Dispatch.Uop.prefetch = 0
-Dispatch.Uop.call = 15362
-Dispatch.Uop.ret = 17972
-Dispatch.Uop.jump = 13319
-Dispatch.Uop.branch = 130082
-Dispatch.Uop.ibranch = 22457
-Dispatch.Uop.syscall = 70
-Dispatch.Integer = 758968
-Dispatch.Logic = 130895
-Dispatch.FloatingPoint = 6
-Dispatch.Memory = 376794
-Dispatch.Ctrl = 199192
-Dispatch.WndSwitch = 33334
-Dispatch.Total = 1467504
-Dispatch.IPC = 0.595
-Dispatch.DutyCycle = 0.1487
+Dispatch.Uop.call = 7037
+Dispatch.Uop.ret = 8132
+Dispatch.Uop.jump = 6650
+Dispatch.Uop.branch = 69089
+Dispatch.Uop.ibranch = 11252
+Dispatch.Uop.syscall = 35
+Dispatch.Integer = 376017
+Dispatch.Logic = 73742
+Dispatch.FloatingPoint = 0
+Dispatch.Memory = 180776
+Dispatch.Ctrl = 102160
+Dispatch.WndSwitch = 15169
+Dispatch.Total = 733423
+Dispatch.IPC = 0.5491
+Dispatch.DutyCycle = 0.1373
 
 ; Issue stage
-Issue.Uop.nop = 1364
-Issue.Uop.move = 66130
-Issue.Uop.add = 134945
-Issue.Uop.sub = 138704
-Issue.Uop.mult = 3446
-Issue.Uop.div = 1056
-Issue.Uop.effaddr = 331314
-Issue.Uop.and = 67691
-Issue.Uop.or = 4728
-Issue.Uop.xor = 15058
-Issue.Uop.not = 1211
-Issue.Uop.shift = 15871
-Issue.Uop.sign = 5584
-Issue.Uop.fmove = 6
+Issue.Uop.nop = 590
+Issue.Uop.move = 32783
+Issue.Uop.add = 73040
+Issue.Uop.sub = 72584
+Issue.Uop.mult = 383
+Issue.Uop.div = 645
+Issue.Uop.effaddr = 156666
+Issue.Uop.and = 38248
+Issue.Uop.or = 3104
+Issue.Uop.xor = 9161
+Issue.Uop.not = 38
+Issue.Uop.shift = 8364
+Issue.Uop.sign = 3841
+Issue.Uop.fmove = 0
 Issue.Uop.fsign = 0
 Issue.Uop.fround = 0
 Issue.Uop.fadd = 0
@@ -840,39 +1124,39 @@ Issue.Uop.x-fsqrt = 0
 Issue.Uop.x-move = 0
 Issue.Uop.x-shuf = 0
 Issue.Uop.x-conv = 0
-Issue.Uop.load = 195266
-Issue.Uop.store = 114925
+Issue.Uop.load = 93446
+Issue.Uop.store = 54850
 Issue.Uop.prefetch = 0
-Issue.Uop.call = 14201
-Issue.Uop.ret = 13620
-Issue.Uop.jump = 12465
-Issue.Uop.branch = 109081
-Issue.Uop.ibranch = 19042
-Issue.Uop.syscall = 68
-Issue.Integer = 675595
-Issue.Logic = 110143
-Issue.FloatingPoint = 6
-Issue.Memory = 310191
-Issue.Ctrl = 168409
-Issue.WndSwitch = 27821
-Issue.Total = 1265776
-Issue.IPC = 0.5132
-Issue.DutyCycle = 0.1283
+Issue.Uop.call = 6488
+Issue.Uop.ret = 6138
+Issue.Uop.jump = 6312
+Issue.Uop.branch = 58515
+Issue.Uop.ibranch = 9855
+Issue.Uop.syscall = 34
+Issue.Integer = 336101
+Issue.Logic = 62756
+Issue.FloatingPoint = 0
+Issue.Memory = 148296
+Issue.Ctrl = 87308
+Issue.WndSwitch = 12626
+Issue.Total = 635085
+Issue.IPC = 0.4755
+Issue.DutyCycle = 0.1189
 
 ; Commit stage
-Commit.Uop.nop = 690
-Commit.Uop.move = 58223
-Commit.Uop.add = 105929
-Commit.Uop.sub = 123606
-Commit.Uop.mult = 3431
-Commit.Uop.div = 1039
-Commit.Uop.effaddr = 287630
-Commit.Uop.and = 62636
-Commit.Uop.or = 4662
-Commit.Uop.xor = 13460
-Commit.Uop.not = 1136
-Commit.Uop.shift = 15337
-Commit.Uop.sign = 4392
+Commit.Uop.nop = 332
+Commit.Uop.move = 30472
+Commit.Uop.add = 57392
+Commit.Uop.sub = 64484
+Commit.Uop.mult = 383
+Commit.Uop.div = 645
+Commit.Uop.effaddr = 136181
+Commit.Uop.and = 35976
+Commit.Uop.or = 3077
+Commit.Uop.xor = 8431
+Commit.Uop.not = 32
+Commit.Uop.shift = 8052
+Commit.Uop.sign = 3019
 Commit.Uop.fmove = 0
 Commit.Uop.fsign = 0
 Commit.Uop.fround = 0
@@ -912,58 +1196,58 @@ Commit.Uop.x-fsqrt = 0
 Commit.Uop.x-move = 0
 Commit.Uop.x-shuf = 0
 Commit.Uop.x-conv = 0
-Commit.Uop.load = 175811
-Commit.Uop.store = 114925
+Commit.Uop.load = 84253
+Commit.Uop.store = 54850
 Commit.Uop.prefetch = 0
-Commit.Uop.call = 12570
-Commit.Uop.ret = 12560
-Commit.Uop.jump = 10501
-Commit.Uop.branch = 105048
-Commit.Uop.ibranch = 13112
-Commit.Uop.syscall = 65
-Commit.Integer = 579858
-Commit.Logic = 101623
+Commit.Uop.call = 5693
+Commit.Uop.ret = 5684
+Commit.Uop.jump = 5457
+Commit.Uop.branch = 57020
+Commit.Uop.ibranch = 6226
+Commit.Uop.syscall = 31
+Commit.Integer = 289557
+Commit.Logic = 58587
 Commit.FloatingPoint = 0
-Commit.Memory = 290736
-Commit.Ctrl = 153791
-Commit.WndSwitch = 25130
-Commit.Total = 1126763
-Commit.IPC = 0.4568
-Commit.DutyCycle = 0.1142
+Commit.Memory = 139103
+Commit.Ctrl = 80080
+Commit.WndSwitch = 11377
+Commit.Total = 567690
+Commit.IPC = 0.425
+Commit.DutyCycle = 0.1063
 
 ; Committed branches
-Commit.Branches = 153791
-Commit.Squashed = 340714
-Commit.Mispred = 22057
-Commit.PredAcc = 0.8566
+Commit.Branches = 80080
+Commit.Squashed = 165673
+Commit.Mispred = 10637
+Commit.PredAcc = 0.8672
 
 ; Structure statistics (reorder buffer, instruction queue,
 ; load-store queue, integer/floating-point/XMM register file,
 ; and renaming table)
 ROB.Size = 64
-ROB.Reads = 1126763
-ROB.Writes = 1467504
+ROB.Reads = 567690
+ROB.Writes = 733423
 IQ.Size = 40
-IQ.Reads = 955585
-IQ.Writes = 1090710
+IQ.Reads = 486789
+IQ.Writes = 552647
 LSQ.Size = 20
-LSQ.Reads = 310191
-LSQ.Writes = 376794
+LSQ.Reads = 148296
+LSQ.Writes = 180776
 RF_Int.Size = 80
-RF_Int.Reads = 1501644
-RF_Int.Writes = 957674
+RF_Int.Reads = 751533
+RF_Int.Writes = 482009
 RF_Fp.Size = 40
-RF_Fp.Reads = 3
-RF_Fp.Writes = 3
+RF_Fp.Reads = 0
+RF_Fp.Writes = 0
 RF_Xmm.Size = 40
 RF_Xmm.Reads = 0
 RF_Xmm.Writes = 0
-RAT.IntReads = 1763122
-RAT.IntWrites = 1007356
-RAT.FpReads = 3
-RAT.FpWrites = 3
+RAT.IntReads = 877638
+RAT.IntWrites = 501001
+RAT.FpReads = 0
+RAT.FpWrites = 0
 RAT.XmmReads = 0
 RAT.XmmWrites = 0
-BTB.Reads = 170377
-BTB.Writes = 153791
+BTB.Reads = 85258
+BTB.Writes = 80080
 

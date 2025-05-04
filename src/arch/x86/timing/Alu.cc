@@ -22,6 +22,8 @@
 #include <unordered_map> // Pentru hash map
 #include "GeneticValuePredictor.h"
 #include "ValuePredictor.h"
+#include <vector>
+#include <iomanip>
 namespace x86
 {
 
@@ -30,12 +32,29 @@ long long reuse_count = 0;
 long long total_instructions = 0;
 long long trivial_instructions = 0;
 long long total_alu_instructions = 0;
-long long reused_alu_instructions = 0;
 long long total_load_instructions = 0;
-long long reused_load_instructions = 0;
+long long reused_instructions = 0;
 
 GeneticValuePredictor predictor;
 ValuePredictor value_predictor;
+
+struct TrivialInstruction {
+	long long id;
+	Uinst::Opcode opcode;
+	int input1;
+	int input2;
+	std::string description;
+};
+
+struct ReusableInstruction {
+	long long id;
+	Uinst::Opcode opcode;
+	int input1;
+	int input2;
+};
+
+std::vector<TrivialInstruction> trivial_instructions_list;
+std::vector<ReusableInstruction> reusable_instructions_list;
 
 int Alu::configuration[FunctionalUnit::TypeCount][3] =
 {
@@ -176,6 +195,80 @@ Alu::Alu()
 				configuration[type][2]);
 }
 
+bool isTrivialInstruction(Uop *uop) {
+	auto type = uop->getUinst()->getOpcode();
+	bool is_trivial = false;
+	std::string description;
+	
+	switch (type) {
+		case Uinst::OpcodeAdd:
+			if (uop->getInput(1) == 0) {
+				is_trivial = true;
+				description = "x + 0";
+			}
+			break;
+			
+		case Uinst::OpcodeSub:
+			if (uop->getInput(1) == 0) {
+				is_trivial = true;
+				description = "x - 0";
+			}
+			break;
+			
+		case Uinst::OpcodeMult:
+			if (uop->getInput(1) == 0) {
+				is_trivial = true;
+				description = "x * 0";
+			} else if (uop->getInput(1) == 1) {
+				is_trivial = true;
+				description = "x * 1";
+			}
+			break;
+			
+		case Uinst::OpcodeDiv:
+			if (uop->getInput(0) == 0) {
+				is_trivial = true;
+				description = "0 / x";
+			}
+			break;
+			
+		default:
+			return false;
+	}
+	
+	if (is_trivial) {
+		TrivialInstruction ti;
+		ti.id = uop->getId();
+		ti.opcode = type;
+		ti.input1 = uop->getInput(0);
+		ti.input2 = uop->getInput(1);
+		ti.description = description;
+		trivial_instructions_list.push_back(ti);
+	}
+	
+	return is_trivial;
+}
+
+bool isReusableInstruction(Uop *uop) {
+	auto type = uop->getUinst()->getOpcode();
+	int op1 = uop->getInput(0);
+	int op2 = uop->getInput(1);
+	
+	for (const auto &ri : reusable_instructions_list) {
+		if (ri.opcode == type && ri.input1 == op1 && ri.input2 == op2) {
+			return true;
+		}
+	}
+	
+	ReusableInstruction ri;
+	ri.id = uop->getId();
+	ri.opcode = type;
+	ri.input1 = op1;
+	ri.input2 = op2;
+	reusable_instructions_list.push_back(ri);
+	
+	return false;
+}
 
 int Alu::Reserve(Uop *uop)
 {
@@ -194,28 +287,16 @@ int Alu::Reserve(Uop *uop)
 
 	total_instructions++;
 
-	if (type == FunctionalUnit::TypeIntAdd || type == FunctionalUnit::TypeLogic)
-	{
+	if (isTrivialInstruction(uop)) {
 		trivial_instructions++;
 	}
 
-	long long uop_id = uop->getId();
-	if (type == FunctionalUnit::TypeIntAdd || 
-		type == FunctionalUnit::TypeIntMult ||
-		type == FunctionalUnit::TypeIntDiv ||
-		type == FunctionalUnit::TypeLogic)
-	{
-		total_alu_instructions++;
-		if (result_cache.find(uop_id) != result_cache.end())
-			reused_alu_instructions++;
+	if (isReusableInstruction(uop)) {
+		reused_instructions++;
 	}
 
-	if (type == FunctionalUnit::TypeEffAddr)
-	{
-		total_load_instructions++;
-		if (result_cache.find(uop_id) != result_cache.end())
-			reused_load_instructions++;
-	}
+	long long uop_id = uop->getId();
+	
 
 	assert(type > FunctionalUnit::TypeNone && type < FunctionalUnit::TypeCount);
 	FunctionalUnit *functional_unit = functional_units[type].get();
@@ -247,11 +328,30 @@ int Alu::Reserve(Uop *uop)
 
 void Alu::ReleaseAll()
 {
-	// Release all functional units
 	for (int type = 1; type < FunctionalUnit::TypeCount; type++)
 		functional_units[type]->Release();
 }
 
+
+void Alu::DumpTrivialInstructions(std::ostream &os) const {
+	os << "\nTrivial Instructions Table:\n";
+	os << std::string(80, '-') << "\n";
+	os << std::setw(10) << "ID" << " | "
+	   << std::setw(15) << "Opcode" << " | "
+	   << std::setw(10) << "Input1" << " | "
+	   << std::setw(10) << "Input2" << " | "
+	   << std::setw(20) << "Description" << "\n";
+	os << std::string(80, '-') << "\n";
+	
+	for (const auto &ti : trivial_instructions_list) {
+		os << std::setw(10) << ti.id << " | "
+		   << std::setw(15) << Uinst::getInfo(ti.opcode)->name << " | "
+		   << std::setw(10) << ti.input1 << " | "
+		   << std::setw(10) << ti.input2 << " | "
+		   << std::setw(20) << ti.description << "\n";
+	}
+	os << std::string(80, '-') << "\n";
+}
 
 void Alu::DumpReport(std::ostream &os) const
 {
@@ -281,18 +381,18 @@ void Alu::DumpReport(std::ostream &os) const
 
 	os << misc::fmt("Total Instructions = %lld\n", total_instructions);
 	os << misc::fmt("Total ALU Instructions = %lld\n", total_alu_instructions);
-	os << misc::fmt("Reused ALU Instructions = %lld\n", reused_alu_instructions);
-	os << misc::fmt("ALU Reuse Percentage = %.2f%%\n",
-			total_alu_instructions ? (double)reused_alu_instructions / total_alu_instructions * 100 : 0.0);
 
 	os << misc::fmt("Total Load Instructions = %lld\n", total_load_instructions);
-	os << misc::fmt("Reused Load Instructions = %lld\n", reused_load_instructions);
-	os << misc::fmt("Load Reuse Percentage = %.2f%%\n",
-			total_load_instructions ? (double)reused_load_instructions / total_load_instructions * 100 : 0.0);
+
+	os << misc::fmt("Reused Instructions = %lld\n", reused_instructions);
+	os << misc::fmt("Reuse Percentage = %.2f%%\n",
+			total_instructions ? (double)reused_instructions / total_instructions * 100 : 0.0);
 
 	os << misc::fmt("Trivial Instructions = %lld\n", trivial_instructions);
 	os << misc::fmt("Trivial Percentage = %.2f%%\n",
 			total_instructions ? (double)trivial_instructions / total_instructions * 100 : 0.0);
+
+	DumpTrivialInstructions(os);
 
 	os << "\nGenetic Value Predictor Statistics:\n";
 	predictor.dumpStats(os);

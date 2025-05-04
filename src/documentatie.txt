@@ -1,8 +1,12 @@
-parsec precompilat
+Cod:
 trivial x+0 v+1 la care putem anticipa rezultatul pentru adunare impartire inmultire
 instructiunea si register vizibil, cand reutilizezi cu operantzii avand aceeasi valoare
-din turneu luam 2 indivizi si cu aceea facem crossover
+din turneu luam 2 indivizi si cu aceea facem crossover -- nu cred ca trebuie
 triviale < reutilizate
+
+Pt documentatie:
+parsec precompilat
 coloana cu media pe grafice
 pe acelais grafic triviale alu load
 concluzie pentru aplicatie si dificultati/ corectura, cum arata instr operanzii
+instructiunea si register vizibil, cand reutilizezi cu operantzii avand aceeasi valoare (secventa de cod)
