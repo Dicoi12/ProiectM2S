@@ -718,11 +718,11 @@ Datele sunt extrase in cadrul fisierului **results.csv** din folderul output
 | swaptions      | 41.41   | 0.12      | 58.2781                       | 43.7879                     |
 
 ### 1. Procentajul de instructiuni triviale din suita de benchmark-uri Parsec
-![Trivial](graph_images/Trivial.png "Trivial")
+![Trivial](graph_images/Trivial1.png "Trivial")
 ### 2. Procentajul de instructiuni Load reutilizate din suita de benchmark-uri Parsec
-![Trivial](graph_images/Reuse.png "Trivial")
+![Trivial](graph_images/Reuse1.png "Trivial")
 ### 3. Overall accuracy of Value Predictor vs Genetic Value Predictor
-![Trivial](graph_images/PvP.png "")
+![Trivial](graph_images/PvP1.png "")
 Comparand acuratetea predictiei de valori cu predictia de valori bazata pe algoritmul genetic, putem observa ca in majoritatea cazurilor, predictia genetica ofera rezultate mai bune. Remarcam benchmark-urile canneal, facesim, fluidanimate, swaptions si vips, unde acuratetea depaseste 50%. 
 In cazul benchmark-urilor dedup si ferret, avand in vedere ca cele doua sunt cele mai mici benchmark-uri, ne putem asuma ca algorimul genetic nu a avut suficient timp pentru a se antrena in identificarea pattern-urilor. De aceea, configuratia data de algoritmul genetic, este una mai slaba decat cea default a predictorului de valori.
 ### Bibliografie 
