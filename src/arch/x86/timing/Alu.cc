@@ -24,6 +24,7 @@
 #include "ValuePredictor.h"
 #include <vector>
 #include <iomanip>
+#include <queue>
 namespace x86
 {
 
@@ -35,6 +36,17 @@ long long total_alu_instructions = 0;
 long long total_load_instructions = 0;
 long long reused_instructions = 0;
 
+struct ReusableInstruction {
+	long long id;
+	Uinst::Opcode opcode;
+	int input1;
+	int input2;
+};
+
+// Reuse table implementation as a queue
+const int REUSE_TABLE_SIZE = 64;
+std::queue<ReusableInstruction> reuse_queue;
+
 GeneticValuePredictor predictor;
 ValuePredictor value_predictor;
 
@@ -44,13 +56,6 @@ struct TrivialInstruction {
 	int input1;
 	int input2;
 	std::string description;
-};
-
-struct ReusableInstruction {
-	long long id;
-	Uinst::Opcode opcode;
-	int input1;
-	int input2;
 };
 
 std::vector<TrivialInstruction> trivial_instructions_list;
@@ -263,18 +268,36 @@ bool isReusableInstruction(Uop *uop) {
 	int op1 = uop->getInput(0);
 	int op2 = uop->getInput(1);
 	
-	for (const auto &ri : reusable_instructions_list) {
+	// Check if instruction exists in reuse queue
+	bool found = false;
+	size_t queue_size = reuse_queue.size();
+	for (size_t i = 0; i < queue_size; i++) {
+		const ReusableInstruction& ri = reuse_queue.front();
 		if (ri.opcode == type && ri.input1 == op1 && ri.input2 == op2) {
-			return true;
+			found = true;
 		}
+		reuse_queue.push(reuse_queue.front());
+		reuse_queue.pop();
 	}
 	
-	ReusableInstruction ri;
-	ri.id = uop->getId();
-	ri.opcode = type;
-	ri.input1 = op1;
-	ri.input2 = op2;
-	reusable_instructions_list.push_back(ri);
+	if (found) {
+		return true;
+	}
+	
+	// If not found, add to reuse queue
+	ReusableInstruction new_entry;
+	new_entry.id = uop->getId();
+	new_entry.opcode = type;
+	new_entry.input1 = op1;
+	new_entry.input2 = op2;
+	
+	// If queue is full, remove oldest entry
+	if (reuse_queue.size() >= REUSE_TABLE_SIZE) {
+		reuse_queue.pop();
+	}
+	
+	// Add new entry
+	reuse_queue.push(new_entry);
 	
 	return false;
 }
@@ -408,6 +431,9 @@ void Alu::DumpReport(std::ostream &os) const
 	
 	os << "\nValue Predictor Statistics:\n";
 	value_predictor.dumpStats(os);
+
+	os << misc::fmt("Reuse Queue Size = %d\n", REUSE_TABLE_SIZE);
+	os << misc::fmt("Reuse Queue Current Size = %d\n", reuse_queue.size());
 
 	// Done
 	os << '\n';

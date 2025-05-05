@@ -5,12 +5,12 @@ BENCHMARKS=(
   "blackscholes"
   "bodytrack"
   "canneal"
+  "dedup"
   "facesim"
   "ferret"
   "fluidanimate"
   "streamcluster"
   "swaptions"
-  "vips"
 )
 for BENCHMARK in "${BENCHMARKS[@]}"; do
   REPORT_FILE="${REPORT_PREFIX}_${BENCHMARK}.txt"

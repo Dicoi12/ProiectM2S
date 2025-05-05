@@ -1,11 +1,20 @@
-Benchmark,ALU Reuse %,Load Reuse %,Trivial %,Genetic Predictor Accuracy %,Value Predictor Accuracy %
-blackscholes,0.71,13.31,53.59,7.89474,26.4834
-bodytrack,0.58,12.72,48.01,49.3113,38.9483
-canneal,0.60,15.42,45.87,64.9378,36.11
-dedup,0.01,13.29,63.74,2.63158,2.48488
-facesim,0.45,16.40,42.64,51.8553,41.4699
-ferret,0.77,13.94,53.47,6.52174,27.1277
-fluidanimate,0.71,11.53,47.75,57.9114,39.4272
-streamcluster,0.74,12.42,47.31,42.6667,40.5782
-swaptions,0.68,12.65,47.10,58.1498,43.7249
-vips,0.68,14.99,49.25,59.2683,35.4777
+Benchmark,Reuse %,Trivial %,Genetic Predictor Accuracy %,Value Predictor Accuracy %
+blackscholes,41.43,0.05,7.69231,7.69231
+26.4286
+bodytrack,42.11,0.11,49.3113,49.3113
+39.2218
+canneal,41.61,0.11,64.6694,64.6694
+36
+dedup,=
+=,63.74,2.63158,2.63158
+2.48488
+facesim,42.38,0.08,51.8519,51.8519
+41.4699
+ferret,41.31,0.02,8.51064,8.51064
+27.2494
+fluidanimate,41.30,0.14,57.9114,57.9114
+39.4161
+streamcluster,41.19,0.10,42.953,42.953
+40.3991
+swaptions,41.39,0.11,58.2781,58.2781
+43.6966

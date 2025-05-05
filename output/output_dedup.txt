@@ -130,23 +130,23 @@ TwoLevel.HistorySize = 8
 
 ; Global statistics
 [ Global ]
-Cycles = 3703406
-Time = 409.81
-CyclesPerSecond = 9037
+Cycles = 2988751
+Time = 255.83
+CyclesPerSecond = 11683
 
 ; Dispatch stage
-Dispatch.Uop.nop = 116
-Dispatch.Uop.move = 130656
-Dispatch.Uop.add = 337161
-Dispatch.Uop.sub = 312144
+Dispatch.Uop.nop = 117
+Dispatch.Uop.move = 85387
+Dispatch.Uop.add = 255104
+Dispatch.Uop.sub = 239465
 Dispatch.Uop.mult = 22
 Dispatch.Uop.div = 6
-Dispatch.Uop.effaddr = 533666
-Dispatch.Uop.and = 257625
-Dispatch.Uop.or = 434
-Dispatch.Uop.xor = 37924
+Dispatch.Uop.effaddr = 350065
+Dispatch.Uop.and = 167556
+Dispatch.Uop.or = 430
+Dispatch.Uop.xor = 24838
 Dispatch.Uop.not = 11
-Dispatch.Uop.shift = 530
+Dispatch.Uop.shift = 529
 Dispatch.Uop.sign = 34
 Dispatch.Uop.fmove = 0
 Dispatch.Uop.fsign = 0
@@ -187,38 +187,38 @@ Dispatch.Uop.x-fsqrt = 0
 Dispatch.Uop.x-move = 0
 Dispatch.Uop.x-shuf = 0
 Dispatch.Uop.x-conv = 0
-Dispatch.Uop.load = 232774
-Dispatch.Uop.store = 334597
+Dispatch.Uop.load = 153866
+Dispatch.Uop.store = 253062
 Dispatch.Uop.prefetch = 0
-Dispatch.Uop.call = 16323
-Dispatch.Uop.ret = 24674
-Dispatch.Uop.jump = 513
-Dispatch.Uop.branch = 317263
-Dispatch.Uop.ibranch = 99291
+Dispatch.Uop.call = 10716
+Dispatch.Uop.ret = 16078
+Dispatch.Uop.jump = 515
+Dispatch.Uop.branch = 207340
+Dispatch.Uop.ibranch = 99312
 Dispatch.Uop.syscall = 25
-Dispatch.Integer = 1313655
-Dispatch.Logic = 296558
+Dispatch.Integer = 930049
+Dispatch.Logic = 193398
 Dispatch.FloatingPoint = 0
-Dispatch.Memory = 567371
-Dispatch.Ctrl = 458064
-Dispatch.WndSwitch = 40997
-Dispatch.Total = 2635789
-Dispatch.IPC = 0.7117
-Dispatch.DutyCycle = 0.1779
+Dispatch.Memory = 406928
+Dispatch.Ctrl = 333961
+Dispatch.WndSwitch = 26794
+Dispatch.Total = 1864478
+Dispatch.IPC = 0.6238
+Dispatch.DutyCycle = 0.156
 
 ; Issue stage
-Issue.Uop.nop = 82
-Issue.Uop.move = 126858
-Issue.Uop.add = 307330
-Issue.Uop.sub = 270587
+Issue.Uop.nop = 80
+Issue.Uop.move = 82746
+Issue.Uop.add = 235627
+Issue.Uop.sub = 212229
 Issue.Uop.mult = 20
 Issue.Uop.div = 5
-Issue.Uop.effaddr = 414527
-Issue.Uop.and = 235733
-Issue.Uop.or = 313
-Issue.Uop.xor = 26228
+Issue.Uop.effaddr = 272504
+Issue.Uop.and = 153184
+Issue.Uop.or = 312
+Issue.Uop.xor = 17226
 Issue.Uop.not = 4
-Issue.Uop.shift = 404
+Issue.Uop.shift = 401
 Issue.Uop.sign = 17
 Issue.Uop.fmove = 0
 Issue.Uop.fsign = 0
@@ -259,38 +259,38 @@ Issue.Uop.x-fsqrt = 0
 Issue.Uop.x-move = 0
 Issue.Uop.x-shuf = 0
 Issue.Uop.x-conv = 0
-Issue.Uop.load = 182223
-Issue.Uop.store = 267065
+Issue.Uop.load = 120576
+Issue.Uop.store = 208873
 Issue.Uop.prefetch = 0
-Issue.Uop.call = 13095
-Issue.Uop.ret = 13099
-Issue.Uop.jump = 458
-Issue.Uop.branch = 234106
-Issue.Uop.ibranch = 99189
+Issue.Uop.call = 8610
+Issue.Uop.ret = 8587
+Issue.Uop.jump = 457
+Issue.Uop.branch = 153219
+Issue.Uop.ibranch = 99201
 Issue.Uop.syscall = 23
-Issue.Integer = 1119327
-Issue.Logic = 262699
+Issue.Integer = 803131
+Issue.Logic = 171144
 Issue.FloatingPoint = 0
-Issue.Memory = 449288
-Issue.Ctrl = 359947
-Issue.WndSwitch = 26194
-Issue.Total = 2191366
-Issue.IPC = 0.5917
-Issue.DutyCycle = 0.1479
+Issue.Memory = 329449
+Issue.Ctrl = 270074
+Issue.WndSwitch = 17197
+Issue.Total = 1573901
+Issue.IPC = 0.5266
+Issue.DutyCycle = 0.1317
 
 ; Commit stage
 Commit.Uop.nop = 2
-Commit.Uop.move = 103020
-Commit.Uop.add = 244269
-Commit.Uop.sub = 258257
+Commit.Uop.move = 67211
+Commit.Uop.add = 194489
+Commit.Uop.sub = 204000
 Commit.Uop.mult = 20
 Commit.Uop.div = 5
-Commit.Uop.effaddr = 328865
-Commit.Uop.and = 141627
+Commit.Uop.effaddr = 216427
+Commit.Uop.and = 92407
 Commit.Uop.or = 295
-Commit.Uop.xor = 25998
+Commit.Uop.xor = 17045
 Commit.Uop.not = 4
-Commit.Uop.shift = 368
+Commit.Uop.shift = 366
 Commit.Uop.sign = 17
 Commit.Uop.fmove = 0
 Commit.Uop.fsign = 0
@@ -331,34 +331,34 @@ Commit.Uop.x-fsqrt = 0
 Commit.Uop.x-move = 0
 Commit.Uop.x-shuf = 0
 Commit.Uop.x-conv = 0
-Commit.Uop.load = 133749
-Commit.Uop.store = 267065
+Commit.Uop.load = 89019
+Commit.Uop.store = 208873
 Commit.Uop.prefetch = 0
-Commit.Uop.call = 12989
-Commit.Uop.ret = 12984
-Commit.Uop.jump = 331
-Commit.Uop.branch = 196787
-Commit.Uop.ibranch = 98958
+Commit.Uop.call = 8512
+Commit.Uop.ret = 8507
+Commit.Uop.jump = 330
+Commit.Uop.branch = 129115
+Commit.Uop.ibranch = 98960
 Commit.Uop.syscall = 21
-Commit.Integer = 934436
-Commit.Logic = 168309
+Commit.Integer = 682152
+Commit.Logic = 110134
 Commit.FloatingPoint = 0
-Commit.Memory = 400814
-Commit.Ctrl = 322049
-Commit.WndSwitch = 25973
-Commit.Total = 1825631
-Commit.IPC = 0.493
-Commit.DutyCycle = 0.1232
+Commit.Memory = 297892
+Commit.Ctrl = 245424
+Commit.WndSwitch = 17019
+Commit.Total = 1335625
+Commit.IPC = 0.4469
+Commit.DutyCycle = 0.1117
 
 ; Committed branches
 ;    Branches - Number of committed control uops
 ;    Squashed - Number of mispredicted uops squashed from the ROB
 ;    Mispred - Number of mispredicted branches in the correct path
 ;    PredAcc - Prediction accuracy
-Commit.Branches = 322049
-Commit.Squashed = 810116
-Commit.Mispred = 40013
-Commit.PredAcc = 0.8758
+Commit.Branches = 245424
+Commit.Squashed = 528835
+Commit.Mispred = 26285
+Commit.PredAcc = 0.8929
 
 
 ; Statistics for core 0
@@ -368,21 +368,21 @@ Commit.PredAcc = 0.8758
 ;    Accesses - Number of uops issued to a f.u.
 ;    Denied - Number of requests denied due to busy f.u.
 ;    WaitingTime - Average number of waiting cycles to reserve f.u.
-fu.IntAdd.Accesses = 577917
-fu.IntAdd.Denied = 206
-fu.IntAdd.WaitingTime = 0.0002215
+fu.IntAdd.Accesses = 447856
+fu.IntAdd.Denied = 160
+fu.IntAdd.WaitingTime = 0.000288
 fu.IntMult.Accesses = 20
 fu.IntMult.Denied = 0
 fu.IntMult.WaitingTime = 0
 fu.IntDiv.Accesses = 5
 fu.IntDiv.Denied = 0
 fu.IntDiv.WaitingTime = 0
-fu.EffAddr.Accesses = 414527
-fu.EffAddr.Denied = 63842
-fu.EffAddr.WaitingTime = 0.1528
-fu.Logic.Accesses = 262699
+fu.EffAddr.Accesses = 272504
+fu.EffAddr.Denied = 42026
+fu.EffAddr.WaitingTime = 0.153
+fu.Logic.Accesses = 171144
 fu.Logic.Denied = 43
-fu.Logic.WaitingTime = 0.0005177
+fu.Logic.WaitingTime = 0.0007947
 fu.FloatSimple.Accesses = 0
 fu.FloatSimple.Denied = 0
 fu.FloatSimple.WaitingTime = 0
@@ -431,15 +431,26 @@ fu.XmmFloatConv.WaitingTime = 0
 fu.XmmFloatComplex.Accesses = 0
 fu.XmmFloatComplex.Denied = 0
 fu.XmmFloatComplex.WaitingTime = 0
-Total Instructions = 1319259
-Total ALU Instructions = 840890
-Reused ALU Instructions = 120
-ALU Reuse Percentage = 0.01%
-Total Load Instructions = 478369
-Reused Load Instructions = 63552
-Load Reuse Percentage = 13.29%
-Trivial Instructions = 840865
-Trivial Percentage = 63.74%
+Total Instructions = 933758
+Total ALU Instructions = 0
+Total Load Instructions = 0
+Reused Instructions = 508441
+Reuse Percentage = 54.45%
+Trivial Instructions = 7
+Trivial Percentage = 0.00%
+
+Trivial Instructions Table:
+--------------------------------------------------------------------------------
+        ID |          Opcode |     Input1 |     Input2 |          Description
+--------------------------------------------------------------------------------
+     14694 |             sub |         50 |         50 |                x - x
+     52975 |             sub |         29 |         29 |                x - x
+     53381 |             sub |         39 |         39 |                x - x
+     53382 |             sub |         77 |         77 |                x - x
+     79531 |             sub |         79 |         79 |                x - x
+     79532 |             sub |         49 |         49 |                x - x
+     93186 |             sub |         79 |         79 |                x - x
+--------------------------------------------------------------------------------
 
 Genetic Value Predictor Statistics:
 
@@ -455,48 +466,49 @@ Current Parameters:
 History Size: 4
 Confidence Threshold: 2
 Stride Window: 3
-Reuse Threshold: 0.7
 
 
 Value Predictor Statistics:
 
 Value Predictor Statistics:
 -------------------------
-Total Predictions: 13562
-Correct Predictions: 337
-Confident Predictions: 223
-Correct Confident Predictions: 40
-Overall Accuracy: 2.48488%
-Confident Predictions Accuracy: 17.9372%
+Total Predictions: 9010
+Correct Predictions: 285
+Confident Predictions: 215
+Correct Confident Predictions: 39
+Overall Accuracy: 3.16315%
+Confident Predictions Accuracy: 18.1395%
 
+Reuse Queue Size = 64
+Reuse Queue Current Size = 64
 
 ; Dispatch slots usage (sum = cycles * dispatch width)
 ;    used - dispatch slot was used by a non-spec uop
 ;    spec - used by a mispeculated uop
 ;    ctx - no context allocated to thread
 ;    uopq,rob,iq,lsq,rename - no space in structure
-Dispatch.Stall.used = 1825657
-Dispatch.Stall.spec = 810132
-Dispatch.Stall.uop_queue = 6308918
-Dispatch.Stall.rob = 157929
-Dispatch.Stall.iq = 12219
-Dispatch.Stall.lsq = 5698765
+Dispatch.Stall.used = 1335643
+Dispatch.Stall.spec = 528835
+Dispatch.Stall.uop_queue = 4326957
+Dispatch.Stall.rob = 127959
+Dispatch.Stall.iq = 12238
+Dispatch.Stall.lsq = 5623368
 Dispatch.Stall.rename = 0
 Dispatch.Stall.ctx = 0
 
 ; Dispatch stage
-Dispatch.Uop.nop = 116
-Dispatch.Uop.move = 130656
-Dispatch.Uop.add = 337161
-Dispatch.Uop.sub = 312144
+Dispatch.Uop.nop = 117
+Dispatch.Uop.move = 85387
+Dispatch.Uop.add = 255104
+Dispatch.Uop.sub = 239465
 Dispatch.Uop.mult = 22
 Dispatch.Uop.div = 6
-Dispatch.Uop.effaddr = 533666
-Dispatch.Uop.and = 257625
-Dispatch.Uop.or = 434
-Dispatch.Uop.xor = 37924
+Dispatch.Uop.effaddr = 350065
+Dispatch.Uop.and = 167556
+Dispatch.Uop.or = 430
+Dispatch.Uop.xor = 24838
 Dispatch.Uop.not = 11
-Dispatch.Uop.shift = 530
+Dispatch.Uop.shift = 529
 Dispatch.Uop.sign = 34
 Dispatch.Uop.fmove = 0
 Dispatch.Uop.fsign = 0
@@ -537,38 +549,38 @@ Dispatch.Uop.x-fsqrt = 0
 Dispatch.Uop.x-move = 0
 Dispatch.Uop.x-shuf = 0
 Dispatch.Uop.x-conv = 0
-Dispatch.Uop.load = 232774
-Dispatch.Uop.store = 334597
+Dispatch.Uop.load = 153866
+Dispatch.Uop.store = 253062
 Dispatch.Uop.prefetch = 0
-Dispatch.Uop.call = 16323
-Dispatch.Uop.ret = 24674
-Dispatch.Uop.jump = 513
-Dispatch.Uop.branch = 317263
-Dispatch.Uop.ibranch = 99291
+Dispatch.Uop.call = 10716
+Dispatch.Uop.ret = 16078
+Dispatch.Uop.jump = 515
+Dispatch.Uop.branch = 207340
+Dispatch.Uop.ibranch = 99312
 Dispatch.Uop.syscall = 25
-Dispatch.Integer = 1313655
-Dispatch.Logic = 296558
+Dispatch.Integer = 930049
+Dispatch.Logic = 193398
 Dispatch.FloatingPoint = 0
-Dispatch.Memory = 567371
-Dispatch.Ctrl = 458064
-Dispatch.WndSwitch = 40997
-Dispatch.Total = 2635789
-Dispatch.IPC = 0.7117
-Dispatch.DutyCycle = 0.1779
+Dispatch.Memory = 406928
+Dispatch.Ctrl = 333961
+Dispatch.WndSwitch = 26794
+Dispatch.Total = 1864478
+Dispatch.IPC = 0.6238
+Dispatch.DutyCycle = 0.156
 
 ; Issue stage
-Issue.Uop.nop = 82
-Issue.Uop.move = 126858
-Issue.Uop.add = 307330
-Issue.Uop.sub = 270587
+Issue.Uop.nop = 80
+Issue.Uop.move = 82746
+Issue.Uop.add = 235627
+Issue.Uop.sub = 212229
 Issue.Uop.mult = 20
 Issue.Uop.div = 5
-Issue.Uop.effaddr = 414527
-Issue.Uop.and = 235733
-Issue.Uop.or = 313
-Issue.Uop.xor = 26228
+Issue.Uop.effaddr = 272504
+Issue.Uop.and = 153184
+Issue.Uop.or = 312
+Issue.Uop.xor = 17226
 Issue.Uop.not = 4
-Issue.Uop.shift = 404
+Issue.Uop.shift = 401
 Issue.Uop.sign = 17
 Issue.Uop.fmove = 0
 Issue.Uop.fsign = 0
@@ -609,38 +621,38 @@ Issue.Uop.x-fsqrt = 0
 Issue.Uop.x-move = 0
 Issue.Uop.x-shuf = 0
 Issue.Uop.x-conv = 0
-Issue.Uop.load = 182223
-Issue.Uop.store = 267065
+Issue.Uop.load = 120576
+Issue.Uop.store = 208873
 Issue.Uop.prefetch = 0
-Issue.Uop.call = 13095
-Issue.Uop.ret = 13099
-Issue.Uop.jump = 458
-Issue.Uop.branch = 234106
-Issue.Uop.ibranch = 99189
+Issue.Uop.call = 8610
+Issue.Uop.ret = 8587
+Issue.Uop.jump = 457
+Issue.Uop.branch = 153219
+Issue.Uop.ibranch = 99201
 Issue.Uop.syscall = 23
-Issue.Integer = 1119327
-Issue.Logic = 262699
+Issue.Integer = 803131
+Issue.Logic = 171144
 Issue.FloatingPoint = 0
-Issue.Memory = 449288
-Issue.Ctrl = 359947
-Issue.WndSwitch = 26194
-Issue.Total = 2191366
-Issue.IPC = 0.5917
-Issue.DutyCycle = 0.1479
+Issue.Memory = 329449
+Issue.Ctrl = 270074
+Issue.WndSwitch = 17197
+Issue.Total = 1573901
+Issue.IPC = 0.5266
+Issue.DutyCycle = 0.1317
 
 ; Commit stage
 Commit.Uop.nop = 2
-Commit.Uop.move = 103020
-Commit.Uop.add = 244269
-Commit.Uop.sub = 258257
+Commit.Uop.move = 67211
+Commit.Uop.add = 194489
+Commit.Uop.sub = 204000
 Commit.Uop.mult = 20
 Commit.Uop.div = 5
-Commit.Uop.effaddr = 328865
-Commit.Uop.and = 141627
+Commit.Uop.effaddr = 216427
+Commit.Uop.and = 92407
 Commit.Uop.or = 295
-Commit.Uop.xor = 25998
+Commit.Uop.xor = 17045
 Commit.Uop.not = 4
-Commit.Uop.shift = 368
+Commit.Uop.shift = 366
 Commit.Uop.sign = 17
 Commit.Uop.fmove = 0
 Commit.Uop.fsign = 0
@@ -681,30 +693,30 @@ Commit.Uop.x-fsqrt = 0
 Commit.Uop.x-move = 0
 Commit.Uop.x-shuf = 0
 Commit.Uop.x-conv = 0
-Commit.Uop.load = 133749
-Commit.Uop.store = 267065
+Commit.Uop.load = 89019
+Commit.Uop.store = 208873
 Commit.Uop.prefetch = 0
-Commit.Uop.call = 12989
-Commit.Uop.ret = 12984
-Commit.Uop.jump = 331
-Commit.Uop.branch = 196787
-Commit.Uop.ibranch = 98958
+Commit.Uop.call = 8512
+Commit.Uop.ret = 8507
+Commit.Uop.jump = 330
+Commit.Uop.branch = 129115
+Commit.Uop.ibranch = 98960
 Commit.Uop.syscall = 21
-Commit.Integer = 934436
-Commit.Logic = 168309
+Commit.Integer = 682152
+Commit.Logic = 110134
 Commit.FloatingPoint = 0
-Commit.Memory = 400814
-Commit.Ctrl = 322049
-Commit.WndSwitch = 25973
-Commit.Total = 1825631
-Commit.IPC = 0.493
-Commit.DutyCycle = 0.1232
+Commit.Memory = 297892
+Commit.Ctrl = 245424
+Commit.WndSwitch = 17019
+Commit.Total = 1335625
+Commit.IPC = 0.4469
+Commit.DutyCycle = 0.1117
 
 ; Committed branches
-Commit.Branches = 322049
-Commit.Squashed = 810116
-Commit.Mispred = 40013
-Commit.PredAcc = 0.8758
+Commit.Branches = 245424
+Commit.Squashed = 528835
+Commit.Mispred = 26285
+Commit.PredAcc = 0.8929
 
 ; Structure statistics (reorder buffer, instruction queue,
 ; load-store queue, and integer/floating-point/XMM register file)
@@ -716,18 +728,18 @@ Commit.PredAcc = 0.8758
 [ Core 0 Thread 0 ]
 
 ; Dispatch stage
-Dispatch.Uop.nop = 116
-Dispatch.Uop.move = 130656
-Dispatch.Uop.add = 337161
-Dispatch.Uop.sub = 312144
+Dispatch.Uop.nop = 117
+Dispatch.Uop.move = 85387
+Dispatch.Uop.add = 255104
+Dispatch.Uop.sub = 239465
 Dispatch.Uop.mult = 22
 Dispatch.Uop.div = 6
-Dispatch.Uop.effaddr = 533666
-Dispatch.Uop.and = 257625
-Dispatch.Uop.or = 434
-Dispatch.Uop.xor = 37924
+Dispatch.Uop.effaddr = 350065
+Dispatch.Uop.and = 167556
+Dispatch.Uop.or = 430
+Dispatch.Uop.xor = 24838
 Dispatch.Uop.not = 11
-Dispatch.Uop.shift = 530
+Dispatch.Uop.shift = 529
 Dispatch.Uop.sign = 34
 Dispatch.Uop.fmove = 0
 Dispatch.Uop.fsign = 0
@@ -768,38 +780,38 @@ Dispatch.Uop.x-fsqrt = 0
 Dispatch.Uop.x-move = 0
 Dispatch.Uop.x-shuf = 0
 Dispatch.Uop.x-conv = 0
-Dispatch.Uop.load = 232774
-Dispatch.Uop.store = 334597
+Dispatch.Uop.load = 153866
+Dispatch.Uop.store = 253062
 Dispatch.Uop.prefetch = 0
-Dispatch.Uop.call = 16323
-Dispatch.Uop.ret = 24674
-Dispatch.Uop.jump = 513
-Dispatch.Uop.branch = 317263
-Dispatch.Uop.ibranch = 99291
+Dispatch.Uop.call = 10716
+Dispatch.Uop.ret = 16078
+Dispatch.Uop.jump = 515
+Dispatch.Uop.branch = 207340
+Dispatch.Uop.ibranch = 99312
 Dispatch.Uop.syscall = 25
-Dispatch.Integer = 1313655
-Dispatch.Logic = 296558
+Dispatch.Integer = 930049
+Dispatch.Logic = 193398
 Dispatch.FloatingPoint = 0
-Dispatch.Memory = 567371
-Dispatch.Ctrl = 458064
-Dispatch.WndSwitch = 40997
-Dispatch.Total = 2635789
-Dispatch.IPC = 0.7117
-Dispatch.DutyCycle = 0.1779
+Dispatch.Memory = 406928
+Dispatch.Ctrl = 333961
+Dispatch.WndSwitch = 26794
+Dispatch.Total = 1864478
+Dispatch.IPC = 0.6238
+Dispatch.DutyCycle = 0.156
 
 ; Issue stage
-Issue.Uop.nop = 82
-Issue.Uop.move = 126858
-Issue.Uop.add = 307330
-Issue.Uop.sub = 270587
+Issue.Uop.nop = 80
+Issue.Uop.move = 82746
+Issue.Uop.add = 235627
+Issue.Uop.sub = 212229
 Issue.Uop.mult = 20
 Issue.Uop.div = 5
-Issue.Uop.effaddr = 414527
-Issue.Uop.and = 235733
-Issue.Uop.or = 313
-Issue.Uop.xor = 26228
+Issue.Uop.effaddr = 272504
+Issue.Uop.and = 153184
+Issue.Uop.or = 312
+Issue.Uop.xor = 17226
 Issue.Uop.not = 4
-Issue.Uop.shift = 404
+Issue.Uop.shift = 401
 Issue.Uop.sign = 17
 Issue.Uop.fmove = 0
 Issue.Uop.fsign = 0
@@ -840,38 +852,38 @@ Issue.Uop.x-fsqrt = 0
 Issue.Uop.x-move = 0
 Issue.Uop.x-shuf = 0
 Issue.Uop.x-conv = 0
-Issue.Uop.load = 182223
-Issue.Uop.store = 267065
+Issue.Uop.load = 120576
+Issue.Uop.store = 208873
 Issue.Uop.prefetch = 0
-Issue.Uop.call = 13095
-Issue.Uop.ret = 13099
-Issue.Uop.jump = 458
-Issue.Uop.branch = 234106
-Issue.Uop.ibranch = 99189
+Issue.Uop.call = 8610
+Issue.Uop.ret = 8587
+Issue.Uop.jump = 457
+Issue.Uop.branch = 153219
+Issue.Uop.ibranch = 99201
 Issue.Uop.syscall = 23
-Issue.Integer = 1119327
-Issue.Logic = 262699
+Issue.Integer = 803131
+Issue.Logic = 171144
 Issue.FloatingPoint = 0
-Issue.Memory = 449288
-Issue.Ctrl = 359947
-Issue.WndSwitch = 26194
-Issue.Total = 2191366
-Issue.IPC = 0.5917
-Issue.DutyCycle = 0.1479
+Issue.Memory = 329449
+Issue.Ctrl = 270074
+Issue.WndSwitch = 17197
+Issue.Total = 1573901
+Issue.IPC = 0.5266
+Issue.DutyCycle = 0.1317
 
 ; Commit stage
 Commit.Uop.nop = 2
-Commit.Uop.move = 103020
-Commit.Uop.add = 244269
-Commit.Uop.sub = 258257
+Commit.Uop.move = 67211
+Commit.Uop.add = 194489
+Commit.Uop.sub = 204000
 Commit.Uop.mult = 20
 Commit.Uop.div = 5
-Commit.Uop.effaddr = 328865
-Commit.Uop.and = 141627
+Commit.Uop.effaddr = 216427
+Commit.Uop.and = 92407
 Commit.Uop.or = 295
-Commit.Uop.xor = 25998
+Commit.Uop.xor = 17045
 Commit.Uop.not = 4
-Commit.Uop.shift = 368
+Commit.Uop.shift = 366
 Commit.Uop.sign = 17
 Commit.Uop.fmove = 0
 Commit.Uop.fsign = 0
@@ -912,58 +924,58 @@ Commit.Uop.x-fsqrt = 0
 Commit.Uop.x-move = 0
 Commit.Uop.x-shuf = 0
 Commit.Uop.x-conv = 0
-Commit.Uop.load = 133749
-Commit.Uop.store = 267065
+Commit.Uop.load = 89019
+Commit.Uop.store = 208873
 Commit.Uop.prefetch = 0
-Commit.Uop.call = 12989
-Commit.Uop.ret = 12984
-Commit.Uop.jump = 331
-Commit.Uop.branch = 196787
-Commit.Uop.ibranch = 98958
+Commit.Uop.call = 8512
+Commit.Uop.ret = 8507
+Commit.Uop.jump = 330
+Commit.Uop.branch = 129115
+Commit.Uop.ibranch = 98960
 Commit.Uop.syscall = 21
-Commit.Integer = 934436
-Commit.Logic = 168309
+Commit.Integer = 682152
+Commit.Logic = 110134
 Commit.FloatingPoint = 0
-Commit.Memory = 400814
-Commit.Ctrl = 322049
-Commit.WndSwitch = 25973
-Commit.Total = 1825631
-Commit.IPC = 0.493
-Commit.DutyCycle = 0.1232
+Commit.Memory = 297892
+Commit.Ctrl = 245424
+Commit.WndSwitch = 17019
+Commit.Total = 1335625
+Commit.IPC = 0.4469
+Commit.DutyCycle = 0.1117
 
 ; Committed branches
-Commit.Branches = 322049
-Commit.Squashed = 810116
-Commit.Mispred = 40013
-Commit.PredAcc = 0.8758
+Commit.Branches = 245424
+Commit.Squashed = 528835
+Commit.Mispred = 26285
+Commit.PredAcc = 0.8929
 
 ; Structure statistics (reorder buffer, instruction queue,
 ; load-store queue, integer/floating-point/XMM register file,
 ; and renaming table)
 ROB.Size = 64
-ROB.Reads = 1825631
-ROB.Writes = 2635789
+ROB.Reads = 1335625
+ROB.Writes = 1864478
 IQ.Size = 40
-IQ.Reads = 1742078
-IQ.Writes = 2068418
+IQ.Reads = 1244452
+IQ.Writes = 1457550
 LSQ.Size = 20
-LSQ.Reads = 449288
-LSQ.Writes = 567371
+LSQ.Reads = 329449
+LSQ.Writes = 406928
 RF_Int.Size = 80
-RF_Int.Reads = 2726584
-RF_Int.Writes = 1493120
+RF_Int.Reads = 1992840
+RF_Int.Writes = 1048460
 RF_Fp.Size = 40
 RF_Fp.Reads = 0
 RF_Fp.Writes = 0
 RF_Xmm.Size = 40
 RF_Xmm.Reads = 0
 RF_Xmm.Writes = 0
-RAT.IntReads = 3239239
-RAT.IntWrites = 1614250
+RAT.IntReads = 2328381
+RAT.IntWrites = 1127471
 RAT.FpReads = 0
 RAT.FpWrites = 0
 RAT.XmmReads = 0
 RAT.XmmWrites = 0
-BTB.Reads = 440381
-BTB.Writes = 322049
+BTB.Reads = 286449
+BTB.Writes = 245424
 
