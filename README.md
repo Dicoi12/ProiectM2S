@@ -706,29 +706,22 @@ Datele sunt extrase in cadrul fisierului **results.csv** din folderul output
 
 ## 4. Rezultate si concluzii
 ### Date rezultate 
-| Benchmark       | ALU Reuse % | Load Reuse % | Trivial % | Genetic Predictor Accuracy % | Value Predictor Accuracy % |
-|-----------------|-------------|---------------|-----------|-------------------------------|-----------------------------|
-| blackscholes    | 0.71        | 13.31         | 53.59     | 7.89474                       | 26.4834                     |
-| bodytrack       | 0.58        | 12.72         | 48.01     | 49.3113                       | 38.9483                     |
-| canneal         | 0.60        | 15.42         | 45.87     | 64.9378                       | 36.11                       |
-| dedup           | 0.01        | 13.29         | 63.74     | 2.63158                       | 2.48488                     |
-| facesim         | 0.45        | 16.40         | 42.64     | 51.8553                       | 41.4699                     |
-| ferret          | 0.77        | 13.94         | 53.47     | 6.52174                       | 27.1277                     |
-| fluidanimate    | 0.71        | 11.53         | 47.75     | 57.9114                       | 39.4272                     |
-| streamcluster   | 0.74        | 12.42         | 47.31     | 42.6667                       | 40.5782                     |
-| swaptions       | 0.68        | 12.65         | 47.10     | 58.1498                       | 43.7249                     |
-| vips            | 0.68        | 14.99         | 49.25     | 59.2683                       | 35.4777                     |
+| Benchmark      | Reuse % | Trivial % | Genetic Predictor Accuracy % | Value Predictor Accuracy % |
+|----------------|---------|-----------|-------------------------------|-----------------------------|
+| blackscholes   | 41.35   | 0.05      | 7.89474                       | 26.3309                     |
+| bodytrack      | 42.14   | 0.15      | 49.3113                       | 39.0702                     |
+| canneal        | 41.7    | 0.12      | 64.9378                       | 35.9314                     |
+| facesim        | 42.42   | 0.09      | 51.7724                       | 41.3628                     |
+| ferret         | 41.21   | 0.02      | 6.52174                       | 26.9987                     |
+| fluidanimate   | 41.36   | 0.13      | 57.9114                       | 39.5235                     |
+| streamcluster  | 41.21   | 0.11      | 43.2432                       | 40.4372                     |
+| swaptions      | 41.41   | 0.12      | 58.2781                       | 43.7879                     |
 
 ### 1. Procentajul de instructiuni triviale din suita de benchmark-uri Parsec
 ![Trivial](graph_images/Trivial.png "Trivial")
-Putem observa ca procentajul de instructiuni triviale este crescut, depasind frecvent 45%. Acest lucru indica un potential semnificativ de optimizare a performantei prin tratarea eficienta a acestor instructiuni
-### 2. Procentajul de instructiuni ALU reutilizate din suita de benchmark-uri Parsec
-![Trivial](graph_images/Alu.png "Trivial")
-Procentajul de reutilizare ALU este scazut, sub 0.8% pentru toate benchmark-urile. Acest lucru sugereaza o reutilizare limitata a rezultatelor operatiilor aritmetice.
-### 3. Procentajul de instructiuni Load reutilizate din suita de benchmark-uri Parsec
-![Trivial](graph_images/Load.png "Trivial")
-Procentajul de reutilizare a instructiunilor de tip Load variaza intre 11% si 16%. Acest lucru indica un nivel moderat de redundanta in accesarea datelor din memorie.
-### 4. Overall accuracy of Value Predictor vs Genetic Value Predictor
+### 2. Procentajul de instructiuni Load reutilizate din suita de benchmark-uri Parsec
+![Trivial](graph_images/Reuse.png "Trivial")
+### 3. Overall accuracy of Value Predictor vs Genetic Value Predictor
 ![Trivial](graph_images/PvP.png "")
 Comparand acuratetea predictiei de valori cu predictia de valori bazata pe algoritmul genetic, putem observa ca in majoritatea cazurilor, predictia genetica ofera rezultate mai bune. Remarcam benchmark-urile canneal, facesim, fluidanimate, swaptions si vips, unde acuratetea depaseste 50%. 
 In cazul benchmark-urilor dedup si ferret, avand in vedere ca cele doua sunt cele mai mici benchmark-uri, ne putem asuma ca algorimul genetic nu a avut suficient timp pentru a se antrena in identificarea pattern-urilor. De aceea, configuratia data de algoritmul genetic, este una mai slaba decat cea default a predictorului de valori.
