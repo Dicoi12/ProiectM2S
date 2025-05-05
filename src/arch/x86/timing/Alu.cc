@@ -212,6 +212,9 @@ bool isTrivialInstruction(Uop *uop) {
 			if (uop->getInput(1) == 0) {
 				is_trivial = true;
 				description = "x - 0";
+			} else if (uop->getInput(0) == uop->getInput(1)) {
+				is_trivial = true;
+				description = "x - x";
 			}
 			break;
 			
@@ -229,6 +232,12 @@ bool isTrivialInstruction(Uop *uop) {
 			if (uop->getInput(0) == 0) {
 				is_trivial = true;
 				description = "0 / x";
+			} else if (uop->getInput(0) == uop->getInput(1)) {
+				is_trivial = true;
+				description = "x / x";
+			} else if (uop->getInput(1) == 1) {
+				is_trivial = true;
+				description = "x / 1";
 			}
 			break;
 			
