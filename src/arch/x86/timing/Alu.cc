@@ -324,7 +324,6 @@ int Alu::Reserve(Uop *uop)
 
 	long long uop_id = uop->getId();
 	
-
 	assert(type > FunctionalUnit::TypeNone && type < FunctionalUnit::TypeCount);
 	FunctionalUnit *functional_unit = functional_units[type].get();
 	assert(functional_unit);
@@ -337,7 +336,6 @@ int Alu::Reserve(Uop *uop)
 	if (genetic_prediction && value_prediction) {
 		if (predictor.isConfidentPrediction(uop) && !value_predictor.isConfidentPrediction(uop)) {
 		} else if (!predictor.isConfidentPrediction(uop) && value_predictor.isConfidentPrediction(uop)) {
-
 		}
 	} else if (genetic_prediction) {
 	} else if (value_prediction) {
@@ -346,8 +344,10 @@ int Alu::Reserve(Uop *uop)
 	int latency = functional_unit->Reserve(uop);
 	result_cache[uop_id] = latency;
 
-	predictor.update(uop, latency);
-	value_predictor.update(uop, latency);
+	long long actual_result = uop->getOutput(0);  
+
+	predictor.update(uop, actual_result);
+	value_predictor.update(uop, actual_result);
 
 	return latency;
 }
