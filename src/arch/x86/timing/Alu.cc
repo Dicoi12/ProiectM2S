@@ -19,7 +19,7 @@
 
 #include "Alu.h"
 #include "Timing.h"
-#include <unordered_map> // Pentru hash map
+#include <unordered_map> 
 #include "GeneticValuePredictor.h"
 #include "ValuePredictor.h"
 #include <vector>
