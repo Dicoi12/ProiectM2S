@@ -8,6 +8,7 @@
 **2. Tehnologii** 
 * 2.1 Multi2Sim
 * 2.2 Parsec
+* 2.3 Markdown
 
 **3. Rezolvarea Temei**
 * 3.1 Configurare mediu de lucru
@@ -107,6 +108,27 @@ Acesta este distribuit ca o suita de aplicatii/benchmark-uri impartite in domeni
 | **swaptions**    | Evaluare financiara prin Monte Carlo.                 | Numerice, paralelizare buna     | Finance             |
 | **vips**         | Procesare de imagini.                                  | Cache si memorie                | Image Processing    |
 
+Pentru acest proiect s-au utilizat fisiere binare.
+## Mardown
+### Descriere Markdown
+
+**Markdown** este un limbaj de marcare usor, creat pentru a fi simplu de citit si de scris. Este folosit în principal pentru a formata text pe web.
+
+### Caracteristici principale
+
+- Usor de invatat si folosit
+- Se converteste rapid în HTML
+- Ideal pentru documentatie, README-uri, bloguri și notite
+
+### Exemple de sintaxa
+
+- **Text îngrosat:** `**text**` → **text**
+- *Text italic:* `*text*` → *text*
+- [Link](https://example.com): `[Link](https://example.com)`
+- Lista:
+  - Element 1
+  - Element 2
+- Cod: `` `cod` `` → `cod`
 ## 3. Rezolvarea temei
 ### Mediu de Dezvoltare
 Pentru realizarea temei am folosit un sistem cu dual boot Windows 11 si Linux, configurat cu GRUB pentru alegerea sistemului de operare la pornire. Aceasta configurare a permis:
@@ -167,12 +189,82 @@ Multi2Sim a fost descarcat din documentatia oficiala [Multi2Sim](http://www.mult
 ### Modificare 1
   #### Intructiuni triviale
   **1. Identificarea instructiunilor triviale**
-  * Acest lucru se face in cadrul modulului Alu.cc, prin verificarea tipului instructiunii 
+  * Acest lucru se face in cadrul modulului Alu.cc, prin verificarea intstructiunii si a operanzilor dupa urmatoarele cazuri:
+
+  | Opcode           | Condiție                                   | Descriere   |
+|------------------|---------------------------------------------|-------------|
+| `OpcodeAdd`      | `input2 == 0`                              | `x + 0`     |
+| `OpcodeSub`      | `input2 == 0`                              | `x - 0`     |
+|                  | `input1 == input2`                         | `x - x`     |
+| `OpcodeMult`     | `input2 == 0`                              | `x * 0`     |
+|                  | `input2 == 1`                              | `x * 1`     |
+| `OpcodeDiv`      | `input1 == 0`                              | `0 / x`     |
+|                  | `input1 == input2`                         | `x / x`     |
+|                  | `input2 == 1`                              | `x / 1`     |
+
   ```cpp
-if (type == FunctionalUnit::TypeIntAdd || type == FunctionalUnit::TypeLogic))
- 	{
- 	// incrementam un contor	
- 	} 
+bool isTrivialInstruction(Uop *uop) {
+	auto type = uop->getUinst()->getOpcode();
+	bool is_trivial = false;
+	std::string description;
+	
+	switch (type) {
+		case Uinst::OpcodeAdd:
+			if (uop->getInput(1) == 0) {
+				is_trivial = true;
+				description = "x + 0";
+			}
+			break;
+			
+		case Uinst::OpcodeSub:
+			if (uop->getInput(1) == 0) {
+				is_trivial = true;
+				description = "x - 0";
+			} else if (uop->getInput(0) == uop->getInput(1)) {
+				is_trivial = true;
+				description = "x - x";
+			}
+			break;
+			
+		case Uinst::OpcodeMult:
+			if (uop->getInput(1) == 0) {
+				is_trivial = true;
+				description = "x * 0";
+			} else if (uop->getInput(1) == 1) {
+				is_trivial = true;
+				description = "x * 1";
+			}
+			break;
+			
+		case Uinst::OpcodeDiv:
+			if (uop->getInput(0) == 0) {
+				is_trivial = true;
+				description = "0 / x";
+			} else if (uop->getInput(0) == uop->getInput(1)) {
+				is_trivial = true;
+				description = "x / x";
+			} else if (uop->getInput(1) == 1) {
+				is_trivial = true;
+				description = "x / 1";
+			}
+			break;
+			
+		default:
+			return false;
+	}
+	
+	if (is_trivial) {
+		TrivialInstruction ti;
+		ti.id = uop->getId();
+		ti.opcode = type;
+		ti.input1 = uop->getInput(0);
+		ti.input2 = uop->getInput(1);
+		ti.description = description;
+		trivial_instructions_list.push_back(ti);
+	}
+	
+	return is_trivial;
+}
 ```
   **2. Contorizarea instructiunilor triviale**
   * Initializam o variabila pentru contorizarea instructiunilor triviale, in cadrul componentei Alu.cc
@@ -181,10 +273,9 @@ if (type == FunctionalUnit::TypeIntAdd || type == FunctionalUnit::TypeLogic))
 ```
   * Incrementam contorul daca instructiunea e triviala
   ```cpp
-if (type == FunctionalUnit::TypeIntAdd)
- 	{
- 		trivial_instructions++;
- 	}
+if (isTrivialInstruction(uop)) {
+  trivial_instructions++;
+}
 ```
  **3. Calcularea procentrului de instructiuni triviale** 
  * Formula
@@ -198,83 +289,128 @@ os << misc::fmt("Trivial Instructions = %lld\n", trivial_instructions);
 * Procentul este calculat cu formula de la punctul 3
 ```cpp
 os << misc::fmt("Trivial Percentage = %.2f%%\n", total_instructions ? (double)trivial_instructions / total_instructions * 100 : 0.0);
+
 ```
+* Afisare lista instructiuni triviale
+```cpp
+void Alu::DumpTrivialInstructions(std::ostream &os) const {
+	os << "\nTrivial Instructions Table:\n";
+	os << std::string(80, '-') << "\n";
+	os << std::setw(10) << "ID" << " | "
+	   << std::setw(15) << "Opcode" << " | "
+	   << std::setw(10) << "Input1" << " | "
+	   << std::setw(10) << "Input2" << " | "
+	   << std::setw(20) << "Description" << "\n";
+	os << std::string(80, '-') << "\n";
+	
+	for (const auto &ti : trivial_instructions_list) {
+		os << std::setw(10) << ti.id << " | "
+		   << std::setw(15) << Uinst::getInfo(ti.opcode)->name << " | "
+		   << std::setw(10) << ti.input1 << " | "
+		   << std::setw(10) << ti.input2 << " | "
+		   << std::setw(20) << ti.description << "\n";
+	}
+	os << std::string(80, '-') << "\n";
+}
+```
+* Exemplu output:
+
+| ID     | Opcode | Input1 | Input2 | Description |
+|--------|--------|--------|--------|-------------|
+| 14113  | sub    | 58     | 58     | x - x       |
+| 52909  | sub    | 49     | 49     | x - x       |
+| 53325  | sub    | 6      | 6      | x - x       |
+| 53326  | sub    | 24     | 24     | x - x       |
+| 78883  | sub    | 14     | 14     | x - x       |
+| 78884  | sub    | 42     | 42     | x - x       |
+| 85391  | sub    | 1      | 0      | x - 0       |
+| 90852  | sub    | 43     | 0      | x - 0       |
+| 91191  | sub    | 43     | 0      | x - 0       |
+| 91272  | sub    | 43     | 0      | x - 0       |
+| 92293  | sub    | 51     | 51     | x - x       |
+| 95135  | add    | 7      | 0      | x + 0       |
+| 95508  | add    | 44     | 0      | x + 0       |
+| 102816 | sub    | 19     | 0      | x - 0       |
+| 111297 | sub    | 61     | 0      | x - 0       |
+| 116139 | add    | 15     | 0      | x + 0       |
+
+
 ### Modificarea 2
 #### Gradul de reutilizabilitate a intructiunilor ALU si Load
 Toate modificarile au fost realizate in cadrul componentei ALU.cc
-**1. Identificarea instructiunilor ALU si Load**
+**1. Identificarea instructiunilor reutilizate**
+* Extrage opcode-ul si cei doi operanzi de intrare din instructiune.
+* Parcurge coada reuse_queue (ultimele 64 de instructiuni).
+* Daca gaseste o instructiune cu aceiasi parametri, returneaza true.
+* Daca nu gaseste, adauga instructiunea in coada.
+* Mentine dimensiunea maxima a cozii la 64 de elemente.
 ```cpp
-//Instructiuni ALU
-if (type == FunctionalUnit::TypeIntAdd || type == FunctionalUnit::TypeIntMult || type == FunctionalUnit::TypeIntDiv || type == FunctionalUnit::TypeLogic)
- 	{
-        //incrementam contorul pentru intstructiunile ALU
-        if (result_cache.find(uop_id) != result_cache.end())
- 			//incrementam contorul pentru instructiunile ALU reutilizate
- 	}
-```
-```cpp
-if (type == FunctionalUnit::TypeEffAddr)
- 	{
-     // incrementam contorul pentru instructiunile Load
-     if (result_cache.find(uop_id) != result_cache.end())
-        //incrementam contorul pentru instructiunile Load reutilizate
- }
+const int REUSE_TABLE_SIZE = 64;
+std::queue<ReusableInstruction> reuse_queue;
+...
+bool isReusableInstruction(Uop *uop) {
+	auto type = uop->getUinst()->getOpcode();
+	int op1 = uop->getInput(0);
+	int op2 = uop->getInput(1);
+	
+	bool found = false;
+	size_t queue_size = reuse_queue.size();
+	for (size_t i = 0; i < queue_size; i++) {
+		const ReusableInstruction& ri = reuse_queue.front();
+		if (ri.opcode == type && ri.input1 == op1 && ri.input2 == op2) {
+			found = true;
+		}
+		reuse_queue.push(reuse_queue.front());
+		reuse_queue.pop();
+	}
+	
+	if (found) {
+		return true;
+	}
+	
+	ReusableInstruction new_entry;
+	new_entry.id = uop->getId();
+	new_entry.opcode = type;
+	new_entry.input1 = op1;
+	new_entry.input2 = op2;
+	
+	if (reuse_queue.size() >= REUSE_TABLE_SIZE) {
+		reuse_queue.pop();
+	}
+	reuse_queue.push(new_entry);
+	return false;
+}
  ```
 **2. Contorizare**
 
-Initializam 4 contoare astfel:
-1. Contor pentru toate instructiunile ALU
-2. Contor pentru instructiunile ALU reutilizate
-3. Contor pentru toate instructiunile Load
-4. Contor pentru instructiunile Load reutilizate
-```cpp
- long long total_alu_instructions = 0;
- long long reused_alu_instructions = 0;
- long long total_load_instructions = 0;
- long long reused_load_instructions = 0;
-```
-Incrementam contoarele:
-```cpp
-if (type == FunctionalUnit::TypeIntAdd || 
- 		type == FunctionalUnit::TypeIntMult ||
- 		type == FunctionalUnit::TypeIntDiv ||
- 		type == FunctionalUnit::TypeLogic)
- 	{
- 		total_alu_instructions++;
- 	
- 		if (result_cache.find(uop_id) != result_cache.end())
- 			reused_alu_instructions++;
- 	}
+Initializam 2 contor astfel:
+1. Contor pentru toate instructiunile 
+2. Contor pentru toate instructiunile reutilizate
 
- 	auto opcode = uop->getUinst()->getOpcode();
- 	if (type == FunctionalUnit::TypeEffAddr)
- 	{
-     total_load_instructions++;
-     if (result_cache.find(uop_id) != result_cache.end())
-         reused_load_instructions++;
- }
+```cpp
+long long total_instructions = 0;
+long long reused_instructions = 0;
+```
+Incrementam contorul de reutilizare:
+```cpp
+	if (isReusableInstruction(uop)) {
+		reused_instructions++;
+	}
 ```
 **3. Calcularea gradului de reutilizabilitate**
 Gradul de reutilizabilitate a fost calculat cu formulele:
-$\text{ALU reused(\%)} = \frac{\text{reused ALU instructions}}{\text{total ALU instructions}} \times 100$
 
-$\text{Load reused(\%)} = \frac{\text{reused Load instructions}}{\text{total Load instructions}} \times 100$
+$\text{Reused(\%)} = \frac{\text{reused instructions}}{\text{total instructions}} \times 100$
 
 **4. Afisarea relzultatelor**
 1. Instructiuni ALU
 ```cpp
-os << misc::fmt("Total ALU Instructions = %lld\n", total_alu_instructions);
- os << misc::fmt("Reused ALU Instructions = %lld\n", reused_alu_instructions);
- os << misc::fmt("ALU Reuse Percentage = %.2f%%\n",
-     total_alu_instructions ? (double)reused_alu_instructions / total_alu_instructions * 100 : 0.0);
+	os << misc::fmt("Total Instructions = %lld\n", total_instructions);
+...
+	os << misc::fmt("Reused Instructions = %lld\n", reused_instructions);
+	os << misc::fmt("Reuse Percentage = %.2f%%\n",
+			total_instructions ? (double)reused_instructions / total_instructions * 100 : 0.0);
 ``` 
-2. Instructiuni Load
-```cpp
- os << misc::fmt("Total Load Instructions = %lld\n", total_load_instructions);
- os << misc::fmt("Reused Load Instructions = %lld\n", reused_load_instructions);
- os << misc::fmt("Load Reuse Percentage = %.2f%%\n",
-     total_load_instructions ? (double)reused_load_instructions / total_load_instructions * 100 : 0.0);
-```
 ### Modificarea 3
 #### Clasa abstracta Predictor
 ```mermaid
@@ -719,12 +855,21 @@ Datele sunt extrase in cadrul fisierului **results.csv** din folderul output
 
 ### 1. Procentajul de instructiuni triviale din suita de benchmark-uri Parsec
 ![Trivial](graph_images/Trivial1.png "Trivial")
-### 2. Procentajul de instructiuni Load reutilizate din suita de benchmark-uri Parsec
+Procentajul de instructiuni triviale este unul redus, avand o medie de 0.1%. Reducerea acestora nu aduce un castig de performanta semnificativ, dat fiind frecventa lor mica de aparitie la nivelul benchmark-urilor. 
+### 2. Procentajul de instructiuni reutilizate din suita de benchmark-uri Parsec
 ![Trivial](graph_images/Reuse1.png "Trivial")
+Valorile de reutilizare (Reuse %) din tabel variaza intre 41.21% și 42.42%, ceea ce sugereaza o tendinta relativ constanta de reutilizare a instructiunilor in majoritatea benchmark-urilor analizate. Aceste procente indica faptul ca o mare parte din instructiunile executate sunt reutilizate, ceea ce poate contribui la optimizarea performantei si la reducerea consumului de resurse.
 ### 3. Overall accuracy of Value Predictor vs Genetic Value Predictor
 ![Trivial](graph_images/PvP1.png "")
 Comparand acuratetea predictiei de valori cu predictia de valori bazata pe algoritmul genetic, putem observa ca in majoritatea cazurilor, predictia genetica ofera rezultate mai bune. Remarcam benchmark-urile canneal, facesim, fluidanimate, swaptions si vips, unde acuratetea depaseste 50%. 
-In cazul benchmark-urilor dedup si ferret, avand in vedere ca cele doua sunt cele mai mici benchmark-uri, ne putem asuma ca algorimul genetic nu a avut suficient timp pentru a se antrena in identificarea pattern-urilor. De aceea, configuratia data de algoritmul genetic, este una mai slaba decat cea default a predictorului de valori.
+In cazul benchmark-urilor blackscholes si ferret, avand in vedere ca cele doua sunt cele mai mici benchmark-uri, ne putem asuma ca algorimul genetic nu a avut suficient timp pentru a se antrena in identificarea pattern-urilor. De aceea, configuratia data de algoritmul genetic, este una mai slaba decat cea default a predictorului de valori.
+
+### Concluzii
+Pe parcursul realizarii acestui proiect am tras urmatoarele concluzii:
+1. Simulatorul multi2sim este un simulator accesibil, usor de modificat, dar care vine cu o problema semnificativa (din punct de vedere al timpului pierdut pentru identificare) la capitolul instalare. 
+2. Utilizarea scripturilor bash in realizarea simularilor si extragerea datelor este foarte utila, chiar daca dureaza timp pana sunt realizate.
+2. In cadrul benchmark-urilor Parsec, gradul de reutilizare al instructiunilor este unul mai mare decat ne asteptam 
+3. Algoritmuii genetici sunt foarte utili in identificare configuratiile ideale. 
 ### Bibliografie 
 1. Multi2Sim Github Repository:https://github.com/Multi2Sim/multi2sim 
 2. Parsec Github Repository:https://github.com/Multi2Sim/m2s-bench-parsec-3.0-src 
