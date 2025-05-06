@@ -43,7 +43,6 @@ struct ReusableInstruction {
 	int input2;
 };
 
-// Reuse table implementation as a queue
 const int REUSE_TABLE_SIZE = 64;
 std::queue<ReusableInstruction> reuse_queue;
 
@@ -268,7 +267,6 @@ bool isReusableInstruction(Uop *uop) {
 	int op1 = uop->getInput(0);
 	int op2 = uop->getInput(1);
 	
-	// Check if instruction exists in reuse queue
 	bool found = false;
 	size_t queue_size = reuse_queue.size();
 	for (size_t i = 0; i < queue_size; i++) {
@@ -284,19 +282,16 @@ bool isReusableInstruction(Uop *uop) {
 		return true;
 	}
 	
-	// If not found, add to reuse queue
 	ReusableInstruction new_entry;
 	new_entry.id = uop->getId();
 	new_entry.opcode = type;
 	new_entry.input1 = op1;
 	new_entry.input2 = op2;
 	
-	// If queue is full, remove oldest entry
 	if (reuse_queue.size() >= REUSE_TABLE_SIZE) {
 		reuse_queue.pop();
 	}
 	
-	// Add new entry
 	reuse_queue.push(new_entry);
 	
 	return false;
